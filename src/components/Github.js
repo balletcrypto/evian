@@ -1,4 +1,5 @@
 import React from 'react'
+import './Github.css'
 
 export const GithubIcon = () => (
   // eslint-disable-next-line react/jsx-no-target-blank
