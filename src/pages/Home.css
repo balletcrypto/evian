@@ -1,0 +1,146 @@
+.form-text {
+    display: block;
+    margin-bottom: 0.35rem;
+}
+
+.form-control {
+    width: 40%;
+}
+
+.center {
+  display: block;
+  margin: auto;
+}
+
+.safe-warning {
+	width: 400px;
+	height: 72px;
+	/*font-size: 15px;*/
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0;
+	color: #4e4e4e;
+	text-align: center;
+}
+
+.read-before-decode {
+	width: 194px;
+	height: 24px;
+	font-size: 18px;
+    margin-bottom: 0.5rem;
+}
+
+.safe-warning-border {
+    border: 1px solid #dcca85;
+}
+
+.rectangle-copy-2 {
+	width: 150px;
+	height: 36px;
+	background-color: #dcca85;
+	border-radius: 4px;
+}
+
+.white-separator {
+    height: 10px;
+}
+
+.gh-btn {
+    text-align: right;
+}
+
+.github {
+    fill: #151513;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    border: 0;
+    right: 0;
+}
+
+.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+    transform-origin: 130px 106px;
+}
+
+@keyframes octocat-wave {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    20% {
+        transform: rotate(-25deg);
+    }
+
+    40% {
+        transform: rotate(10deg);
+    }
+
+    60% {
+        transform: rotate(-25deg);
+    }
+
+    80% {
+        transform: rotate(10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none;
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out;
+    }
+}
+
+.form-text {
+    display: block;
+    margin-bottom: 0.35rem;
+}
+
+.form-control {
+    width: 40%;
+}
+
+.form-key-pair {
+    width: 65%;
+}
+
+.center {
+  display: block;
+  margin: auto;
+}
+
+.safe-warning {
+	width: 400px;
+	height: 72px;
+	font-size: 15px;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0;
+	color: #4e4e4e;
+}
+
+.read-before-decode {
+	width: 194px;
+	height: 24px;
+	font-size: 18px;
+    margin-bottom: 0.5rem;
+}
+
+.safe-warning-border {
+    border: 1px solid #dcca85;
+}
+
+.rectangle-copy-2 {
+	width: 150px;
+	height: 36px;
+	background-color: #dcca85;
+	border-radius: 4px;
+}
