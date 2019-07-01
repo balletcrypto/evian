@@ -6,7 +6,7 @@ import { Layout } from './components/Layout'
 import { NavigationBar } from './components/NavigationBar'
 import { Jumbotron } from './components/Jumbotron'
 import { Footer}  from './components/Footer'
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 class App extends Component {
   render() {
     return (
