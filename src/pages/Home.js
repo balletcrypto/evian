@@ -19,6 +19,7 @@ import copy from '../assets/copy.png'
 import address from '../assets/address.png'
 import { GithubIcon } from '../components/Github'
 
+
   // position: 'absolute',
   // top: "50%",
   // left: "51%",
