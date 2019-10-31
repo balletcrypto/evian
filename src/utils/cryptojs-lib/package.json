@@ -1,0 +1,21 @@
+{
+  "name": "crypto-lib",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bip38": "^3.0.0",
+    "bitcoinjs-lib": "^5.1.6",
+    "bitcore-lib-cash": "^8.8.1",
+    "eth-crypto": "^1.4.0",
+    "ripple-keypairs": "^0.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.6.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
+}
