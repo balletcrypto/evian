@@ -164,18 +164,16 @@ function App() {
     formatedPassphraseInput.splice(9, 0, '-')
     formatedPassphraseInput.splice(14, 0, '-')
     formatedPassphraseInput.splice(19, 0, '-')
-    return formatedPassphraseInput.join('')
+    return formatedPassphraseInput.join('').toUpperCase()
   }
 
   const setAddress = (publicKeyHex) => {
     outputAddressWIFList.forEach(item =>  {
       const address = item.getAddressMethod(publicKeyHex)
       item.setAddressInputMethod(address)
-      console.log(address)
     })
   }
   const verifyConfirmationCode = () => {
-    console.log("verifyConfirmationCode")
     setVerifyLoading(true)
     setTimeout(() => {
       try {
@@ -196,7 +194,6 @@ function App() {
     }, 0);
   }
   const decodePrivateKey = () => {
-    console.log("decodePrivateKey")
     if (formatPassphrase(passphraseInputCount).length < 0 || !epk) {
       alert("Please input Passphrase or Private Key")
     }
@@ -204,9 +201,6 @@ function App() {
     setTimeout(() => {
       try {
         const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, formatPassphrase(passphraseInputCount))
-        console.log("publicKeyHex", publicKeyHex)
-        console.log("privateKeyHex", privateKeyHex)
-        console.log("wif", wif)
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
         setPrivateKeyHex(privateKeyHex)
@@ -235,7 +229,6 @@ function App() {
   const outputComponent = (title, key) => {
     const [isHovered, setIsHovered] = useState(false)
     const MouseOver = (key) => {
-      console.log(key)
       setIsHovered(true)
 
     }
@@ -276,8 +269,6 @@ function App() {
 
 const InputItem = ({ inputIndex, value }) => {
   const onKeyDown = (e) => {
-    console.log(e)
-    console.log(inputRefs[inputIndex+ 1])
     if (e.keyCode === 8) {
       setPassphraseInputCount(passphraseInputCount.map((item, index) => {
         if (e.target.dataset.id == index) {
@@ -286,10 +277,9 @@ const InputItem = ({ inputIndex, value }) => {
         return item
       }))
       setTimeout(() => {
-        console.log(inputIndex)
         if (inputIndex > 0) {
           inputRefs[inputIndex - 1].current.focus()
-          // inputRefs[inputIndex - 1].current.select()
+          inputRefs[inputIndex - 1].current.select()
         }
   
       }, 0);
@@ -304,7 +294,6 @@ const InputItem = ({ inputIndex, value }) => {
       return item
     }))
     setTimeout(() => {
-      console.log(inputIndex)
       if (inputIndex < 19) {
         inputRefs[inputIndex + 1].current.focus()
         // inputRefs[inputIndex + 1].current.select()
@@ -367,7 +356,7 @@ const InputItem = ({ inputIndex, value }) => {
         <div className="columns is-vcentered inputContent is-desktop">
           <div className="column is-5">
             <div className="commonTitle">
-              Confirmation Code
+              BIP38 Confirmation Code
             </div>
             <div className="commonDescription">
             This confirmation code is 75 characters starting with "cfrm38". <br/> 
