@@ -8,7 +8,8 @@
     "bitcoinjs-lib": "^5.1.6",
     "bitcore-lib-cash": "^8.8.1",
     "eth-crypto": "^1.4.0",
-    "ripple-keypairs": "^0.11.0"
+    "ripple-keypairs": "^0.11.0",
+    "scryptsy": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

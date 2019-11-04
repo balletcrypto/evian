@@ -9,7 +9,7 @@ import { address } from './bip38/bitcoinjs-lib.address'
 import { doubleSha256 } from './util/sha256'
 import { sha256ripe160 } from './bip38/crypto'
 
-export function validateConfirmation(confirmation, passphrase) {
+export async function validateConfirmation(confirmation, passphrase) {
   const bytes = decode(confirmation);
   // Get the flag byte.
   // This gives access to IsCompressedPoint and LotSequencePresent
@@ -26,7 +26,7 @@ export function validateConfirmation(confirmation, passphrase) {
   const ownerSalt = ownerEntropy.slice(0, lotSequencePresent ? 4 : 8)
   console.log(`ownerSalt: ${ownerSalt}, passphrase: ${passphrase}`)
 
-  const prefactor = CryptoScrypt(passphrase, ownerSalt, 16384, 8, 8, 32)
+  const prefactor = await CryptoScrypt(passphrase, ownerSalt, 16384, 8, 8, 32)
   // Take SHA256(SHA256(prefactor + ownerentropy)) and call this passfactor
   const passfactorBytes = !lotSequencePresent ? prefactor : doubleSha256(prefactor.concat(ownerEntropy));
 
@@ -38,7 +38,7 @@ export function validateConfirmation(confirmation, passphrase) {
 
   const addresshashplusownerentropy = addressHash.concat(ownerEntropy);
 
-  const derivedBytes = CryptoScrypt(passpoint, addresshashplusownerentropy, 1024, 1, 1, 64)
+  const derivedBytes = await CryptoScrypt(passpoint, addresshashplusownerentropy, 1024, 1, 1, 64)
   const AES_opts = {mode: new C_mode.ECB(C_pad.NoPadding), asBytes: true};
   const unencryptedpubkey = [];
 

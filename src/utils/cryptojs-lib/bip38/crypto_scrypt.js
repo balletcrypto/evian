@@ -10,22 +10,22 @@ import { sha256 } from '../util/sha256'
 
 export function CryptoScrypt(passwd, salt, N, r, p, dkLen) {
   const MAX_VALUE = 2147483647;
-  var workerUrl = null;
+  let workerUrl = null;
+
   if (N == 0 || (N & (N - 1)) != 0) throw Error("N must be > 0 and a power of 2");
 
   if (N > MAX_VALUE / 128 / r) throw Error("Parameter N is too large");
   if (r > MAX_VALUE / 128 / p) throw Error("Parameter r is too large");
 
-  var PBKDF2_opts = {iterations: 1, hasher: sha256, asBytes: true}
+  var PBKDF2_opts = { iterations: 1, hasher: sha256, asBytes: true };
 
-  var B = PBKDF2(passwd, salt, p * 128 * r, PBKDF2_opts)
-  scryptCore()
-  return PBKDF2(passwd, B, dkLen, PBKDF2_opts)
+  var B = PBKDF2(passwd, salt, p * 128 * r, PBKDF2_opts);
+
 
   // using this function to enclose everything needed to create a worker (but also invokable directly for synchronous use)
   function scryptCore() {
     var XY = [], V = [];
-
+    
     salsa20_8(new Array(32)); // dummy call added to work around problem with BIP38 encoding on Safari 6.05
 
     if (typeof B === 'undefined') {
@@ -106,38 +106,22 @@ export function CryptoScrypt(passwd, salt, N, r, p, dkLen) {
       arraycopy(B32, 0, x, 0, 16);
 
       for (i = 8; i > 0; i -= 2) {
-        x[4] ^= R(x[0] + x[12], 7);
-        x[8] ^= R(x[4] + x[0], 9);
-        x[12] ^= R(x[8] + x[4], 13);
-        x[0] ^= R(x[12] + x[8], 18);
-        x[9] ^= R(x[5] + x[1], 7);
-        x[13] ^= R(x[9] + x[5], 9);
-        x[1] ^= R(x[13] + x[9], 13);
-        x[5] ^= R(x[1] + x[13], 18);
-        x[14] ^= R(x[10] + x[6], 7);
-        x[2] ^= R(x[14] + x[10], 9);
-        x[6] ^= R(x[2] + x[14], 13);
-        x[10] ^= R(x[6] + x[2], 18);
-        x[3] ^= R(x[15] + x[11], 7);
-        x[7] ^= R(x[3] + x[15], 9);
-        x[11] ^= R(x[7] + x[3], 13);
-        x[15] ^= R(x[11] + x[7], 18);
-        x[1] ^= R(x[0] + x[3], 7);
-        x[2] ^= R(x[1] + x[0], 9);
-        x[3] ^= R(x[2] + x[1], 13);
-        x[0] ^= R(x[3] + x[2], 18);
-        x[6] ^= R(x[5] + x[4], 7);
-        x[7] ^= R(x[6] + x[5], 9);
-        x[4] ^= R(x[7] + x[6], 13);
-        x[5] ^= R(x[4] + x[7], 18);
-        x[11] ^= R(x[10] + x[9], 7);
-        x[8] ^= R(x[11] + x[10], 9);
-        x[9] ^= R(x[8] + x[11], 13);
-        x[10] ^= R(x[9] + x[8], 18);
-        x[12] ^= R(x[15] + x[14], 7);
-        x[13] ^= R(x[12] + x[15], 9);
-        x[14] ^= R(x[13] + x[12], 13);
-        x[15] ^= R(x[14] + x[13], 18);
+        x[4] ^= R(x[0] + x[12], 7); x[8] ^= R(x[4] + x[0], 9);
+        x[12] ^= R(x[8] + x[4], 13); x[0] ^= R(x[12] + x[8], 18);
+        x[9] ^= R(x[5] + x[1], 7); x[13] ^= R(x[9] + x[5], 9);
+        x[1] ^= R(x[13] + x[9], 13); x[5] ^= R(x[1] + x[13], 18);
+        x[14] ^= R(x[10] + x[6], 7); x[2] ^= R(x[14] + x[10], 9);
+        x[6] ^= R(x[2] + x[14], 13); x[10] ^= R(x[6] + x[2], 18);
+        x[3] ^= R(x[15] + x[11], 7); x[7] ^= R(x[3] + x[15], 9);
+        x[11] ^= R(x[7] + x[3], 13); x[15] ^= R(x[11] + x[7], 18);
+        x[1] ^= R(x[0] + x[3], 7); x[2] ^= R(x[1] + x[0], 9);
+        x[3] ^= R(x[2] + x[1], 13); x[0] ^= R(x[3] + x[2], 18);
+        x[6] ^= R(x[5] + x[4], 7); x[7] ^= R(x[6] + x[5], 9);
+        x[4] ^= R(x[7] + x[6], 13); x[5] ^= R(x[4] + x[7], 18);
+        x[11] ^= R(x[10] + x[9], 7); x[8] ^= R(x[11] + x[10], 9);
+        x[9] ^= R(x[8] + x[11], 13); x[10] ^= R(x[9] + x[8], 18);
+        x[12] ^= R(x[15] + x[14], 7); x[13] ^= R(x[12] + x[15], 9);
+        x[14] ^= R(x[13] + x[12], 13); x[15] ^= R(x[14] + x[13], 18);
       }
 
       for (i = 0; i < 16; ++i) B32[i] = x[i] + B32[i];
@@ -154,77 +138,45 @@ export function CryptoScrypt(passwd, salt, N, r, p, dkLen) {
     function blockxor(S, Si, D, Di, len) {
       var i = len >> 6;
       while (i--) {
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
 
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
 
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
 
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
 
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
 
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
 
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
 
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
-        D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+        D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
       }
     }
 
@@ -250,42 +202,77 @@ export function CryptoScrypt(passwd, salt, N, r, p, dkLen) {
     function arraycopy32(src, srcPos, dest, destPos, length) {
       var i = length >> 5;
       while (i--) {
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
 
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
 
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
 
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
-        dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+        dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
       }
     }
-  }
+  } // scryptCore
+  return new Promise((resolve, reject) => {
+    try {
+      var i = 0;
+      var worksDone = 0;
+      var makeWorker = function () {
+        if (!workerUrl) {
+          var code = '(' + scryptCore.toString() + ')()';
+          var blob;
+          try {
+            blob = new Blob([code], { type: "text/javascript" });
+          } catch (e) {
+            window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+            blob = new BlobBuilder();
+            blob.append(code);
+            blob = blob.getBlob("text/javascript");
+          }
+          workerUrl = URL.createObjectURL(blob);
+        }
+        var worker = new Worker(workerUrl);
+        worker.onmessage = function (event) {
+          var Bi = event.data[0], Bslice = event.data[1];
+          worksDone++;
+  
+          if (i < p) {
+            worker.postMessage([N, r, p, B, i++]);
+          }
+  
+          var length = Bslice.length, destPos = Bi * 128 * r, srcPos = 0;
+          while (length--) {
+            B[destPos++] = Bslice[srcPos++];
+          }
+  
+          if (worksDone == p) {
+            resolve(PBKDF2(passwd, B, dkLen, PBKDF2_opts));
+          }
+        };
+        return worker;
+      };
+      var workers = [makeWorker(), makeWorker()];
+      workers[0].postMessage([N, r, p, B, i++]);
+      if (p > 1) {
+        workers[1].postMessage([N, r, p, B, i++]);
+      }
+    } catch (e) {
+      console.log(e)
+      window.setTimeout(function () {
+        scryptCore();
+        resolve(PBKDF2(passwd, B, dkLen, PBKDF2_opts));
+      }, 0);
+    }
+  })
 }
