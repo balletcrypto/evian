@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@binance-chain/javascript-sdk": "^2.16.1",
     "bip38": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
     "bitcore-lib-cash": "^8.8.1",
+    "crypto-hashing": "^1.0.0",
     "eth-crypto": "^1.4.0",
     "ripple-keypairs": "^0.11.0",
     "scryptsy": "^2.1.0"

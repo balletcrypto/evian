@@ -2,6 +2,7 @@ import { PublicKey as bchPublicKey } from 'bitcore-lib-cash'
 import { payments } from 'bitcoinjs-lib'
 import { deriveAddress } from 'ripple-keypairs'
 import EthCrypto from 'eth-crypto'
+import bnbSdk from '@binance-chain/javascript-sdk'
 
 export const getDashAddress = publicKeyHex => {
   const pubKeyHash = 0x4C
@@ -56,4 +57,8 @@ export const getEthAddress = publicKeyHex => {
 export const getBTGAddress = publicKeyHex => {
   const pubKeyHash = 0x26
   return getBitcoinSeriesAddress(publicKeyHex, pubKeyHash)
+}
+
+export const getBnbAddress = publicKeyHex => {
+  return bnbSdk.crypto.getAddressFromPublicKey(publicKeyHex, 'bnb')
 }

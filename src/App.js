@@ -13,6 +13,7 @@ import {
   getXRPAddress,
   getSegwitAddress,
   getBTGAddress,
+  getBnbAddress
 } from './utils/cryptojs-lib/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/bip38.js'
 import { getLitecoinWif } from './utils/cryptojs-lib/wif.js'
@@ -30,6 +31,7 @@ function App() {
   const [epk, setEpk] = useState('')
   const [publicKeyHex, setPublicKeyHex] = useState('')
   const [privateKeyHex, setPrivateKeyHex] = useState('')
+  // Address
   const [bitcoinSegwitAddress, setBitcoinSegwitAddress] = useState('')
   const [bitcoinLegacyAddress, setBitcoinLegacyAddress] = useState('')
   const [ethereumAddress, setethereumAddress] = useState('')
@@ -39,6 +41,8 @@ function App() {
   const [bitcoinSVAddress, setBitcoinSVAddress] = useState('')
   const [bitcoinGoldAddress, setBitcoinGoldAddress] = useState('')
   const [bitcoinDiamondAddress, setBitcoinDiamondAddress] = useState('')
+  const [bnbAddress, setBnbAddress] = useState('')
+  // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
   const [bitcoinLegacyPrivateKeyWIF, setBitcoinLegacyPrivateKeyWIF] = useState('')
   const [ethereumPrivateKey, setEthereumPrivateKey] = useState('')
@@ -48,6 +52,7 @@ function App() {
   const [bitcoinSVPrivateKeyWIF, setBitcoinSVPrivateKeyWIF] = useState('')
   const [bitcoinGoldPrivateKeyWIF, setBitcoinGoldPrivateKeyWIF] = useState('')
   const [bitcoinDiamondPrivateKeyWIF, setBitcoinDiamondPrivateKeyWIF] = useState('')
+  const [bnbPrivateKey, setBnbPrivateKey] = useState('')
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [isShowAddress, setIsShowAddress] = useState(false)
   const [isShowprivateKey, setIsShowprivateKey] = useState(false)
@@ -157,6 +162,17 @@ function App() {
       setPrivateKeyInputMethod: setBitcoinDiamondPrivateKeyWIF,
       WIFKey: 'Private Key (WIF)',
     },
+    {
+      currency: 'bnb',
+      title: 'Binance Coin',
+      addressKey: 'Address',
+      getAddressMethod: getBnbAddress,
+      addressInputValue: bnbAddress,
+      setAddressInputMethod: setBnbAddress,
+      privateKeyInputValue: bnbPrivateKey,
+      setPrivateKeyInputMethod: setBnbPrivateKey,
+      WIFKey: 'Private Key',
+    }
   ]
   const formatPassphrase = (Passphrase) => {
     let formatedPassphraseInput = Passphrase.slice()
