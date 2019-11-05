@@ -173,27 +173,27 @@ function App() {
       item.setAddressInputMethod(address)
     })
   }
-  const verifyConfirmationCode = () => {
+  const  verifyConfirmationCode = async () => {
     setVerifyLoading(true)
-    setTimeout(() => {
-      try {
-        const { valid, publicKeyHex } = validateConfirmation(confirmationCode, formatPassphrase(passphraseInputCount))
-        setPublicKeyHex(publicKeyHex)
-        if (valid) {
-          setAddress(publicKeyHex)
-          setIsShowAddress(true)
-          setVerifyLoading(false)
-        } else {
-          alert('error')
-          setVerifyLoading(false)
-        } 
-      } catch (error) {
-        alert('error')
+    try {
+      const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, formatPassphrase(passphraseInputCount))
+      console.log(valid)
+      setPublicKeyHex(publicKeyHex)
+      if (valid) {
+        setAddress(publicKeyHex)
+        setIsShowAddress(true)
+        setVerifyLoading(false)
+      } else {
+        // alert('error')
         setVerifyLoading(false)
       }
-    }, 0);
+    } catch (error) {
+      alert("The wallet passphrase or BIP38 confirmation code you entered is incorrect. Please double-check and try again.")
+      setVerifyLoading(false)
+    }
   }
   const decodePrivateKey = () => {
+    const testPassphrase = '930C-3MCG-R2JE-TE91-LUYA'
     if (formatPassphrase(passphraseInputCount).length < 0 || !epk) {
       alert("Please input Passphrase or Private Key")
     }
@@ -221,7 +221,8 @@ function App() {
           item.setPrivateKeyInputMethod(outputPrivateKey)
          })
       } catch (error) {
-        alert('error')
+        alert('The encrypted private key or wallet passphrase you entered is incorrect. Please double-check and try again.')
+        setIsDecodeLoading(false)
       }
     }, 0);
   }
