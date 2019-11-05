@@ -177,14 +177,13 @@ function App() {
     setVerifyLoading(true)
     try {
       const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, formatPassphrase(passphraseInputCount))
-      console.log(valid)
-      setPublicKeyHex(publicKeyHex)
       if (valid) {
+        setPublicKeyHex(publicKeyHex)
         setAddress(publicKeyHex)
         setIsShowAddress(true)
         setVerifyLoading(false)
       } else {
-        // alert('error')
+        alert("The wallet passphrase or BIP38 confirmation code you entered is incorrect. Please double-check and try again.")
         setVerifyLoading(false)
       }
     } catch (error) {
@@ -193,7 +192,6 @@ function App() {
     }
   }
   const decodePrivateKey = () => {
-    const testPassphrase = '930C-3MCG-R2JE-TE91-LUYA'
     if (formatPassphrase(passphraseInputCount).length < 0 || !epk) {
       alert("Please input Passphrase or Private Key")
     }
@@ -271,6 +269,21 @@ function App() {
 const InputItem = ({ inputIndex, value }) => {
   const onKeyDown = (e) => {
     if (e.keyCode === 8) {
+      if (!passphraseInputCount[e.target.dataset.id]) {
+        setTimeout(() => {
+          if (inputIndex > 0) {
+            setPassphraseInputCount(passphraseInputCount.map((item, index) => {
+              if ((inputIndex - 1) == index) {
+                return ''
+              }
+              return item
+            }))
+            inputRefs[inputIndex - 1].current.focus()
+            inputRefs[inputIndex - 1].current.select()
+          }
+        }, 0);
+        return
+      }
       setPassphraseInputCount(passphraseInputCount.map((item, index) => {
         if (e.target.dataset.id == index) {
           return ''
@@ -279,10 +292,9 @@ const InputItem = ({ inputIndex, value }) => {
       }))
       setTimeout(() => {
         if (inputIndex > 0) {
-          inputRefs[inputIndex - 1].current.focus()
-          inputRefs[inputIndex - 1].current.select()
+          inputRefs[inputIndex].current.focus()
+          inputRefs[inputIndex].current.select()
         }
-  
       }, 0);
     }
   }
@@ -310,6 +322,7 @@ const InputItem = ({ inputIndex, value }) => {
       onChange={(e) => {onChange(e)}}
       ref={inputRefs[inputIndex]}
       onKeyDown={(e) => {onKeyDown(e)}}
+      onFocus={(e) => { inputRefs[inputIndex].current.select() }}
     />
   )
 }
