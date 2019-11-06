@@ -62,3 +62,8 @@ export const getBTGAddress = publicKeyHex => {
 export const getBnbAddress = publicKeyHex => {
   return bnbSdk.crypto.getAddressFromPublicKey(publicKeyHex, 'bnb')
 }
+
+export const getQtumAddress = publicKeyHex => {
+  const pubKeyHash = 0x3a
+  return getBitcoinSeriesAddress(publicKeyHex, pubKeyHash)
+}

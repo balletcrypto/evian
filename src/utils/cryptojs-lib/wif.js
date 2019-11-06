@@ -23,3 +23,21 @@ export const getBitcoinWif = privateKeyHex => {
     Buffer.from(privateKeyHex, 'hex')
   ).toWIF()
 }
+
+export const getDashwif = privateKeyHex => {
+  return ECPair.fromPrivateKey(
+    Buffer.from(privateKeyHex, 'hex'),
+    {network: {
+      wif: 0xcc
+    }}
+  ).toWIF()
+}
+
+export const getDogewif = privateKeyHex => {
+  return ECPair.fromPrivateKey(
+    Buffer.from(privateKeyHex, 'hex'),
+    {network: {
+      wif: 0x9e
+    }}
+  ).toWIF()
+}

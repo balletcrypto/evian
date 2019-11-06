@@ -13,7 +13,9 @@ import {
   getXRPAddress,
   getSegwitAddress,
   getBTGAddress,
-  getBnbAddress
+  getBnbAddress,
+  getQtumAddress,
+  getDashAddress
 } from './utils/cryptojs-lib/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/bip38.js'
 import { getLitecoinWif } from './utils/cryptojs-lib/wif.js'
@@ -42,6 +44,18 @@ function App() {
   const [bitcoinGoldAddress, setBitcoinGoldAddress] = useState('')
   const [bitcoinDiamondAddress, setBitcoinDiamondAddress] = useState('')
   const [bnbAddress, setBnbAddress] = useState('')
+  const [qtumAddress, setQtumAddress] = useState('')
+  const [usdtERC20Address, setusdtERC20Address] = useState('')
+  const [leoAddress, setLeoAddress] = useState('')
+  const [linkAddress, setLinkAddress] = useState('')
+  const [mkrAddress, setMkrAddress] = useState('')
+  const [usdcAddress, setUsdcAddress] = useState('')
+  const [htAddress, setHtAddress] = useState('')
+  const [tusdAddress, setTusdAddress] = useState('')
+  const [daiAddress, setDaiAddress] = useState('')
+  const [etcAddress, setEtcAddress] = useState('')
+  const [batAddress, setBatAddress] = useState('')
+  const [dashAddress, setDashAddress] = useState('')
   // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
   const [bitcoinLegacyPrivateKeyWIF, setBitcoinLegacyPrivateKeyWIF] = useState('')
@@ -53,6 +67,19 @@ function App() {
   const [bitcoinGoldPrivateKeyWIF, setBitcoinGoldPrivateKeyWIF] = useState('')
   const [bitcoinDiamondPrivateKeyWIF, setBitcoinDiamondPrivateKeyWIF] = useState('')
   const [bnbPrivateKey, setBnbPrivateKey] = useState('')
+  const [qtumPrivateKey, setQtumPrivateKey] = useState('')
+  const [usdtERC20PrivateKey, setUsdtERC20PrivateKey] = useState('')
+  const [leoPrivateKey, setleoPrivateKey] = useState('')
+  const [linkPrivateKey, setLinkPrivateKey] = useState('')
+  const [mkrPrivateKey, setMkrPrivateKey] = useState('')
+  const [usdcPrivateKey, setUsdcPrivateKey] = useState('')
+  const [htPrivateKey, setHtPrivateKey] = useState('')
+  const [tusdPrivateKey, settusdPrivateKey] = useState('')
+  const [daiPrivateKey, setDaiPrivateKey] = useState('')
+  const [etcPrivateKey, setEtcPrivateKey] = useState('')
+  const [batPrivateKey, setBatPrivateKey] = useState('')
+  const [dashPrivateKey, setDashPrivateKey] = useState('')
+  //
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [isShowAddress, setIsShowAddress] = useState(false)
   const [isShowprivateKey, setIsShowprivateKey] = useState(false)
@@ -94,6 +121,127 @@ function App() {
       setAddressInputMethod: setethereumAddress,
       privateKeyInputValue: ethereumPrivateKey,
       setPrivateKeyInputMethod: setEthereumPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'dash',
+      title: 'Dash (DASH)',
+      addressKey: 'Address',
+      getAddressMethod: getDashAddress,
+      addressInputValue: dashAddress,
+      setAddressInputMethod: setDashAddress,
+      privateKeyInputValue: dashPrivateKey,
+      setPrivateKeyInputMethod: setDashPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'USDT_ERC20',
+      title: 'Tether (USDT)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: usdtERC20Address,
+      setAddressInputMethod: setusdtERC20Address,
+      privateKeyInputValue: usdtERC20PrivateKey,
+      setPrivateKeyInputMethod: setUsdtERC20PrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'LEO',
+      title: 'UNUS SED LEO (LEO)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: leoAddress,
+      setAddressInputMethod: setLeoAddress,
+      privateKeyInputValue: leoPrivateKey,
+      setPrivateKeyInputMethod: setleoPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'LINK',
+      title: 'Chainlink (LINK)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: linkAddress,
+      setAddressInputMethod: setLinkAddress,
+      privateKeyInputValue: linkPrivateKey,
+      setPrivateKeyInputMethod: setLinkPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'MKR',
+      title: 'Maker (MKR)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: mkrAddress,
+      setAddressInputMethod: setMkrAddress,
+      privateKeyInputValue: mkrPrivateKey,
+      setPrivateKeyInputMethod: setMkrPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'USDC',
+      title: 'USD Coin (USDC)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: usdcAddress,
+      setAddressInputMethod: setUsdcAddress,
+      privateKeyInputValue: usdcPrivateKey,
+      setPrivateKeyInputMethod: setUsdcPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'HT',
+      title: 'Huobi Token (HT)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: htAddress,
+      setAddressInputMethod: setHtAddress,
+      privateKeyInputValue: htPrivateKey,
+      setPrivateKeyInputMethod: setHtPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'TUSD',
+      title: 'TrueUSD (TUSD)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: tusdAddress,
+      setAddressInputMethod: setTusdAddress,
+      privateKeyInputValue: tusdPrivateKey,
+      setPrivateKeyInputMethod: settusdPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'DAI',
+      title: 'Dai (DAI)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: daiAddress,
+      setAddressInputMethod: setDaiAddress,
+      privateKeyInputValue: daiPrivateKey,
+      setPrivateKeyInputMethod: setDaiPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'ETC',
+      title: 'Ethereum Classic (ETC)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: etcAddress,
+      setAddressInputMethod: setEtcAddress,
+      privateKeyInputValue: etcPrivateKey,
+      setPrivateKeyInputMethod: setEtcPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'BAT',
+      title: 'Basic Attention Token (BAT)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: batAddress,
+      setAddressInputMethod: setBatAddress,
+      privateKeyInputValue: batPrivateKey,
+      setPrivateKeyInputMethod: setBatPrivateKey,
       WIFKey: 'Private Key',
     },
     {
@@ -164,13 +312,24 @@ function App() {
     },
     {
       currency: 'bnb',
-      title: 'Binance Coin',
+      title: 'Binance Coin (BNB)',
       addressKey: 'Address',
       getAddressMethod: getBnbAddress,
       addressInputValue: bnbAddress,
       setAddressInputMethod: setBnbAddress,
       privateKeyInputValue: bnbPrivateKey,
       setPrivateKeyInputMethod: setBnbPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'qtum',
+      title: 'QTUM(Qtum)',
+      addressKey: 'Address',
+      getAddressMethod: getQtumAddress,
+      addressInputValue: qtumAddress,
+      setAddressInputMethod: setQtumAddress,
+      privateKeyInputValue: qtumPrivateKey,
+      setPrivateKeyInputMethod: setQtumPrivateKey,
       WIFKey: 'Private Key',
     }
   ]
@@ -214,7 +373,7 @@ function App() {
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
-        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, formatPassphrase(passphraseInputCount))
+        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode('6PoLVyFPyENoDuYdKgtGbU3kBFLmCDJGi2TAnuWBeiceuxGXM8WLsL3DaL', '0511-FRXU-01MJ-QCAY-MEZ8')
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
         setPrivateKeyHex(privateKeyHex)
@@ -223,10 +382,22 @@ function App() {
         setIsShowprivateKey(true)
         outputAddressWIFList.forEach(item => {
           let outputPrivateKey = ''
-          if (item.currency === 'btc') {
+          if (item.currency === 'btc' || item.currency === 'bnb' || item.currency === 'qtum' || item.currency === 'dash') {
             outputPrivateKey = wif
           }
-          if (item.currency ===  'eth' || item.currency === 'xrp') {
+          if (item.currency ===  'eth'
+            || item.currency === 'xrp'
+            || item.currency === 'USDT_ERC20'
+            || item.currency === 'LEO'
+            || item.currency === 'LINK'
+            || item.currency === 'MKR'
+            || item.currency === 'USDC'
+            || item.currency === 'HT'
+            || item.currency === 'TUSD'
+            || item.currency === 'DAI'
+            || item.currency === 'ETC'
+            || item.currency === 'BAT'
+          ) {
             outputPrivateKey = privateKeyHex
           }
           if (item.currency === 'ltc') {
