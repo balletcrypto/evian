@@ -15,10 +15,15 @@ import {
   getBTGAddress,
   getBnbAddress,
   getQtumAddress,
-  getDashAddress
+  getDashAddress,
+  getDogeAddress
 } from './utils/cryptojs-lib/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/bip38.js'
-import { getLitecoinWif } from './utils/cryptojs-lib/wif.js'
+import {
+  getLitecoinWif,
+  getDashwif,
+  getDogewif
+} from './utils/cryptojs-lib/wif.js'
 import copyImage from './image/copy.png'
 import qrcodeImage from './image/address.png'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -56,6 +61,7 @@ function App() {
   const [etcAddress, setEtcAddress] = useState('')
   const [batAddress, setBatAddress] = useState('')
   const [dashAddress, setDashAddress] = useState('')
+  const [dogeAddress, setDogeAddress] = useState('')
   // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
   const [bitcoinLegacyPrivateKeyWIF, setBitcoinLegacyPrivateKeyWIF] = useState('')
@@ -79,6 +85,7 @@ function App() {
   const [etcPrivateKey, setEtcPrivateKey] = useState('')
   const [batPrivateKey, setBatPrivateKey] = useState('')
   const [dashPrivateKey, setDashPrivateKey] = useState('')
+  const [dogePrivateKey, setDogePrivateKey] = useState('')
   //
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [isShowAddress, setIsShowAddress] = useState(false)
@@ -132,6 +139,17 @@ function App() {
       setAddressInputMethod: setDashAddress,
       privateKeyInputValue: dashPrivateKey,
       setPrivateKeyInputMethod: setDashPrivateKey,
+      WIFKey: 'Private Key',
+    },
+    {
+      currency: 'doge',
+      title: 'Dogecoin (DOGE)',
+      addressKey: 'Address',
+      getAddressMethod: getDogeAddress,
+      addressInputValue: dogeAddress,
+      setAddressInputMethod: setDogeAddress,
+      privateKeyInputValue: dogePrivateKey,
+      setPrivateKeyInputMethod: setDogePrivateKey,
       WIFKey: 'Private Key',
     },
     {
@@ -380,32 +398,46 @@ function App() {
         setAddress(publicKeyHex)
         setIsShowAddress(true)
         setIsShowprivateKey(true)
+        console.log(outputAddressWIFList.length)
         outputAddressWIFList.forEach(item => {
+          console.log(1111)
           let outputPrivateKey = ''
-          if (item.currency === 'btc' || item.currency === 'bnb' || item.currency === 'qtum' || item.currency === 'dash') {
-            outputPrivateKey = wif
-          }
-          if (item.currency ===  'eth'
-            || item.currency === 'xrp'
-            || item.currency === 'USDT_ERC20'
-            || item.currency === 'LEO'
-            || item.currency === 'LINK'
-            || item.currency === 'MKR'
-            || item.currency === 'USDC'
-            || item.currency === 'HT'
-            || item.currency === 'TUSD'
-            || item.currency === 'DAI'
-            || item.currency === 'ETC'
-            || item.currency === 'BAT'
-          ) {
-            outputPrivateKey = privateKeyHex
-          }
-          if (item.currency === 'ltc') {
-            outputPrivateKey = getLitecoinWif(privateKeyHex)
+          switch (item.currency) {
+            case 'btc':
+            case 'bnb':
+            case 'qtum':
+              outputPrivateKey = wif
+              break;
+            case 'eth':
+            case 'xrp':
+            case 'USDT_ERC20':
+            case 'LEO':
+            case 'LINK':
+            case 'MKR':
+            case 'USDC':
+            case 'HT':
+            case 'TUSD':
+            case 'DAI':
+            case 'ETC':
+            case 'BAT':
+              outputPrivateKey = privateKeyHex
+              break;
+            case 'dash':
+              outputPrivateKey = getDashwif(privateKeyHex)
+              break;
+            case 'doge':
+              outputPrivateKey = getDogewif(privateKeyHex)
+              break;
+            case 'ltc':
+              outputPrivateKey = getLitecoinWif(privateKeyHex)
+              break;
+            default:
+              break;
           }
           item.setPrivateKeyInputMethod(outputPrivateKey)
          })
       } catch (error) {
+        console.log(error)
         alert('The encrypted private key or wallet passphrase you entered is incorrect. Please double-check and try again.')
         setIsDecodeLoading(false)
       }
