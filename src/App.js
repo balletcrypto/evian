@@ -404,7 +404,6 @@ function App() {
           let outputPrivateKey = ''
           switch (item.currency) {
             case 'btc':
-            case 'bnb':
             case 'qtum':
               outputPrivateKey = wif
               break;
@@ -420,6 +419,7 @@ function App() {
             case 'DAI':
             case 'ETC':
             case 'BAT':
+            case 'bnb':
               outputPrivateKey = privateKeyHex
               break;
             case 'dash':
