@@ -391,7 +391,7 @@ function App() {
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
-        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode('6PoLVyFPyENoDuYdKgtGbU3kBFLmCDJGi2TAnuWBeiceuxGXM8WLsL3DaL', '0511-FRXU-01MJ-QCAY-MEZ8')
+        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, formatPassphrase(passphraseInputCount))
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
         setPrivateKeyHex(privateKeyHex)
