@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+SC|Roboto+Mono&display=swap');
+$warning: #e5c875;
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+@import "../node_modules/bulma/sass/base/_all.sass";
+@import "../node_modules/bulma/sass/grid/_all.sass";
+@import "../node_modules/bulma/sass/elements/button.sass";
+@import "../node_modules/bulma/sass/elements/container.sass";
+@import "../node_modules/bulma/sass/elements/title.sass";
+@import "../node_modules/bulma/sass/form/_all.sass";
+@import "../node_modules/bulma/sass/components/navbar.sass";
+@import "../node_modules/bulma/sass/layout/hero.sass";
+@import "../node_modules/bulma/sass/layout/section.sass";
+body {
+  font-family: 'Noto Sans SC';
+  color: #000000;
+}
+input, textarea {
+  font-family: 'Roboto Mono', monospace;
+}

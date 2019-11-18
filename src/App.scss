@@ -1,0 +1,235 @@
+
+.header {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 3px 0px 
+    rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 120px;
+    height: 49px;
+  }
+  .github {
+    width: 128px;
+    height: 80px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.content {
+  margin-top: 40px;
+  h2 {
+    font-size: 36px;
+  }
+  .warning {
+    padding: 20px 20px 25px 30px;
+    background-color: #fffefc;
+    border-radius: 4px;
+    border: solid 2px #e5c875;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    img {
+      margin-right: 25px;
+    }
+    .warningTitle {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .warningDescription {
+      font-size: 16px;
+      color: #4e4e4e;
+    }
+  }
+  @media(max-width: 768px) {
+    padding: 0 15px;
+  }
+}
+.passphrase {
+  margin-top: 40px;
+  &__title {
+    display: flex;
+    justify-content: space-between;
+  }
+  .resetContent {
+    cursor: pointer;
+    font-size: 14px;
+    color: #c89d22;
+  }
+}
+.inputContent {
+  margin-top: 40px;
+  margin-bottom: 60px;
+  .textarea {
+    margin-bottom: 20px;
+  }
+  .button {
+    width: 150px;
+    color: #000000;
+  }
+}
+.middleStyle {
+  width: 36px;
+  height: 36px;
+  line-height: 30px;
+  border-radius: 50%;
+  margin: 0 auto;
+  border: solid 1px #ced4da;
+  background: #fff;
+  text-align: center;
+  position: relative;
+  &::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    width: 2px;
+    height: 214px;
+    border-left: 2px dotted #ced4da;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.outputComponent {
+  position: relative;
+  .outputTitle  {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .control {
+    overflow: hidden;
+    span {
+      background: #ffffff;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 4px;
+      &:nth-child(2) {
+        border-radius: 0px;
+        transform: translate(-100%, 0);
+        border-left: 1px solid #ced4da;
+        border-right: 1px solid #ced4da;
+      }
+    }
+  }
+  .popover {
+    border: 1px solid #ced4da;
+    background: #ffffff;
+    position: absolute;
+    bottom: 42px;
+    right: 0;
+    padding: 6px;
+    border-radius: 4px;
+    z-index: 2;
+  }
+}
+.currencyTitle {
+  font-size: 18px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+.commonTitle {
+  font-size: 18px;
+}
+
+.commonDescription {
+  margin-top: 5px;
+	font-size: 14px;
+  color: #4e4e4e;
+  margin-bottom: 6px;
+}
+
+.hide {
+  display: none;
+}
+.inputWraper {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 920px;
+}
+
+.inputItem {
+  text-transform: uppercase;
+  -webkit-appearance: initial;
+  margin: 0 3px;
+  font-family: 'Roboto Mono', monospace;
+	width: 38px;
+	height: 40px;
+  border: solid 1px #ced4da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border-radius: 0;
+  text-align: center;
+  border-radius: 4px;
+  &:focus {
+    border-color: #e3c46a;
+    outline: 0;
+  }
+  @media(max-width: 768px) {
+    font-size: 16px;
+    width: 12px;
+    margin: 0 1px;
+    border: none;
+    border-bottom: 1px solid #e3c46a;
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
+.symbolInput {
+  width: 10px;
+  border: none;
+  margin-right: 0px;
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  @media(max-width: 768px) {
+    align-items: center;
+    font-size: 16px;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+}
+
+.privateKeyDescription {
+  display: flex;
+  justify-content: space-between;
+}
+
+.readQrcodeButton {
+  position: relative;
+  cursor: pointer;
+}
+.readQrcodeModal {
+  position: absolute;
+  bottom: 34px;
+  right: 0;
+  width: 266px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+
+.readQrcodeText {
+  border: solid 1px #000000;
+  border-radius: 4px;
+  padding: 4px 10px;
+  position: relative;
+  bottom: 5px;
+}
