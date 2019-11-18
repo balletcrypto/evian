@@ -1,8 +1,9 @@
-import { PublicKey as bchPublicKey } from 'bitcore-lib-cash'
 import { payments } from 'bitcoinjs-lib'
 import { deriveAddress } from 'ripple-keypairs'
 import EthCrypto from 'eth-crypto'
 import bnbSdk from '@binance-chain/javascript-sdk'
+import { BITBOX } from 'bitbox-sdk'
+let bitbox = new BITBOX();
 
 export const getDashAddress = publicKeyHex => {
   const pubKeyHash = 0x4C
@@ -24,8 +25,8 @@ export const getDogeAddress = publicKeyHex => {
 }
 
 export const getBitcoinCashAddress = publicKeyHex => {
-  const address = bchPublicKey(publicKeyHex).toAddress()
-  return address.toCashAddress('pubkeyhash')
+  const address = getBitcoinAddress(publicKeyHex)
+  return bitbox.Address.toCashAddress(address)
 }
 
 export const getBitcoinAddress = publicKeyHex => {

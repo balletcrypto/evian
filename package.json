@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.6.0",
+    "@binance-chain/javascript-sdk": "^2.16.1",
     "@svgr/webpack": "4.3.2",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
@@ -13,6 +14,7 @@
     "babel-plugin-named-asset-import": "^0.3.4",
     "babel-preset-react-app": "^9.0.2",
     "bip38": "^3.0.0",
+    "bitbox-sdk": "^8.10.1",
     "bitcoinjs-lib": "^5.1.6",
     "bitcore-lib-cash": "^8.9.0",
     "bulma": "^0.7.5",
