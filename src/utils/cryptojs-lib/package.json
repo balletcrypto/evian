@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@binance-chain/javascript-sdk": "^2.16.1",
+    "babel-polyfill": "^6.26.0",
     "bip38": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
     "bitcore-lib-cash": "^8.8.1",

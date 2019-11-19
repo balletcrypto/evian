@@ -5,6 +5,7 @@ import { ReactComponent as Logo } from './image/logo.svg'
 import { ReactComponent as GitHubIcon } from './image/org_github.svg'
 import warningImage from './image/pay_attention.png'
 import { validateConfirmation } from './utils/cryptojs-lib/confirmation'
+import { genIntermediate } from './utils/cryptojs-lib/Intermediate'
 import {
   getBitcoinAddress,
   getBitcoinCashAddress,
@@ -31,6 +32,15 @@ import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'
 
 function App() {
+  try {
+    genIntermediate("123456")
+      .then(res => {
+        console.log(res)
+      })
+  } catch (error) {
+    console.log(error)
+  }
+  console.log()
   const [passphraseInputCount, setPassphraseInputCount] =
   useState(Array.from(new Array(20).keys())
   .map(num => ''))

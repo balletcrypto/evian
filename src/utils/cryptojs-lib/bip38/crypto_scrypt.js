@@ -269,7 +269,7 @@ export function CryptoScrypt(passwd, salt, N, r, p, dkLen) {
       }
     } catch (e) {
       console.log(e)
-      window.setTimeout(function () {
+      setTimeout(function () {
         scryptCore();
         resolve(PBKDF2(passwd, B, dkLen, PBKDF2_opts));
       }, 0);
