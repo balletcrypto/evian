@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 import './App.scss';
 import { ReactComponent as Logo } from './image/logo.svg'
 import { ReactComponent as GitHubIcon } from './image/org_github.svg'
+import { ReactComponent as Arrow } from './image/arrow.svg'
 import warningImage from './image/pay_attention.png'
 import { validateConfirmation } from './utils/cryptojs-lib/confirmation'
 import { genIntermediate } from './utils/cryptojs-lib/Intermediate'
@@ -32,22 +33,14 @@ import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'
 
 function App() {
-  try {
-    genIntermediate("123456")
-      .then(res => {
-        console.log(res)
-      })
-  } catch (error) {
-    console.log(error)
-  }
-  console.log()
-  const [passphraseInputCount, setPassphraseInputCount] =
-  useState(Array.from(new Array(20).keys())
-  .map(num => ''))
+  const [balletPassphrase, setBalletPassphrase] = useState("")
   const [confirmationCode, setConfirmationCode] = useState('')
   const [epk, setEpk] = useState('')
   const [publicKeyHex, setPublicKeyHex] = useState('')
   const [privateKeyHex, setPrivateKeyHex] = useState('')
+  const [customPassphrase, setCustomPassphrase] = useState('')
+  const [intermediateCode, setIntermediateCode] = useState('')
+  const [generateIntermediateCodeLoading, setGenerateIntermediateCodeLoading] = useState(false)
   // Address
   const [bitcoinSegwitAddress, setBitcoinSegwitAddress] = useState('')
   const [bitcoinLegacyAddress, setBitcoinLegacyAddress] = useState('')
@@ -106,6 +99,14 @@ function App() {
   for (let i = 0; i < 24; i ++) {
     inputRefs.push(useRef());
   }
+  const resourcesArray = [
+    "https://www.bitaddress.org",
+    "https://www.infinitumbitcoins.com/bit2factor/",
+    "https://github.com/bitcoinjs/bip38",
+    "https://github.com/casascius/Bitcoin-Address-Utility",
+    "https://github.com/nomorecoin/python-bip38-testing/blob/master/bip38.py",
+    "https://github.com/pointbiz/bitaddress.org/blob/master/src/ninja.key.js",
+  ]
   const outputAddressWIFList = [
     {
       currency: 'btc',
@@ -361,14 +362,6 @@ function App() {
       WIFKey: 'Private Key',
     }
   ]
-  const formatPassphrase = (Passphrase) => {
-    let formatedPassphraseInput = Passphrase.slice()
-    formatedPassphraseInput.splice(4, 0, '-')
-    formatedPassphraseInput.splice(9, 0, '-')
-    formatedPassphraseInput.splice(14, 0, '-')
-    formatedPassphraseInput.splice(19, 0, '-')
-    return formatedPassphraseInput.join('').toUpperCase()
-  }
 
   const setAddress = (publicKeyHex) => {
     outputAddressWIFList.forEach(item =>  {
@@ -376,10 +369,25 @@ function App() {
       item.setAddressInputMethod(address)
     })
   }
-  const  verifyConfirmationCode = async () => {
+  const generateIntermediateCode = async () => {
+    if (!customPassphrase) {
+      alert("please input passphrase")
+      return
+    }
+    setGenerateIntermediateCodeLoading(true)
+    try {
+      const intermediateCode = await genIntermediate(customPassphrase)
+      setIntermediateCode(intermediateCode)
+      setGenerateIntermediateCodeLoading(false)
+    } catch (error) {
+      alert("generate Intermediate code fail")
+      setGenerateIntermediateCodeLoading(false)
+    }
+  }
+  const verifyConfirmationCode = async () => {
     setVerifyLoading(true)
     try {
-      const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, formatPassphrase(passphraseInputCount))
+      const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, balletPassphrase)
       if (valid) {
         setPublicKeyHex(publicKeyHex)
         setAddress(publicKeyHex)
@@ -395,13 +403,13 @@ function App() {
     }
   }
   const decodePrivateKey = () => {
-    if (formatPassphrase(passphraseInputCount).length < 0 || !epk) {
+    if (!balletPassphrase || !epk) {
       alert("Please input Passphrase or Private Key")
     }
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
-        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, formatPassphrase(passphraseInputCount))
+        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, balletPassphrase)
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
         setPrivateKeyHex(privateKeyHex)
@@ -563,7 +571,6 @@ const InputItem = ({ inputIndex, value }) => {
         <a href="https://github.com/balletcrypto/evian" target="_blank"><GitHubIcon  className="github" /></a>
       </div>
       <div className="content container">
-        <h2>BIP38 Verify & Decrypt</h2>
         <div className="warning">
           <img src={warningImage} alt="warning icon" />
           <div className="warningContent">
@@ -571,6 +578,60 @@ const InputItem = ({ inputIndex, value }) => {
             <div className="warningDescription">To ensure security, we strongly encourage you to disconnect the internet first. You can run the decryption process offline. Never share your private key with the unauthorized party, as it will allow access to your crypto assets.</div>
           </div>
         </div>
+        <h2>Generate BIP38 Intermediate Code</h2>
+        <div className="intermediate">
+          <div className="columns inputContent">
+            <div className="column is-5">
+              <div className="commonTitle">
+                Wallet Passphrase
+              </div>
+              <div className="commonDescription">
+                Keep your wallet passphrase secret. Anyone who knows your passphrase can spend the coins in your wallet.
+              </div>
+              <textarea
+                
+                className="textarea"
+                placeholder="Enter the passphrase"
+                value={customPassphrase}
+                onChange={e => setCustomPassphrase(e.target.value)}
+              ></textarea>
+              <a
+                className={`button is-warning ${generateIntermediateCodeLoading ? 'is-loading' : ''}`}
+                onClick={generateIntermediateCode}
+              >Generate Intermediate Code</a>
+            </div>
+            <div className="column is-1 arrowWraper">
+              <Arrow />
+            </div>
+            <div className="column is-5">
+              <div className="commonTitle">
+                Intermediate Code
+              </div>
+              <div className="commonDescription">
+                Use (<a href="https://www.infinitumbitcoins.com/bit2factor/" >https://www.infinitumbitcoins.com/bit2factor/</a>) to generate BIP Intermediate Code. 
+              </div>
+              <div className="intermediateCode">
+                <textarea
+                  disabled={intermediateCode ? false : true}
+                  className="textarea"
+                  placeholder={`${intermediateCode ? "" : "Not yet generated"}`}
+                  value={intermediateCode}
+                ></textarea>
+                <CopyToClipboard
+                  text={intermediateCode}
+                  onCopy={() => alert("copy success")}
+                >
+                  <span
+                    style={{ display: intermediateCode ? 'block' : 'none' }}
+                  >copy</span>
+                </CopyToClipboard>
+              </div>
+            </div>
+          </div>
+          <div className="tip" >Ballet provides trustless two-factor key generation for ultimate security. In order to generate the owner-created passphrase for the BIP38 private key encryption, run this program on a permanently-offline computer:
+          <a href="store.balletcrypto.com"> store.balletcrypto.com/customPassphrase</a></div>
+        </div>
+        <h2>BIP38 Verify & Decrypt</h2>
         <div className="passphrase">
           <div className="passphrase__title commonTitle">
             Passphrase
@@ -581,7 +642,12 @@ const InputItem = ({ inputIndex, value }) => {
           <div className="commonDescription">Wallet passphrase are case sensitive. Format: xxxx-xxxx-xxxx-xxxx-xxxx</div>
           <div className="passphrase__input">
             <div className="inputWraper">
-              {passphraseInputCount.map((item, index) => {
+              <input
+                className="input"
+                value={balletPassphrase}
+                onChange={(e) => setBalletPassphrase(e.target.value)}
+              />
+              {/* {passphraseInputCount.map((item, index) => {
                 return (
                   <>
                     <InputItem
@@ -592,7 +658,7 @@ const InputItem = ({ inputIndex, value }) => {
                     {!((index + 1) % 4) && (index + 1 < 17) ? (<div className="symbolInput">-</div>) : ''}
                   </>
                 )
-              })}
+              })} */}
             </div>
           </div>
         </div>
@@ -655,7 +721,7 @@ const InputItem = ({ inputIndex, value }) => {
             >Decode</a>
           </div>
         </div>
-        <div className="outWraper">
+        <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
           <div className="columns ouput">
             <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >
               {outputComponent("Public key in Hex", publicKeyHex)}
@@ -679,6 +745,18 @@ const InputItem = ({ inputIndex, value }) => {
               </div>  
             </>
           )}
+        </div>
+        <div className="linkWraper">
+          <h3>BIP38 explained</h3>
+            <a href="https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki" >https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki</a>
+          <h3>More BIP38 resources</h3>
+          {resourcesArray.map(link => {
+            return (
+              <>
+                <a href={link}>{link}</a><br/>
+              </>
+            )
+          })}
         </div>
       </div>
     </div>

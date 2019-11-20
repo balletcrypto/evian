@@ -26,6 +26,8 @@
   margin-top: 40px;
   h2 {
     font-size: 36px;
+    margin-top: 37px;
+    margin-bottom: 23px;
   }
   .warning {
     padding: 20px 20px 25px 30px;
@@ -70,7 +72,7 @@
     margin-bottom: 20px;
   }
   .button {
-    width: 150px;
+    min-width: 150px;
     color: #000000;
   }
 }
@@ -232,4 +234,47 @@
   padding: 4px 10px;
   position: relative;
   bottom: 5px;
+}
+.intermediate {
+  .tip {
+    font-size: 16px;
+    color: #4e4e4e;
+  }
+}
+.arrowWraper {
+  position: relative;
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.linkWraper {
+  padding-bottom: 30px;
+  h3 {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+}
+
+.intermediateCode {
+  position: relative;
+  span {
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background: #f4f4f4;
+    border-radius: 4px;
+    color: #000000;
+    padding: 4px 12px;
+  }
+}
+.container {
+  max-width: 1000px;
+}
+.columns {
+  justify-content: space-between;
 }
