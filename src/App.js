@@ -4,7 +4,10 @@ import './App.scss';
 import { ReactComponent as Logo } from './image/logo.svg'
 import { ReactComponent as GitHubIcon } from './image/org_github.svg'
 import { ReactComponent as Arrow } from './image/arrow.svg'
-import warningImage from './image/pay_attention.png'
+import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
+import { ReactComponent as QrcodeIcon } from './image/bit38_decode_address.svg'
+import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
+import { ReactComponent as WarningImage } from './image/bit38_decode_pay_attention.svg'
 import { validateConfirmation } from './utils/cryptojs-lib/confirmation'
 import { genIntermediate } from './utils/cryptojs-lib/Intermediate'
 import {
@@ -26,8 +29,6 @@ import {
   getDashwif,
   getDogewif
 } from './utils/cryptojs-lib/wif.js'
-import copyImage from './image/copy.png'
-import qrcodeImage from './image/address.png'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'
@@ -406,6 +407,8 @@ function App() {
     if (!balletPassphrase || !epk) {
       alert("Please input Passphrase or Private Key")
     }
+    console.log(balletPassphrase)
+    console.log(epk)
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
@@ -416,9 +419,7 @@ function App() {
         setAddress(publicKeyHex)
         setIsShowAddress(true)
         setIsShowprivateKey(true)
-        console.log(outputAddressWIFList.length)
         outputAddressWIFList.forEach(item => {
-          console.log(1111)
           let outputPrivateKey = ''
           switch (item.currency) {
             case 'btc':
@@ -491,12 +492,12 @@ function App() {
               text={key}
               onCopy={() => alert("copy success")}
             >
-              <span><img src={copyImage} /></span>
+              <span><CopyIcon /></span>
             </CopyToClipboard>
             <span
               onMouseEnter={(e) => MouseOver(key)}
               onMouseLeave={(e) => MouseOut()}
-            ><img src={qrcodeImage} /></span>
+            ><QrcodeIcon /></span>
           </div>
         </div>
       </div>
@@ -572,7 +573,7 @@ const InputItem = ({ inputIndex, value }) => {
       </div>
       <div className="content container">
         <div className="warning">
-          <img src={warningImage} alt="warning icon" />
+          <WarningImage />
           <div className="warningContent">
             <div className="warningTitle" >Read Before Decrypt</div>
             <div className="warningDescription">To ensure security, we strongly encourage you to disconnect the internet first. You can run the decryption process offline. Never share your private key with the unauthorized party, as it will allow access to your crypto assets.</div>
@@ -622,8 +623,8 @@ const InputItem = ({ inputIndex, value }) => {
                   onCopy={() => alert("copy success")}
                 >
                   <span
-                    style={{ display: intermediateCode ? 'block' : 'none' }}
-                  >copy</span>
+                    style={{ display: intermediateCode ? 'flex' : 'none' }}
+                  ><CopyIcon />Copy</span>
                 </CopyToClipboard>
               </div>
             </div>
@@ -635,31 +636,15 @@ const InputItem = ({ inputIndex, value }) => {
         <div className="passphrase">
           <div className="passphrase__title commonTitle">
             Passphrase
-            <div className="resetContent" onClick={() => window.location.reload()}>
-              Reset Page
-            </div>
+
           </div>
           <div className="commonDescription">Wallet passphrase are case sensitive. Format: xxxx-xxxx-xxxx-xxxx-xxxx</div>
           <div className="passphrase__input">
-            <div className="inputWraper">
-              <input
-                className="input"
-                value={balletPassphrase}
-                onChange={(e) => setBalletPassphrase(e.target.value)}
-              />
-              {/* {passphraseInputCount.map((item, index) => {
-                return (
-                  <>
-                    <InputItem
-                      key={index}
-                      inputIndex={index}
-                      value={item}
-                    />
-                    {!((index + 1) % 4) && (index + 1 < 17) ? (<div className="symbolInput">-</div>) : ''}
-                  </>
-                )
-              })} */}
-            </div>
+            <input
+              className="input"
+              value={balletPassphrase}
+              onChange={(e) => setBalletPassphrase(e.target.value)}
+            />
           </div>
         </div>
         <div className="columns is-vcentered inputContent is-desktop">
@@ -687,9 +672,9 @@ const InputItem = ({ inputIndex, value }) => {
             <div className="middleStyle">or</div>
           </div>
           <div className="column is-5">
-            <div className="commonTitle">Private Key</div>
+            <div className="commonTitle">Encrypted Private Key</div>
             <div className="commonDescription privateKeyDescription">
-              Private key starts with "6P"
+              Encrypted Private Key starts with “6P”
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>
                 {isShowreadQrcode ? (
                   <div className="readQrcodeModal">
@@ -706,7 +691,7 @@ const InputItem = ({ inputIndex, value }) => {
                     />
                   </div>
                 ) : ''}
-                <span className="readQrcodeText" >Scan</span>
+                <span className="readQrcodeText" ><ScanQrcodeIcon />Scan</span>
               </span>
             </div>
             <textarea
@@ -746,6 +731,7 @@ const InputItem = ({ inputIndex, value }) => {
             </>
           )}
         </div>
+        <div className="line"></div>
         <div className="linkWraper">
           <h3>BIP38 explained</h3>
             <a href="https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki" >https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki</a>
