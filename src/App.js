@@ -34,7 +34,7 @@ import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'
 
 function App() {
-  const [balletPassphrase, setBalletPassphrase] = useState("")
+  const [balletPassphrase, setBalletPassphrase] = useState('')
   const [confirmationCode, setConfirmationCode] = useState('')
   const [epk, setEpk] = useState('')
   const [publicKeyHex, setPublicKeyHex] = useState('')
@@ -502,67 +502,6 @@ function App() {
     )
   }
 
-const InputItem = ({ inputIndex, value }) => {
-  const onKeyDown = (e) => {
-    if (e.keyCode === 8) {
-      if (!passphraseInputCount[e.target.dataset.id]) {
-        setTimeout(() => {
-          if (inputIndex > 0) {
-            setPassphraseInputCount(passphraseInputCount.map((item, index) => {
-              if ((inputIndex - 1) == index) {
-                return ''
-              }
-              return item
-            }))
-            inputRefs[inputIndex - 1].current.focus()
-            inputRefs[inputIndex - 1].current.select()
-          }
-        }, 0);
-        return
-      }
-      setPassphraseInputCount(passphraseInputCount.map((item, index) => {
-        if (e.target.dataset.id == index) {
-          return ''
-        }
-        return item
-      }))
-      setTimeout(() => {
-        if (inputIndex > 0) {
-          inputRefs[inputIndex].current.focus()
-          inputRefs[inputIndex].current.select()
-        }
-      }, 0);
-    }
-  }
-
-  const onChange = (e) => {
-    setPassphraseInputCount(passphraseInputCount.map((item, index) => {
-      if (e.target.dataset.id == index) {
-        return e.target.value
-      }
-      return item
-    }))
-    setTimeout(() => {
-      if (inputIndex < 19) {
-        inputRefs[inputIndex + 1].current.focus()
-        // inputRefs[inputIndex + 1].current.select()
-      }
-
-    }, 0);
-  }
-  return (
-    <input
-      data-id={inputIndex}
-      className="inputItem"
-      value={value}
-      onChange={(e) => {onChange(e)}}
-      ref={inputRefs[inputIndex]}
-      onKeyDown={(e) => {onKeyDown(e)}}
-      onFocus={(e) => { inputRefs[inputIndex].current.select() }}
-    />
-  )
-}
-
   return (
     <div className="evian">
       <div className="header">
@@ -610,7 +549,7 @@ const InputItem = ({ inputIndex, value }) => {
                 Intermediate Code
               </div>
               <div className="commonDescription">
-                Use (<a href="https://www.infinitumbitcoins.com/bit2factor/" target="_blank" >https://www.infinitumbitcoins.com/bit2factor/</a>) to generate BIP Intermediate Code. 
+                Or use (<a href="https://www.infinitumbitcoins.com/bit2factor/" target="_blank" >https://www.infinitumbitcoins.com/bit2factor/</a>) to generate BIP Intermediate Code. 
               </div>
               <div className="intermediateCode">
                 <textarea
@@ -631,7 +570,7 @@ const InputItem = ({ inputIndex, value }) => {
             </div>
           </div>
           <div className="tip" >Ballet provides trustless two-factor key generation for ultimate security. In order to generate the owner-created passphrase for the BIP38 private key encryption, run this program on a permanently-offline computer:
-          <a href="store.balletcrypto.com" target="_blank"> store.balletcrypto.com</a></div>
+          <a href="https://store.balletcrypto.com" target="_blank"> store.balletcrypto.com</a></div>
         </div>
         <h2>BIP38 Verify & Decrypt</h2>
         <div className="passphrase">
