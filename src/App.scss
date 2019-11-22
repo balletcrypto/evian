@@ -26,6 +26,8 @@
   margin-top: 40px;
   h2 {
     font-size: 36px;
+    margin-top: 37px;
+    margin-bottom: 23px;
   }
   .warning {
     padding: 20px 20px 25px 30px;
@@ -35,7 +37,12 @@
     display: flex;
     align-items: center;
     margin-top: 20px;
-    img {
+
+    @media(max-width: 767px) {
+      flex-direction: column;
+    }
+    svg {
+      width: 140px;
       margin-right: 25px;
     }
     .warningTitle {
@@ -52,7 +59,7 @@
   }
 }
 .passphrase {
-  margin-top: 40px;
+  // margin-top: 40px;
   &__title {
     display: flex;
     justify-content: space-between;
@@ -62,15 +69,19 @@
     font-size: 14px;
     color: #c89d22;
   }
+  &__input {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 }
 .inputContent {
-  margin-top: 40px;
+  // margin-top: 14px;
   margin-bottom: 60px;
   .textarea {
     margin-bottom: 20px;
   }
   .button {
-    width: 150px;
+    min-width: 150px;
     color: #000000;
   }
 }
@@ -209,6 +220,7 @@
 .privateKeyDescription {
   display: flex;
   justify-content: space-between;
+  min-height: 63px;
 }
 
 .readQrcodeButton {
@@ -227,9 +239,78 @@
 }
 
 .readQrcodeText {
+  display: flex;
+  align-items: center;
   border: solid 1px #000000;
   border-radius: 4px;
   padding: 4px 10px;
   position: relative;
   bottom: 5px;
+  svg {
+    width: 18px;
+    margin-right: 8px;
+  }
+}
+.intermediate {
+  .tip {
+    margin-bottom: 70px;
+    font-size: 16px;
+    color: #4e4e4e;
+  }
+}
+.arrowWraper {
+  position: relative;
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.linkWraper {
+  padding-bottom: 30px;
+  h3 {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+}
+
+.intermediateCode {
+  position: relative;
+  span {
+    align-items: center;
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background: #f4f4f4;
+    border-radius: 4px;
+    color: #000000;
+    padding: 4px 12px;
+    font-size: 14px;
+    svg {
+      width: 18px;
+      margin-right: 8px;
+    }
+  }
+}
+.container {
+  max-width: 1000px;
+}
+.columns {
+  justify-content: space-between;
+}
+.line {
+  width: 100%;
+  height: 1px;
+  background: #707070;
+  margin-top: 80px;
+}
+a {
+  color: #4A83BF;
+  word-break: break-all;
+  &:hover {
+    color: #4A83BF;
+  }
 }

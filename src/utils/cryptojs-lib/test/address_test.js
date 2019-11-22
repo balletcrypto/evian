@@ -7,7 +7,7 @@ import {
   getBitcoinAddress,
   getEthAddress,
   getXRPAddress
-} from '../src/CryptoAddress'
+} from '../CryptoAddress'
 
 describe('Test crypto currency address generate', () => {
 
