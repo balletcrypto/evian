@@ -226,6 +226,11 @@ export function CryptoScrypt(passwd, salt, N, r, p, dkLen) {
   } // scryptCore
   return new Promise((resolve, reject) => {
     try {
+      if (typeof window === 'undefined') {
+        scryptCore();
+        resolve(PBKDF2(passwd, B, dkLen, PBKDF2_opts));
+        return
+      }
       var i = 0;
       var worksDone = 0;
       var makeWorker = function () {

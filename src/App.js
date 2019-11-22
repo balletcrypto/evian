@@ -243,7 +243,7 @@ function App() {
     },
     {
       currency: 'DAI',
-      title: 'Dai (DAI)',
+      title: 'Sai (SAI)',
       addressKey: 'Address',
       getAddressMethod: getEthAddress,
       addressInputValue: daiAddress,
@@ -407,8 +407,6 @@ function App() {
     if (!balletPassphrase || !epk) {
       alert("Please input Passphrase or Private Key")
     }
-    console.log(balletPassphrase)
-    console.log(epk)
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
@@ -575,8 +573,11 @@ const InputItem = ({ inputIndex, value }) => {
         <div className="warning">
           <WarningImage />
           <div className="warningContent">
-            <div className="warningTitle" >Read Before Decrypt</div>
-            <div className="warningDescription">To ensure security, we strongly encourage you to disconnect the internet first. You can run the decryption process offline. Never share your private key with the unauthorized party, as it will allow access to your crypto assets.</div>
+            <div className="warningTitle" >Security Warning</div>
+            <div className="warningDescription">
+              We strongly recommend that you run this open-source program on a permanently-offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet.<br/>
+              Do not lose your wallet passphrase. If you lose your passphrase, you will lose access to all coins stored on the wallet.
+            </div>
           </div>
         </div>
         <h2>Generate BIP38 Intermediate Code</h2>
@@ -584,7 +585,7 @@ const InputItem = ({ inputIndex, value }) => {
           <div className="columns inputContent">
             <div className="column is-5">
               <div className="commonTitle">
-                Wallet Passphrase
+                Passphrase
               </div>
               <div className="commonDescription">
                 Keep your wallet passphrase secret. Anyone who knows your passphrase can spend the coins in your wallet.
@@ -636,12 +637,12 @@ const InputItem = ({ inputIndex, value }) => {
         <div className="passphrase">
           <div className="passphrase__title commonTitle">
             Passphrase
-
           </div>
-          <div className="commonDescription">Wallet passphrase are case sensitive. Format: xxxx-xxxx-xxxx-xxxx-xxxx</div>
+          <div className="commonDescription">REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: “XXXX-XXXX-XXXX-XXXX-XXXX".</div>
           <div className="passphrase__input">
             <input
               className="input"
+              placeholder="Enter the wallet passphrase"
               value={balletPassphrase}
               onChange={(e) => setBalletPassphrase(e.target.value)}
             />
@@ -674,7 +675,7 @@ const InputItem = ({ inputIndex, value }) => {
           <div className="column is-5">
             <div className="commonTitle">Encrypted Private Key</div>
             <div className="commonDescription privateKeyDescription">
-              Encrypted Private Key starts with “6P”
+              Encrypted Private Key starts with "6P"
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>
                 {isShowreadQrcode ? (
                   <div className="readQrcodeModal">
