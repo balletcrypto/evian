@@ -566,7 +566,7 @@ const InputItem = ({ inputIndex, value }) => {
   return (
     <div className="evian">
       <div className="header">
-        <a href="https://balletcrypto.com" ><Logo/></a>
+        <a href="https://balletcrypto.com" target="_blank" ><Logo/></a>
         <a href="https://github.com/balletcrypto/evian" target="_blank"><GitHubIcon  className="github" /></a>
       </div>
       <div className="content container">
@@ -610,7 +610,7 @@ const InputItem = ({ inputIndex, value }) => {
                 Intermediate Code
               </div>
               <div className="commonDescription">
-                Use (<a href="https://www.infinitumbitcoins.com/bit2factor/" >https://www.infinitumbitcoins.com/bit2factor/</a>) to generate BIP Intermediate Code. 
+                Use (<a href="https://www.infinitumbitcoins.com/bit2factor/" target="_blank" >https://www.infinitumbitcoins.com/bit2factor/</a>) to generate BIP Intermediate Code. 
               </div>
               <div className="intermediateCode">
                 <textarea
@@ -631,7 +631,7 @@ const InputItem = ({ inputIndex, value }) => {
             </div>
           </div>
           <div className="tip" >Ballet provides trustless two-factor key generation for ultimate security. In order to generate the owner-created passphrase for the BIP38 private key encryption, run this program on a permanently-offline computer:
-          <a href="store.balletcrypto.com"> store.balletcrypto.com/customPassphrase</a></div>
+          <a href="store.balletcrypto.com" target="_blank"> store.balletcrypto.com</a></div>
         </div>
         <h2>BIP38 Verify & Decrypt</h2>
         <div className="passphrase">
@@ -735,12 +735,12 @@ const InputItem = ({ inputIndex, value }) => {
         <div className="line"></div>
         <div className="linkWraper">
           <h3>BIP38 explained</h3>
-            <a href="https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki" >https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki</a>
+            <a href="https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki" target="_blank" >https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki</a>
           <h3>More BIP38 resources</h3>
           {resourcesArray.map(link => {
             return (
               <>
-                <a href={link}>{link}</a><br/>
+                <a href={link} target="_blank">{link}</a><br/>
               </>
             )
           })}

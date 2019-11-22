@@ -3,7 +3,7 @@ This is [balletcrypto.org](balletcrypto.org) source code.
 ## Getting started
 ### Prerequisites
 1. Git
-1. Node: install version 8 or greater.
+1. Node: install version 9 or greater.
 1. Yarn (`npm install yarn -g`).
 1. A clone of the `evian` repo.
 
