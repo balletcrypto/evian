@@ -20,7 +20,7 @@ This is [balletcrypto.org](balletcrypto.org) source code.
 
 After you build it you can open `build/index.html` to use it.
 
-You can also download `index.html` in [https://balletcrypto.github.io](balletcrypto.github.io)
+You can also download `index.html` in [balletcrypto.github.io](https://balletcrypto.github.io)
 
 ---
 ## License
