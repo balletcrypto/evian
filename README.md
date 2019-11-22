@@ -25,5 +25,5 @@ You can also download `index.html` in [balletcrypto.github.io](https://github.co
 ---
 ## License
 
-[balletcrypto.org](https://github.com/facebook/create-react-app) is [Apache-2.0](./LICENSE)
+[balletcrypto.org](https://balletcrypto.org) is [Apache-2.0](./LICENSE)
 
