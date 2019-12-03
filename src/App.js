@@ -1,15 +1,12 @@
 import React, { useState, useRef } from 'react';
 
 import './App.scss';
-import { ReactComponent as Logo } from './image/logo.svg'
-import { ReactComponent as GitHubIcon } from './image/org_github.svg'
-import { ReactComponent as Arrow } from './image/arrow.svg'
 import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 import { ReactComponent as QrcodeIcon } from './image/bit38_decode_address.svg'
 import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
-import { ReactComponent as WarningImage } from './image/bit38_decode_pay_attention.svg'
+import { Link } from "react-router-dom";
 import { validateConfirmation } from './utils/cryptojs-lib/confirmation'
-import { genIntermediate } from './utils/cryptojs-lib/Intermediate'
+import Warning from './component/warning'
 import {
   getBitcoinAddress,
   getBitcoinCashAddress,
@@ -39,9 +36,6 @@ function App() {
   const [epk, setEpk] = useState('')
   const [publicKeyHex, setPublicKeyHex] = useState('')
   const [privateKeyHex, setPrivateKeyHex] = useState('')
-  const [customPassphrase, setCustomPassphrase] = useState('')
-  const [intermediateCode, setIntermediateCode] = useState('')
-  const [generateIntermediateCodeLoading, setGenerateIntermediateCodeLoading] = useState(false)
   // Address
   const [bitcoinSegwitAddress, setBitcoinSegwitAddress] = useState('')
   const [bitcoinLegacyAddress, setBitcoinLegacyAddress] = useState('')
@@ -100,14 +94,6 @@ function App() {
   for (let i = 0; i < 24; i ++) {
     inputRefs.push(useRef());
   }
-  const resourcesArray = [
-    "https://www.bitaddress.org",
-    "https://www.infinitumbitcoins.com/bit2factor/",
-    "https://github.com/bitcoinjs/bip38",
-    "https://github.com/casascius/Bitcoin-Address-Utility",
-    "https://github.com/nomorecoin/python-bip38-testing/blob/master/bip38.py",
-    "https://github.com/pointbiz/bitaddress.org/blob/master/src/ninja.key.js",
-  ]
   const outputAddressWIFList = [
     {
       currency: 'btc',
@@ -370,21 +356,7 @@ function App() {
       item.setAddressInputMethod(address)
     })
   }
-  const generateIntermediateCode = async () => {
-    if (!customPassphrase) {
-      alert("please input passphrase")
-      return
-    }
-    setGenerateIntermediateCodeLoading(true)
-    try {
-      const intermediateCode = await genIntermediate(customPassphrase)
-      setIntermediateCode(intermediateCode)
-      setGenerateIntermediateCodeLoading(false)
-    } catch (error) {
-      alert("generate Intermediate code fail")
-      setGenerateIntermediateCodeLoading(false)
-    }
-  }
+
   const verifyConfirmationCode = async () => {
     setVerifyLoading(true)
     try {
@@ -504,80 +476,17 @@ function App() {
 
   return (
     <div className="evian">
-      <div className="header">
-        <a href="https://balletcrypto.com" target="_blank" ><Logo/></a>
-        <a href="https://github.com/balletcrypto/evian" target="_blank"><GitHubIcon  className="github" /></a>
-      </div>
       <div className="content container">
-        <div className="warning">
-          <WarningImage />
-          <div className="warningContent">
-            <div className="warningTitle" >Security Warning</div>
-            <div className="warningDescription">
-              We strongly recommend that you run this open-source program on a permanently-offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet.<br/>
-              Do not lose your wallet passphrase. If you lose your passphrase, you will lose access to all coins stored on the wallet.
-            </div>
-          </div>
-        </div>
-        <h2>Generate BIP38 Intermediate Code</h2>
-        <div className="intermediate">
-          <div className="columns inputContent">
-            <div className="column is-5">
-              <div className="commonTitle">
-                Passphrase
-              </div>
-              <div className="commonDescription">
-                Keep your wallet passphrase secret. Anyone who knows your passphrase can spend the coins in your wallet.
-              </div>
-              <textarea
-                
-                className="textarea"
-                placeholder="Enter the passphrase"
-                value={customPassphrase}
-                onChange={e => setCustomPassphrase(e.target.value)}
-              ></textarea>
-              <a
-                className={`button is-warning ${generateIntermediateCodeLoading ? 'is-loading' : ''}`}
-                onClick={generateIntermediateCode}
-              >Generate Intermediate Code</a>
-            </div>
-            <div className="column is-1 arrowWraper">
-              <Arrow />
-            </div>
-            <div className="column is-5">
-              <div className="commonTitle">
-                Intermediate Code
-              </div>
-              <div className="commonDescription">
-                Or use (<a href="https://www.infinitumbitcoins.com/bit2factor/" target="_blank" >https://www.infinitumbitcoins.com/bit2factor/</a>) to generate BIP Intermediate Code. 
-              </div>
-              <div className="intermediateCode">
-                <textarea
-                  disabled={intermediateCode ? false : true}
-                  className="textarea"
-                  placeholder={`${intermediateCode ? "" : "Not yet generated"}`}
-                  value={intermediateCode}
-                ></textarea>
-                <CopyToClipboard
-                  text={intermediateCode}
-                  onCopy={() => alert("copy success")}
-                >
-                  <span
-                    style={{ display: intermediateCode ? 'flex' : 'none' }}
-                  ><CopyIcon />Copy</span>
-                </CopyToClipboard>
-              </div>
-            </div>
-          </div>
-          <div className="tip" >Ballet provides trustless two-factor key generation for ultimate security. In order to generate the owner-created passphrase for the BIP38 private key encryption, run this program on a permanently-offline computer:
-          <a href="https://store.balletcrypto.com" target="_blank"> store.balletcrypto.com</a></div>
-        </div>
-        <h2>BIP38 Verify & Decrypt</h2>
+        <h2>BIP38 Verify & Decrypt <Link to="/bip38-intermediate-code" >Generate BIP38 Intermediate Code</Link></h2>
+        <Warning
+          title="Security Warning"
+          content="We strongly recommend that you run this open-source program on a permanently-offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet."
+        />
         <div className="passphrase">
           <div className="passphrase__title commonTitle">
             Passphrase
           </div>
-          <div className="commonDescription">REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: “XXXX-XXXX-XXXX-XXXX-XXXX".</div>
+          <div className="commonDescription">REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: "XXXX-XXXX-XXXX-XXXX-XXXX".</div>
           <div className="passphrase__input">
             <input
               className="input"
@@ -594,7 +503,7 @@ function App() {
             </div>
             <div className="commonDescription">
             This confirmation code is 75 characters starting with "cfrm38". <br/> 
-            Use Ballet Crypto <a href="https://app.balletcrypto.com" >App</a> get Confirmation Code(Verify - View Confirmation Code.)
+            Use <a href="https://app.balletcrypto.com" >Ballet Crypto App</a> get Confirmation Code(Verify - View Confirmation Code)
             </div>
             <textarea
               className="textarea"
@@ -643,7 +552,7 @@ function App() {
             <a
               className={`button is-warning ${isDecodeLoading ? 'is-loading' : ''}`}
               onClick={decodePrivateKey}
-            >Decode</a>
+            >Decrypt</a>
           </div>
         </div>
         <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
@@ -670,19 +579,6 @@ function App() {
               </div>  
             </>
           )}
-        </div>
-        <div className="line"></div>
-        <div className="linkWraper">
-          <h3>BIP38 explained</h3>
-            <a href="https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki" target="_blank" >https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki</a>
-          <h3>More BIP38 resources</h3>
-          {resourcesArray.map(link => {
-            return (
-              <>
-                <a href={link} target="_blank">{link}</a><br/>
-              </>
-            )
-          })}
         </div>
       </div>
     </div>
