@@ -1,0 +1,45 @@
+.intermediate {
+  .tip {
+    margin-bottom: 70px;
+    font-size: 16px;
+    color: #4e4e4e;
+    margin-bottom: 30px;
+  }
+  &__form {
+    margin-bottom: 30px;
+    overflow: hidden;
+  }
+  &__content {
+    @media(max-width: 1024px) {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
+.intermediateCode {
+  position: relative;
+  span {
+    align-items: center;
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    border-radius: 4px;
+    color: #000000;
+    padding: 4px 12px;
+    font-size: 14px;
+    transform: translate(0, -50%);
+    svg {
+      width: 18px;
+      margin-right: 8px;
+    }
+    &:before {
+      position: absolute;
+      content: "|";
+      top: 50%;
+      left: 0px;
+      transform: translate(0, -50%);
+    }
+  }
+}
