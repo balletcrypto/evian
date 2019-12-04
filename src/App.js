@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-
 import './App.scss';
 import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 import { ReactComponent as QrcodeIcon } from './image/bit38_decode_address.svg'
@@ -36,6 +35,8 @@ function App() {
   const [epk, setEpk] = useState('')
   const [publicKeyHex, setPublicKeyHex] = useState('')
   const [privateKeyHex, setPrivateKeyHex] = useState('')
+  const [isShowRealPassphrase, setIsShowRealPassphrase] = useState(true)
+  const [passphraseInputCount, setPassphraseInputCount] = useState(Array.from(new Array(20).keys()).map(num => ''))
   // Address
   const [bitcoinSegwitAddress, setBitcoinSegwitAddress] = useState('')
   const [bitcoinLegacyAddress, setBitcoinLegacyAddress] = useState('')
@@ -356,11 +357,16 @@ function App() {
       item.setAddressInputMethod(address)
     })
   }
-
+  const getPassphrase = () => {
+    if (isShowRealPassphrase) {
+      return formatRealPassphrase(passphraseInputCount)
+    }
+    return balletPassphrase
+  }
   const verifyConfirmationCode = async () => {
     setVerifyLoading(true)
     try {
-      const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, balletPassphrase)
+      const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, getPassphrase())
       if (valid) {
         setPublicKeyHex(publicKeyHex)
         setAddress(publicKeyHex)
@@ -376,13 +382,13 @@ function App() {
     }
   }
   const decodePrivateKey = () => {
-    if (!balletPassphrase || !epk) {
+    if (!getPassphrase() || !epk) {
       alert("Please input Passphrase or Private Key")
     }
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
-        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, balletPassphrase)
+        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, getPassphrase())
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
         setPrivateKeyHex(privateKeyHex)
@@ -473,7 +479,74 @@ function App() {
       </div>
     )
   }
-
+  const formatRealPassphrase = (passphraseInputCount) => {
+    const realPassphrase = passphraseInputCount.slice()
+    realPassphrase.splice(4, 0, "-")
+    realPassphrase.splice(9, 0, "-")
+    realPassphrase.splice(14, 0, "-")
+    realPassphrase.splice(19, 0, "-")
+    return realPassphrase.join('').toUpperCase()
+  }
+  const InputItem = ({ inputIndex, value }) => {
+    const onKeyDown = (e) => {
+      if (e.keyCode === 8) {
+        if (!passphraseInputCount[e.target.dataset.id]) {
+          setTimeout(() => {
+            if (inputIndex > 0) {
+              setPassphraseInputCount(passphraseInputCount.map((item, index) => {
+                if ((inputIndex - 1) == index) {
+                  return ''
+                }
+                return item
+              }))
+              inputRefs[inputIndex - 1].current.focus()
+              inputRefs[inputIndex - 1].current.select()
+            }
+          }, 0);
+          return
+        }
+        setPassphraseInputCount(passphraseInputCount.map((item, index) => {
+          if (e.target.dataset.id == index) {
+            return ''
+          }
+          return item
+        }))
+        setTimeout(() => {
+          if (inputIndex > 0) {
+            inputRefs[inputIndex].current.focus()
+            inputRefs[inputIndex].current.select()
+          }
+        }, 0);
+      }
+    }
+  
+    const onChange = (e) => {
+      setPassphraseInputCount(passphraseInputCount.map((item, index) => {
+        if (e.target.dataset.id == index) {
+          return e.target.value
+        }
+        return item
+      }))
+      setTimeout(() => {
+        if (inputIndex < 19) {
+          inputRefs[inputIndex + 1].current.focus()
+          inputRefs[inputIndex + 1].current.select()
+        }
+  
+      }, 0);
+    }
+    return (
+      <input
+        data-id={inputIndex}
+        className="inputItem"
+        value={value}
+        onChange={(e) => {onChange(e)}}
+        ref={inputRefs[inputIndex]}
+        onKeyDown={(e) => {onKeyDown(e)}}
+        onFocus={(e) => { inputRefs[inputIndex].current.select() }}
+      />
+    )
+  }
   return (
     <div className="evian">
       <div className="content container">
@@ -483,17 +556,49 @@ function App() {
           content="We strongly recommend that you run this open-source program on a permanently-offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet."
         />
         <div className="passphrase">
-          <div className="passphrase__title commonTitle">
-            Passphrase
+          <div className="passphrase__title commonTitle ">
+            Wallet Passphrase
+            <div>REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: "XXXX-XXXX-XXXX-XXXX-XXXX".</div>
+            {/* <div onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}>Switch to {!isShowRealPassphrase ? 'REAL' : 'PRO'} Series Wallet Passphrase</div> */}
           </div>
-          <div className="commonDescription">REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: "XXXX-XXXX-XXXX-XXXX-XXXX".</div>
           <div className="passphrase__input">
+            <div className="passphrase__real">
+              {passphraseInputCount.map((item, index) => {
+                return (
+                  <>
+                    <InputItem
+                      key={index}
+                      inputIndex={index}
+                      value={item}
+                    />
+                    {!((index + 1) % 4) && (index + 1 < 17) ? (<div className="symbolInput"></div>) : ''}
+                  </>
+                )
+              })}
+            </div>
+            {/* {isShowRealPassphrase ? (
+            <div className="passphrase__real">
+              {passphraseInputCount.map((item, index) => {
+                return (
+                  <>
+                    <InputItem
+                      key={index}
+                      inputIndex={index}
+                      value={item}
+                    />
+                    {!((index + 1) % 4) && (index + 1 < 17) ? (<div className="symbolInput">-</div>) : ''}
+                  </>
+                )
+              })}
+            </div>
+            ) : (
             <input
               className="input"
               placeholder="Enter the wallet passphrase"
               value={balletPassphrase}
               onChange={(e) => setBalletPassphrase(e.target.value)}
             />
+            )} */}
           </div>
         </div>
         <div className="columns is-vcentered inputContent is-desktop">

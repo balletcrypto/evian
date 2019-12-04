@@ -15,8 +15,8 @@ export const isValidPassphraseFormat = passphrase => {
 }
 
 export function decryptEpkVcode(epk, vcode) {
-  const { privateKey } = decrypt(epk, vcode)
-  const ecPair = ECPair.fromPrivateKey(privateKey)
+  const { privateKey, compressed } = decrypt(epk, vcode)
+  const ecPair = ECPair.fromPrivateKey(privateKey, { compressed })
 
   const publicKeyHex = ecPair.publicKey.toString('hex')
   const privateKeyHex = privateKey.toString('hex')
@@ -38,7 +38,6 @@ const verifyEpk = (epk, publicKeyHex) => {
   const pubkey = Buffer.from(publicKeyHex, 'hex')
   const { address } = payments.p2pkh({pubkey})
   const checksum = doubleSha256(address)
-
   if (checksum[0] !== epkHex[3] || checksum[1] !== epkHex[4] || checksum[2] !== epkHex[5] || checksum[3] !== epkHex[6]) {
     return false
   } else {
