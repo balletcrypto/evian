@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Warning from './component/warning'
 import './intermediateGenerate.scss'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { genIntermediate } from './utils/cryptojs-lib/Intermediate'
 import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 export default () => {
-  
+  const intermediateCodeRefs = useRef()
   const [customPassphrase, setCustomPassphrase] = useState('')
   const [intermediateCode, setIntermediateCode] = useState('')
   const [generateIntermediateCodeLoading, setGenerateIntermediateCodeLoading] = useState(false)
@@ -69,6 +69,8 @@ complex passwords.Please note that passphrases are case-sensitive.
                 disabled={intermediateCode ? false : true}
                 className="input "
                 value={intermediateCode}
+                ref={intermediateCodeRefs}
+                onFocus={() => intermediateCodeRefs.current.select()}
               ></input>
               <CopyToClipboard
                 text={intermediateCode}
@@ -81,9 +83,6 @@ complex passwords.Please note that passphrases are case-sensitive.
             </div>
           </div>
         </div>
-        <div className="tip" >
-        Ballet is now offering the PRO Series physical cryptocurrency wallet, which is manufactured using custom user-generated passphrases.Please go here to purchase PRO Series wallets:
-        <a href="https://store.balletcrypto.com/collections/ballet/products/pro-bitcoin" target="_blank"> https://store.balletcrypto.com/collections/ballet/products/pro-bitcoin</a></div>
       </div>
     </div>
   )
