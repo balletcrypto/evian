@@ -18,7 +18,10 @@
 }
 .intermediateCode {
   position: relative;
+  display: flex;
+  align-items: center;
   span {
+    background: #fff;
     align-items: center;
     cursor: pointer;
     display: inline-block;
