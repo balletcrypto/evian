@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import Warning from './component/warning'
 import './intermediateGenerate.scss'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { genIntermediate } from './utils/cryptojs-lib/Intermediate'
+import { genIntermediate } from './utils/cryptojs-lib/src/Intermediate'
 import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 export default () => {
   const intermediateCodeRefs = useRef()
