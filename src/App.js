@@ -4,7 +4,7 @@ import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 import { ReactComponent as QrcodeIcon } from './image/bit38_decode_address.svg'
 import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
 import { Link } from "react-router-dom";
-import { validateConfirmation } from './utils/cryptojs-lib/confirmation'
+import { validateConfirmation } from './utils/cryptojs-lib/src/confirmation'
 import Warning from './component/warning'
 import {
   getBitcoinAddress,
@@ -18,13 +18,13 @@ import {
   getQtumAddress,
   getDashAddress,
   getDogeAddress
-} from './utils/cryptojs-lib/CryptoAddress'
-import { decryptEpkVcode } from './utils/cryptojs-lib/bip38.js'
+} from './utils/cryptojs-lib/src/CryptoAddress'
+import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import {
   getLitecoinWif,
   getDashwif,
   getDogewif
-} from './utils/cryptojs-lib/wif.js'
+} from './utils/cryptojs-lib/src/wif.js'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'

@@ -1,0 +1,3 @@
+[submodule "src/utils/cryptojs-lib"]
+	path = src/utils/cryptojs-lib
+	url = git@github.com:balletcrypto/cryptojs-lib.git
