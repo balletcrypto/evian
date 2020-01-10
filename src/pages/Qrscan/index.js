@@ -10,7 +10,7 @@ export default () => {
   const [addressArray, setAddressArray] = useState([])
   const [repeatIndex, setRepeatIndex] = useState('')
   return (
-    <div className="container" >
+    <div className="container" style={{ paddingBottom: '50px' }}>
       <div className="cameraWraper">
         {!isOpenCamera ? (
           <div className="cameraNotShow" >
@@ -33,7 +33,7 @@ export default () => {
                     }, 1000);
                   }
                   if (addressArray.length === 0 || addressArray.indexOf(data) < 0) {
-                    setAddressArray(addressArray.concat(data))
+                    setAddressArray(addressArray.concat(data).reverse())
                   }
                 }
               }}
