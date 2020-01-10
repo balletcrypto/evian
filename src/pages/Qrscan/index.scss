@@ -50,7 +50,7 @@
 .addressList {
   border-radius: 8px;
   border: solid 1px #bebebe;
-  height: 600px;
+  min-height: 600px;
   overflow: hidden;
   .addressHeader {
     color: #808080;
@@ -97,7 +97,7 @@
   .noAddress {
     background: #fafafa;
     width: 100%;
-    height: calc(100% - 59px);
+    padding: 50px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,7 +108,6 @@
 
 .addressContent {
   width: 100%;
-  height: calc(100% - 59px);
   display: flex;
   .left {
     width: 48px;
