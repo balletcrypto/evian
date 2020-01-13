@@ -20,7 +20,7 @@ export default () => {
         ) : (
           <div className="cameraShow">
             <QrReader
-              delay={300}
+              delay={200}
               showViewFinder={false}
               // onError={onReadQrcodeError}
               onScan={(data) => {
@@ -33,7 +33,7 @@ export default () => {
                     }, 1000);
                   }
                   if (addressArray.length === 0 || addressArray.indexOf(data) < 0) {
-                    setAddressArray(addressArray.concat(data).reverse())
+                    setAddressArray([data].concat(addressArray))
                   }
                 }
               }}
