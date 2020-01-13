@@ -559,24 +559,15 @@ function App() {
           <div className="passphrase__title commonTitle ">
             Wallet Passphrase
             <div>REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: "XXXX-XXXX-XXXX-XXXX-XXXX".</div>
-            {/* <div onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}>Switch to {!isShowRealPassphrase ? 'REAL' : 'PRO'} Series Wallet Passphrase</div> */}
+            <div
+              style={{
+                color: '#4A83BF',
+                cursor: 'pointer'
+              }}
+              onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}>Switch to {!isShowRealPassphrase ? 'REAL' : 'PRO'} Series Wallet Passphrase</div>
           </div>
           <div className="passphrase__input">
-            <div className="passphrase__real">
-              {passphraseInputCount.map((item, index) => {
-                return (
-                  <>
-                    <InputItem
-                      key={index}
-                      inputIndex={index}
-                      value={item}
-                    />
-                    {!((index + 1) % 4) && (index + 1 < 17) ? (<div className="symbolInput"></div>) : ''}
-                  </>
-                )
-              })}
-            </div>
-            {/* {isShowRealPassphrase ? (
+            {isShowRealPassphrase ? (
             <div className="passphrase__real">
               {passphraseInputCount.map((item, index) => {
                 return (
@@ -598,7 +589,7 @@ function App() {
               value={balletPassphrase}
               onChange={(e) => setBalletPassphrase(e.target.value)}
             />
-            )} */}
+            )}
           </div>
         </div>
         <div className="columns is-vcentered inputContent is-desktop">
