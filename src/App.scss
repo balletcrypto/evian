@@ -35,6 +35,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+  &__description {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 .inputContent {
   // margin-top: 14px;

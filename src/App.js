@@ -441,13 +441,25 @@ function App() {
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
             Wallet Passphrase
-            <div>REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: "XXXX-XXXX-XXXX-XXXX-XXXX".</div>
-            <div
-              style={{
-                color: '#4A83BF',
-                cursor: 'pointer'
-              }}
-              onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}>Switch to {!isShowRealPassphrase ? 'REAL' : 'PRO'} Series Wallet Passphrase</div>
+            <div className="passphrase__description" >
+              <span>
+                {isShowRealPassphrase ?
+                  'Please scratch off and enter your wallet passphrase' :
+                  'Please enter your self-selected passphrase to generate address'}
+              </span>
+              <span
+                onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}
+                style={{
+                  color: '#4A83BF',
+                  cursor: 'pointer'
+                }}
+              >
+                {isShowRealPassphrase ?
+                  'Switch to standard input box' :
+                  'Switch to Ballet wallet customized input box'
+                }
+              </span>
+            </div>
           </div>
           <div className="passphrase__input">
             {isShowRealPassphrase ? (
