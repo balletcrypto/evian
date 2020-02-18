@@ -553,13 +553,13 @@ function App() {
         <h2>BIP38 Verify & Decrypt <Link to="/bip38-intermediate-code" >Generate BIP38 Intermediate Code</Link></h2>
         <Warning
           title="Security Warning"
-          content="We strongly recommend that you run this open-source program on a permanently-offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet."
+          content="We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet."
         />
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
             Wallet Passphrase
             <div>REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: "XXXX-XXXX-XXXX-XXXX-XXXX".</div>
-            {/* <div onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}>Switch to {!isShowRealPassphrase ? 'REAL' : 'PRO'} Series Wallet Passphrase</div> */}
+            {/* <div onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}> Switch to {!isShowRealPassphrase ? 'REAL' : 'PRO'} Series Wallet Passphrase</div> */}
           </div>
           <div className="passphrase__input">
             <div className="passphrase__real">
@@ -608,7 +608,7 @@ function App() {
             </div>
             <div className="commonDescription">
             This confirmation code is 75 characters starting with "cfrm38". <br/> 
-            Use <a href="https://app.balletcrypto.com" >Ballet Crypto App</a> get Confirmation Code(Verify - View Confirmation Code)
+            Use <a href="https://app.balletcrypto.com" >Ballet Crypto App</a> get Confirmation Code (Verify - View Confirmation Code)
             </div>
             <textarea
               className="textarea"
@@ -626,9 +626,9 @@ function App() {
             <div className="middleStyle">or</div>
           </div>
           <div className="column is-5">
-            <div className="commonTitle">Encrypted Private Key</div>
+            <div className="commonTitle">Encrypted Private Key. </div>
             <div className="commonDescription privateKeyDescription">
-              Encrypted Private Key starts with "6P"
+              Encrypted Private Key starts with "6P".
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>
                 {isShowreadQrcode ? (
                   <div className="readQrcodeModal">
