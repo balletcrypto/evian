@@ -626,7 +626,7 @@ function App() {
             <div className="middleStyle">or</div>
           </div>
           <div className="column is-5">
-            <div className="commonTitle">Encrypted Private Key. </div>
+            <div className="commonTitle">Encrypted Private Key</div>
             <div className="commonDescription privateKeyDescription">
               Encrypted Private Key starts with "6P".
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>

@@ -23,7 +23,7 @@ export default (props) => {
           <div className="warningDescription">
             {props.content}
           </div>
-          <div className="network__wraper">
+          {/* <div className="network__wraper">
             
             <div>Network Connection Status:
               <img src={isOnline ? onlineWifiIcon : offlineWifiIcon} />
@@ -33,7 +33,7 @@ export default (props) => {
             >{isOnline ? 'Not Recommended' : 'Recommended'}</span>
             </div>
             {isOnline ? <div> (Suggest to switch to offline mode for security reason.)</div> : ''}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
