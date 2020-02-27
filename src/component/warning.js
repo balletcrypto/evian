@@ -7,7 +7,6 @@ import offlineWifiIcon from '../image/offline_recommended@2x.png'
 export default (props) => {
   const [isOnline, setIsOnline] = useState(false)
   useInterval(() => {
-    console.log(window.navigator.onLine)
     if (window.navigator.onLine) {
       setIsOnline(true)
     } else {
@@ -23,7 +22,7 @@ export default (props) => {
           <div className="warningDescription">
             {props.content}
           </div>
-          {/* <div className="network__wraper">
+          <div className="network__wraper">
             
             <div>Network Connection Status:
               <img src={isOnline ? onlineWifiIcon : offlineWifiIcon} />
@@ -33,7 +32,7 @@ export default (props) => {
             >{isOnline ? 'Not Recommended' : 'Recommended'}</span>
             </div>
             {isOnline ? <div> (Suggest to switch to offline mode for security reason.)</div> : ''}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
