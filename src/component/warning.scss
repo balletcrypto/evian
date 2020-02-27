@@ -21,5 +21,22 @@
   .warningDescription {
     font-size: 16px;
     color: #4e4e4e;
+    // border-bottom: solid 1px #e4e4e4;
+    padding-bottom: 16px;
+  }
+  .network {
+    &__wraper {
+      padding-top: 16px;
+      img {
+        width: 28px;
+        margin: 0 6px;
+      }
+      span {
+        margin-left: 10px;
+        border-radius: 4px;
+        color: #ffffff;
+        padding: 2px 11px;
+      }
+    }
   }
 }

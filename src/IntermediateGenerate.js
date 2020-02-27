@@ -29,13 +29,13 @@ export default () => {
       <h2>BIP38 Intermediate Code</h2>
       <Warning
         title="Warning about wallet security and passphrase"
-        content="We strongly recommend that you run this open-source program on a permanently-offline computer. Never reveal your private key or passphrase to an internet-connected device or to any unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet.Do not lose your wallet passphrase. If you lose your passphrase, you will lose access to all coins stored on the wallet. Please be sure to memorize or otherwise backup the exact passphrase of your wallet."
+        content="We strongly recommend that you run this open-source program on a permanently-offline computer. Never reveal your private key or passphrase to an internet-connected device or to any unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet. Do not lose your wallet passphrase. If you lose your passphrase, you will lose access to all coins stored on the wallet. Please be sure to memorize or otherwise backup the exact passphrase of your wallet."
       />
 
       <div className="intermediate">
       <div className="tip">
 Keep your wallet passphrase secret. Never expose it to an online computer or unauthorized person. It is recommended to use
-complex passwords.Please note that passphrases are case-sensitive. 
+complex passwords. Please note that passphrases are case-sensitive. 
       </div>
         <div className="intermediate__form">
           <div className="columns is-vcentered is-desktop">
