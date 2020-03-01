@@ -49,16 +49,7 @@ function App() {
   const [bitcoinDiamondAddress, setBitcoinDiamondAddress] = useState('')
   const [bnbAddress, setBnbAddress] = useState('')
   const [qtumAddress, setQtumAddress] = useState('')
-  const [usdtERC20Address, setusdtERC20Address] = useState('')
-  const [leoAddress, setLeoAddress] = useState('')
-  const [linkAddress, setLinkAddress] = useState('')
-  const [mkrAddress, setMkrAddress] = useState('')
-  const [usdcAddress, setUsdcAddress] = useState('')
-  const [htAddress, setHtAddress] = useState('')
-  const [tusdAddress, setTusdAddress] = useState('')
-  const [daiAddress, setDaiAddress] = useState('')
   const [etcAddress, setEtcAddress] = useState('')
-  const [batAddress, setBatAddress] = useState('')
   const [dashAddress, setDashAddress] = useState('')
   const [dogeAddress, setDogeAddress] = useState('')
   // Private Key
@@ -73,16 +64,7 @@ function App() {
   const [bitcoinDiamondPrivateKeyWIF, setBitcoinDiamondPrivateKeyWIF] = useState('')
   const [bnbPrivateKey, setBnbPrivateKey] = useState('')
   const [qtumPrivateKey, setQtumPrivateKey] = useState('')
-  const [usdtERC20PrivateKey, setUsdtERC20PrivateKey] = useState('')
-  const [leoPrivateKey, setleoPrivateKey] = useState('')
-  const [linkPrivateKey, setLinkPrivateKey] = useState('')
-  const [mkrPrivateKey, setMkrPrivateKey] = useState('')
-  const [usdcPrivateKey, setUsdcPrivateKey] = useState('')
-  const [htPrivateKey, setHtPrivateKey] = useState('')
-  const [tusdPrivateKey, settusdPrivateKey] = useState('')
-  const [daiPrivateKey, setDaiPrivateKey] = useState('')
   const [etcPrivateKey, setEtcPrivateKey] = useState('')
-  const [batPrivateKey, setBatPrivateKey] = useState('')
   const [dashPrivateKey, setDashPrivateKey] = useState('')
   const [dogePrivateKey, setDogePrivateKey] = useState('')
   //
@@ -152,94 +134,6 @@ function App() {
       WIFKey: 'Private Key',
     },
     {
-      currency: 'USDT_ERC20',
-      title: 'Tether (USDT)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: usdtERC20Address,
-      setAddressInputMethod: setusdtERC20Address,
-      privateKeyInputValue: usdtERC20PrivateKey,
-      setPrivateKeyInputMethod: setUsdtERC20PrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'LEO',
-      title: 'UNUS SED LEO (LEO)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: leoAddress,
-      setAddressInputMethod: setLeoAddress,
-      privateKeyInputValue: leoPrivateKey,
-      setPrivateKeyInputMethod: setleoPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'LINK',
-      title: 'Chainlink (LINK)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: linkAddress,
-      setAddressInputMethod: setLinkAddress,
-      privateKeyInputValue: linkPrivateKey,
-      setPrivateKeyInputMethod: setLinkPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'MKR',
-      title: 'Maker (MKR)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: mkrAddress,
-      setAddressInputMethod: setMkrAddress,
-      privateKeyInputValue: mkrPrivateKey,
-      setPrivateKeyInputMethod: setMkrPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'USDC',
-      title: 'USD Coin (USDC)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: usdcAddress,
-      setAddressInputMethod: setUsdcAddress,
-      privateKeyInputValue: usdcPrivateKey,
-      setPrivateKeyInputMethod: setUsdcPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'HT',
-      title: 'Huobi Token (HT)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: htAddress,
-      setAddressInputMethod: setHtAddress,
-      privateKeyInputValue: htPrivateKey,
-      setPrivateKeyInputMethod: setHtPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'TUSD',
-      title: 'TrueUSD (TUSD)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: tusdAddress,
-      setAddressInputMethod: setTusdAddress,
-      privateKeyInputValue: tusdPrivateKey,
-      setPrivateKeyInputMethod: settusdPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'DAI',
-      title: 'Sai (SAI)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: daiAddress,
-      setAddressInputMethod: setDaiAddress,
-      privateKeyInputValue: daiPrivateKey,
-      setPrivateKeyInputMethod: setDaiPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
       currency: 'ETC',
       title: 'Ethereum Classic (ETC)',
       addressKey: 'Address',
@@ -248,17 +142,6 @@ function App() {
       setAddressInputMethod: setEtcAddress,
       privateKeyInputValue: etcPrivateKey,
       setPrivateKeyInputMethod: setEtcPrivateKey,
-      WIFKey: 'Private Key',
-    },
-    {
-      currency: 'BAT',
-      title: 'Basic Attention Token (BAT)',
-      addressKey: 'Address',
-      getAddressMethod: getEthAddress,
-      addressInputValue: batAddress,
-      setAddressInputMethod: setBatAddress,
-      privateKeyInputValue: batPrivateKey,
-      setPrivateKeyInputMethod: setBatPrivateKey,
       WIFKey: 'Private Key',
     },
     {
@@ -558,10 +441,28 @@ function App() {
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
             Wallet Passphrase
-            <div>REAL Series Wallet Passphrase contains upper case English letters, numbers and hyphens, in total of 24 characters. Format: "XXXX-XXXX-XXXX-XXXX-XXXX".</div>
-            {/* <div onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}> Switch to {!isShowRealPassphrase ? 'REAL' : 'PRO'} Series Wallet Passphrase</div> */}
+            <div className="passphrase__description" >
+              <span>
+                {isShowRealPassphrase ?
+                  'Please scratch off and enter your wallet passphrase' :
+                  'Please enter your self-selected passphrase to generate address'}
+              </span>
+              <span
+                onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}
+                style={{
+                  color: '#4A83BF',
+                  cursor: 'pointer'
+                }}
+              >
+                {isShowRealPassphrase ?
+                  'Switch to standard input box' :
+                  'Switch to Ballet wallet customized input box'
+                }
+              </span>
+            </div>
           </div>
           <div className="passphrase__input">
+            {isShowRealPassphrase ? (
             <div className="passphrase__real">
               {passphraseInputCount.map((item, index) => {
                 return (
@@ -576,21 +477,6 @@ function App() {
                 )
               })}
             </div>
-            {/* {isShowRealPassphrase ? (
-            <div className="passphrase__real">
-              {passphraseInputCount.map((item, index) => {
-                return (
-                  <>
-                    <InputItem
-                      key={index}
-                      inputIndex={index}
-                      value={item}
-                    />
-                    {!((index + 1) % 4) && (index + 1 < 17) ? (<div className="symbolInput">-</div>) : ''}
-                  </>
-                )
-              })}
-            </div>
             ) : (
             <input
               className="input"
@@ -598,7 +484,7 @@ function App() {
               value={balletPassphrase}
               onChange={(e) => setBalletPassphrase(e.target.value)}
             />
-            )} */}
+            )}
           </div>
         </div>
         <div className="columns is-vcentered inputContent is-desktop">
