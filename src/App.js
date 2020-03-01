@@ -436,7 +436,7 @@ function App() {
         <h2>BIP38 Verify & Decrypt <Link to="/bip38-intermediate-code" >Generate BIP38 Intermediate Code</Link></h2>
         <Warning
           title="Security Warning"
-          content="We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the coins on your wallet."
+          content="We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the cryptocurrency on your wallet."
         />
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
