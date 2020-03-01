@@ -6,7 +6,7 @@ import IntermediateGenerate from './IntermediateGenerate'
 import Qrscan from './pages/Qrscan'
 import './index.scss'
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Switch,
     Route,
     useRouteMatch
