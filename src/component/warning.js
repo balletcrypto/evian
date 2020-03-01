@@ -31,7 +31,7 @@ export default (props) => {
               style={{ background: isOnline ? '#e37f0a' : '#28ab00' }}
             >{isOnline ? 'Not Recommended' : 'Recommended'}</span>
             </div>
-            {isOnline ? <div> (Suggest to switch to offline mode for security reason.)</div> : ''}
+            {isOnline ? <div> (Suggest to switch to offline mode for security reason)</div> : ''}
           </div>
         </div>
       </div>
