@@ -23,13 +23,16 @@ export default (props) => {
             {props.content}
           </div>
           <div className="network__wraper">
-            
-            <div>Network Connection Status:
-              <img src={isOnline ? onlineWifiIcon : offlineWifiIcon} />
-              {isOnline ? 'Online' : 'Offline'}
-            <span
-              style={{ background: isOnline ? '#e37f0a' : '#28ab00' }}
-            >{isOnline ? 'Not Recommended' : 'Recommended'}</span>
+            <div>
+              Network Connection Status:
+              <div className="status" >
+                <img src={isOnline ? onlineWifiIcon : offlineWifiIcon} />
+                {isOnline ? 'Online' : 'Offline'}
+              </div>
+              <span
+                className="networkTag"
+                style={{ background: isOnline ? '#e37f0a' : '#28ab00' }}
+              >{isOnline ? 'Not Recommended' : 'Recommended'}</span>
             </div>
             {isOnline ? <div> (Suggest to switch to offline mode for security reason)</div> : ''}
           </div>

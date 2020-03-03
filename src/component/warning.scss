@@ -27,6 +27,9 @@
   .network {
     &__wraper {
       padding-top: 16px;
+      .status {
+        display: inline-block;
+      }
       img {
         width: 28px;
         margin: 0 6px;
@@ -36,6 +39,21 @@
         border-radius: 4px;
         color: #ffffff;
         padding: 2px 11px;
+      }
+      @media(max-width: 767px) {
+        text-align: center;
+        .status {
+          display: block;
+          margin-top: 12px;
+          margin-bottom: 12px;
+        }
+        .networkTag {
+          width: 220px;
+          display: block;
+          text-align: center;
+          margin: 0 auto;
+          padding: 6px 0;
+        }
       }
     }
   }

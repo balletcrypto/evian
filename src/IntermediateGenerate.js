@@ -64,22 +64,26 @@ complex passwords. Please note that passphrases are case-sensitive.
             <div className="column is-2">
               Intermediate Code
             </div>
-            <div className="intermediateCode column is-10">
-              <input
-                disabled={intermediateCode ? false : true}
-                className="input "
-                value={intermediateCode}
-                ref={intermediateCodeRefs}
-                onFocus={() => intermediateCodeRefs.current.select()}
-              ></input>
-              <CopyToClipboard
-                text={intermediateCode}
-                onCopy={() => alert("copy success")}
-              >
-                <span
-                  style={{ display: intermediateCode ? 'flex' : 'none' }}
-                ><CopyIcon />Copy</span>
-              </CopyToClipboard>
+            <div className="column is-10">
+              <div className="intermediateCode" >
+                <textarea
+                  disabled={intermediateCode ? false : true}
+                  rows="3"
+                  className="textarea has-fixed-size"
+                  value={intermediateCode}
+                  ref={intermediateCodeRefs}
+                  onFocus={() => intermediateCodeRefs.current.select()}
+                ></textarea>
+                <CopyToClipboard
+                  text={intermediateCode}
+                  onCopy={() => alert("Copied to clipboard")}
+                >
+                  <div
+                    className="CopyButton"
+                    style={{ display: intermediateCode ? 'flex' : 'none' }}
+                  ><CopyIcon />Copy</div>
+                </CopyToClipboard>
+              </div>
             </div>
           </div>
         </div>
