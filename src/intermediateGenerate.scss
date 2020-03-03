@@ -20,29 +20,56 @@
   position: relative;
   display: flex;
   align-items: center;
-  span {
+  border: 1px solid #dbdbdb;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+  textarea {
+    min-width: 200px;
+    border: none;
+    box-shadow: none;
+    padding-right: 48px;
+    &:active,&:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .CopyButton {
+    position: relative;
     background: #fff;
     align-items: center;
     cursor: pointer;
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
     border-radius: 4px;
     color: #000000;
     padding: 4px 12px;
     font-size: 14px;
-    transform: translate(0, -50%);
     svg {
       width: 18px;
       margin-right: 8px;
     }
     &:before {
+      content: '';
       position: absolute;
-      content: "|";
       top: 50%;
       left: 0px;
+      width: 1px;
+      height: 34px;
+      background: #dbdbdb;
       transform: translate(0, -50%);
+    }
+  }
+  @media(max-width: 767px) {
+    flex-direction: column;
+    textarea {
+      padding-right: .625em;
+    }
+    .CopyButton {
+      width: 100%;
+      border-top: 1px solid #dbdbdb;
+      justify-content: center;
+      padding: 13px 0;
+      &:before {
+        display: none;
+      }
     }
   }
 }

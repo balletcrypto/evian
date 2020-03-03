@@ -349,7 +349,7 @@ function App() {
             />
             <CopyToClipboard
               text={key}
-              onCopy={() => alert("copy success")}
+              onCopy={() => alert("Copied to clipboard")}
             >
               <span><CopyIcon /></span>
             </CopyToClipboard>
