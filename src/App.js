@@ -17,13 +17,15 @@ import {
   getBnbAddress,
   getQtumAddress,
   getDashAddress,
-  getDogeAddress
+  getDogeAddress,
+  getRvnAddress,
 } from './utils/cryptojs-lib/src/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import {
   getLitecoinWif,
   getDashwif,
-  getDogewif
+  getDogewif,
+  getRvnWif,
 } from './utils/cryptojs-lib/src/wif.js'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRcode from 'qrcode.react'
@@ -52,6 +54,7 @@ function App() {
   const [etcAddress, setEtcAddress] = useState('')
   const [dashAddress, setDashAddress] = useState('')
   const [dogeAddress, setDogeAddress] = useState('')
+  const [rvnAddress, setRvnAddress] = useState('')
   // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
   const [bitcoinLegacyPrivateKeyWIF, setBitcoinLegacyPrivateKeyWIF] = useState('')
@@ -67,6 +70,7 @@ function App() {
   const [etcPrivateKey, setEtcPrivateKey] = useState('')
   const [dashPrivateKey, setDashPrivateKey] = useState('')
   const [dogePrivateKey, setDogePrivateKey] = useState('')
+  const [rvnPrivateKey, setRvnPrivateKey] = useState('')
   //
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [isShowAddress, setIsShowAddress] = useState(false)
@@ -231,6 +235,17 @@ function App() {
       privateKeyInputValue: qtumPrivateKey,
       setPrivateKeyInputMethod: setQtumPrivateKey,
       WIFKey: 'Private Key',
+    },
+    {
+      currency: 'rvn',
+      title: 'Raven Coin (RVN)',
+      addressKey: 'Address',
+      getAddressMethod:getRvnAddress,
+      addressInputValue: rvnAddress,
+      setAddressInputMethod: setRvnAddress,
+      privateKeyInputValue: rvnPrivateKey,
+      setPrivateKeyInputMethod: setRvnPrivateKey,
+      WIFKey: 'Private Key',
     }
   ]
 
@@ -283,6 +298,7 @@ function App() {
           switch (item.currency) {
             case 'btc':
             case 'qtum':
+            case 'rvn':
               outputPrivateKey = wif
               break;
             case 'eth':
@@ -323,6 +339,7 @@ function App() {
   }
 
   const outputComponent = (title, key) => {
+    const inputRef = useRef()
     const [isHovered, setIsHovered] = useState(false)
     const MouseOver = (key) => {
       setIsHovered(true)
@@ -346,6 +363,8 @@ function App() {
               className="input"
               type="text"
               readOnly
+              ref={inputRef}
+              onFocus={() => inputRef.current.select()}
             />
             <CopyToClipboard
               text={key}
