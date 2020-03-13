@@ -436,7 +436,7 @@ function App() {
         <h2>BIP38 Verify & Decrypt <Link to="/bip38-intermediate-code" >Generate BIP38 Intermediate Code</Link></h2>
         <Warning
           title="Security Warning"
-          content="We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or unauthorized person. Anyone who knows your passphrase can spend the cryptocurrency on your wallet."
+          content={["We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or give access to any untrusted person. Anyone who knows your passphrase can spend the cryptocurrency on your wallet."]}
         />
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
@@ -493,8 +493,8 @@ function App() {
               BIP38 Confirmation Code
             </div>
             <div className="commonDescription">
-            This confirmation code is 75 characters starting with "cfrm38". <br/> 
-            Use <a href="https://app.balletcrypto.com" >Ballet Crypto App</a> get Confirmation Code (Verify - View Confirmation Code)
+            Confirmation codes are 75 characters long starting with "cfrm38" <br/> 
+            Use the <a href="https://app.balletcrypto.com" >Ballet Crypto App</a> to get Confirmation Code <br /> (tap "Verify" then "View Confirmation Code")
             </div>
             <textarea
               className="textarea"
@@ -514,7 +514,7 @@ function App() {
           <div className="column is-5">
             <div className="commonTitle">Encrypted Private Key</div>
             <div className="commonDescription privateKeyDescription">
-              Encrypted Private Key starts with "6P".
+              Encrypted private key starts with "6P".
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>
                 {isShowreadQrcode ? (
                   <div className="readQrcodeModal">
