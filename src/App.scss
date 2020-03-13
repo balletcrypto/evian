@@ -240,3 +240,12 @@ a {
     color: #4A83BF;
   }
 }
+@media(min-width: 1023px) {
+  .is-5 {
+    width: 47% !important;
+  }
+  
+  .is-2 {
+    width: 6% !important;
+  }
+}

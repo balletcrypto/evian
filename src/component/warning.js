@@ -20,7 +20,11 @@ export default (props) => {
         <div className="warningContent">
           <div className="warningTitle"> {props.title}</div>
           <div className="warningDescription">
-            {props.content}
+            {props.content.map(text => {
+              return (
+                <div>{text}</div>
+              )
+            })}
           </div>
           <div className="network__wraper">
             <div>
