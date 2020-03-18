@@ -6,8 +6,29 @@
     margin-bottom: 30px;
   }
   &__form {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     overflow: hidden;
+    .passphraseWraper {
+      position: relative;
+      svg {
+        position: absolute;
+        top: 50%;
+        right: 25px;
+        transform: translate(0, -50%);
+        cursor: pointer;
+      }
+    }
+    .errorMessage {
+      position: relative;
+      font-size: 14px;
+      line-height: 18px;
+      color: #ff0000;
+      svg {
+        position: absolute;
+        top: 1rem;
+        left: -8px;
+      }
+    }
   }
   &__content {
     @media(max-width: 1024px) {
