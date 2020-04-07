@@ -19,7 +19,9 @@ body {
 input, textarea {
   font-family: 'Roboto Mono', monospace;
 }
-
+input::placeholder {
+  font-family: 'Noto Sans SC';
+}
 .container {
   max-width: 1000px;
 }

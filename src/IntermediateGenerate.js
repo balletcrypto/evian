@@ -7,7 +7,7 @@ import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 import { ReactComponent as ShowIcon } from './image/show.svg'
 import { ReactComponent as HideIcon } from './image/hide.svg'
 import { ReactComponent as Fause } from './image/fause.svg'
-
+import { ReactComponent as NoteIcon } from './image/tag.svg'
 export default () => {
   const intermediateCodeRefs = useRef()
   const [customPassphrase, setCustomPassphrase] = useState('')
@@ -37,6 +37,15 @@ export default () => {
       setGenerateIntermediateCodeLoading(false)
     }
   }
+  const confirmPassphraseOnchange = (e) => {
+    console.log(1111)
+    setconfirmPassphrase(e.target.value)
+    if (customPassphrase === e.target.value) {
+      settwoPassphraseIsSame(true)
+    } else {
+      settwoPassphraseIsSame(false)
+    }
+  }
   return (
     <div className="container intermediate__content" >
       <h2>BIP38 Intermediate Code</h2>
@@ -47,8 +56,9 @@ export default () => {
 
       <div className="intermediate">
       <div className="tip">
-      The passphrase is used to protect the private key so we highly recommend to keep some complexity when creating it. Also, the
-passphrase is case-sensitive.
+      The passphrase is used to protect the private key so we highly recommend to make it reasonably complex, but make sure it’s
+something you can always remember. You will need to either memorize it, or back it up safely. The BIP38 passphrase for a
+wallet can never be changed, nor reset, nor recovered by anyone. Also, please note that the passphrase is case-sensitive.
       </div>
         <div className="intermediate__form">
           <div className="columns is-vcentered is-desktop">
@@ -78,7 +88,7 @@ passphrase is case-sensitive.
                 placeholder="Re-enter the passphrase"
                 type={isShowPassphrase ? 'text' : 'password'}
                 value={confirmPassphrase}
-                onChange={e => setconfirmPassphrase(e.target.value)}
+                onChange={(e) => confirmPassphraseOnchange(e)}
               ></input>
             </div>
           </div>
@@ -123,9 +133,9 @@ passphrase is case-sensitive.
             </div>
           </div>
         </div>
-        <div className="tip">
-        Even if you use the same passphrase, each time you click "Generate Intermediate Code" you will get a different intermediate code
-because the computation includes a random number component.
+        <div className="note">
+          <NoteIcon />
+          Please note: Even if you use the same passphrase, each time you click "Generate Intermediate Code", you will get a different Intermediate Code. This is normal expected behavior, because the computation to generate the Intermediate Code includes a random number component.
         </div>
       </div>
     </div>
