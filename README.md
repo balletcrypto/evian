@@ -1,5 +1,5 @@
 # [balletcrypto.org](https://balletcrypto.org)
-This is [balletcrypto.org](balletcrypto.org) source code.
+This is [balletcrypto.org](https://balletcrypto.org) source code.
 ## Getting started
 ### Prerequisites
 1. Git
