@@ -38,7 +38,6 @@ export default () => {
     }
   }
   const confirmPassphraseOnchange = (e) => {
-    console.log(1111)
     setconfirmPassphrase(e.target.value)
     if (customPassphrase === e.target.value) {
       settwoPassphraseIsSame(true)
