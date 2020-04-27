@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+SC|Roboto+Mono&display=swap');
 $warning: #e5c875;
+$column-gap: .625rem;
 @import "../node_modules/bulma/sass/utilities/_all.sass";
 @import "../node_modules/bulma/sass/base/_all.sass";
 @import "../node_modules/bulma/sass/grid/_all.sass";
@@ -10,6 +11,7 @@ $warning: #e5c875;
 @import "../node_modules/bulma/sass/components/navbar.sass";
 @import "../node_modules/bulma/sass/layout/hero.sass";
 @import "../node_modules/bulma/sass/layout/section.sass";
+
 body {
   font-family: 'Noto Sans SC';
   color: #000000;
@@ -17,7 +19,9 @@ body {
 input, textarea {
   font-family: 'Roboto Mono', monospace;
 }
-
+input::placeholder {
+  font-family: 'Noto Sans SC';
+}
 .container {
   max-width: 1000px;
 }

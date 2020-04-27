@@ -47,9 +47,9 @@ export default () => {
         <div className="line"></div>
         <div className="linkWraper">
           <div className="linktext" >Ballet utilizes the open-source BIP38 standard for generating private keys and addresses. Please refer to the following links for more information about BIP38.</div>
-          <h3>BIP38 official standard</h3>
+          <h3>BIP38 Official Standard</h3>
             <a href="https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki" target="_blank" >https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki</a>
-          <h3>More BIP38 resources</h3>
+          <h3>More BIP38 Resources</h3>
           {resourcesArray.map(link => {
             return (
               <>
