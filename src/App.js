@@ -19,6 +19,7 @@ import {
   getDashAddress,
   getDogeAddress,
   getRvnAddress,
+  getZecAddress
 } from './utils/cryptojs-lib/src/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import {
@@ -55,6 +56,7 @@ function App() {
   const [dashAddress, setDashAddress] = useState('')
   const [dogeAddress, setDogeAddress] = useState('')
   const [rvnAddress, setRvnAddress] = useState('')
+  const [zecAddress, setZecAddress] = useState('')
   // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
   const [bitcoinLegacyPrivateKeyWIF, setBitcoinLegacyPrivateKeyWIF] = useState('')
@@ -71,6 +73,7 @@ function App() {
   const [dashPrivateKey, setDashPrivateKey] = useState('')
   const [dogePrivateKey, setDogePrivateKey] = useState('')
   const [rvnPrivateKey, setRvnPrivateKey] = useState('')
+  const [zecPrivateKey, setzecPrivateKey] = useState('')
   //
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [isShowAddress, setIsShowAddress] = useState(false)
@@ -246,7 +249,18 @@ function App() {
       privateKeyInputValue: rvnPrivateKey,
       setPrivateKeyInputMethod: setRvnPrivateKey,
       WIFKey: 'Private Key',
-    }
+    },
+    {
+      currency: 'zec',
+      title: 'Zcash (ZEC)',
+      addressKey: 'Address',
+      getAddressMethod: getZecAddress,
+      addressInputValue: zecAddress,
+      setAddressInputMethod: setZecAddress,
+      privateKeyInputValue: zecPrivateKey,
+      setPrivateKeyInputMethod: setzecPrivateKey,
+      WIFKey: 'Private Key',
+    },
   ]
 
   const setAddress = (publicKeyHex) => {
@@ -326,6 +340,7 @@ function App() {
               outputPrivateKey = getLitecoinWif(privateKeyHex)
               break;
             default:
+              outputPrivateKey = privateKeyHex
               break;
           }
           item.setPrivateKeyInputMethod(outputPrivateKey)
