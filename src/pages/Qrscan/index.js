@@ -1,16 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import QrReader from 'react-qr-reader'
 import camera from '../../image/camera@2x.png'
 import { ReactComponent as CopyIcon } from '../../image/bit38_decode_copy.svg'
 import { ReactComponent as ClearIcon } from '../../image/clear_all.svg'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import ReactAudioPlayer from 'react-audio-player';
+import promptAudio from '../../promptAudio.mp3'
 import './index.scss'
 export default () => {
   const [isOpenCamera, setIsOpenCamera] = useState(false)
   const [addressArray, setAddressArray] = useState([])
   const [repeatIndex, setRepeatIndex] = useState('')
+  const refAudio = useRef(null)
+  useEffect(() => {
+    if (addressArray.length !== 0) {
+      refAudio.current.audioEl.current.play()
+    }
+  }, [addressArray])
   return (
     <div className="container" style={{ paddingBottom: '50px' }}>
+      <ReactAudioPlayer
+        src={promptAudio}
+        ref={refAudio}
+      />
       <div className="cameraWraper">
         {!isOpenCamera ? (
           <div className="cameraNotShow" >
@@ -26,6 +38,7 @@ export default () => {
               onScan={(data) => {
                 if (data) {
                   if (addressArray.findIndex(item => item === data) > -1) {
+                    
                     let repeatIndex = addressArray.findIndex(item => item === data)
                     setRepeatIndex(repeatIndex)
                     setTimeout(() => {
