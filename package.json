@@ -48,6 +48,7 @@
     "qrcode.react": "^0.9.3",
     "react": "^16.10.2",
     "react-app-polyfill": "^1.0.4",
+    "react-audio-player": "^0.13.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dev-utils": "^9.1.0",
     "react-dom": "^16.10.2",
