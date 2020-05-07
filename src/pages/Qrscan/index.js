@@ -5,7 +5,7 @@ import { ReactComponent as CopyIcon } from '../../image/bit38_decode_copy.svg'
 import { ReactComponent as ClearIcon } from '../../image/clear_all.svg'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ReactAudioPlayer from 'react-audio-player';
-import promptAudio from '../../promptAudio.mp3'
+import promptAudio from '../../scan.wav'
 import './index.scss'
 export default () => {
   const [isOpenCamera, setIsOpenCamera] = useState(false)
@@ -13,13 +13,25 @@ export default () => {
   const [repeatIndex, setRepeatIndex] = useState('')
   const refAudio = useRef(null)
   useEffect(() => {
+    const triggerAutoplay = () => {
+      const audioObj = refAudio.current.audioEl.current
+      audioObj.play()
+      audioObj.pause()
+      audioObj.currentTime = 0
+    }
+    document.body.addEventListener('click', triggerAutoplay, false)
+    document.body.addEventListener('touchstart', triggerAutoplay, false)
+  }, [])
+  useEffect(() => {
     if (addressArray.length !== 0) {
+      refAudio.current.audioEl.current.muted = false
       refAudio.current.audioEl.current.play()
     }
   }, [addressArray])
   return (
     <div className="container" style={{ paddingBottom: '50px' }}>
       <ReactAudioPlayer
+        muted
         src={promptAudio}
         ref={refAudio}
       />
