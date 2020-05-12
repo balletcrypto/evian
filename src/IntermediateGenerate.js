@@ -16,6 +16,7 @@ export default () => {
   const [generateIntermediateCodeLoading, setGenerateIntermediateCodeLoading] = useState(false)
   const [isShowPassphrase, setisShowPassphrase] = useState(false)
   const [twoPassphraseIsSame, settwoPassphraseIsSame] = useState(true)
+  const [generateButtonIsDisable, setGenerateButtonIsDisable] = useState(true)
   const generateIntermediateCode = async () => {
     if (!customPassphrase) {
       alert("please input passphrase")
@@ -41,13 +42,15 @@ export default () => {
     setconfirmPassphrase(e.target.value)
     if (customPassphrase === e.target.value) {
       settwoPassphraseIsSame(true)
+      setGenerateButtonIsDisable(false)
     } else {
       settwoPassphraseIsSame(false)
+      setGenerateButtonIsDisable(true)
     }
   }
   return (
     <div className="container intermediate__content" >
-      <h2>BIP38 Intermediate Code</h2>
+      <h2>Generate BIP38 Intermediate Code</h2>
       <Warning
         title="Warning about wallet security and passphrase"
         content={["We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or give access to any untrusted person. Anyone who knows your passphrase can spend the cryptocurrency on your wallet.", "Do not lose your passphrase. It is your personal responsibility to memorize or properly back up your passphrase. Human memory is imperfect, so we strongly recommend that you keep a physical backup of your passphrase, in a separate location from the physical wallet itself. If you lose your passphrase, you will lose access to all funds stored on the wallet. Our company cannot help you reset the passphrase or recover the funds."]}
@@ -97,6 +100,7 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
               <a
                 className={` button is-warning ${generateIntermediateCodeLoading ? 'is-loading' : ''}`}
                 onClick={generateIntermediateCode}
+                disabled={generateButtonIsDisable}
               >Generate Intermediate Code</a>
             </div>
             <div className="column is-1" ></div>
