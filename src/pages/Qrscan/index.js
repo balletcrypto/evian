@@ -8,9 +8,25 @@ import ReactAudioPlayer from 'react-audio-player';
 import promptAudio from '../../scan.wav'
 import './index.scss'
 export default () => {
+  const splictAddress = (address) => {
+    function chunk (arr, len) {
+      var chunks = [],
+          i = 0,
+          n = arr.length;
+    
+      while (i < n) {
+        chunks.push(arr.slice(i, i += len));
+      }
+      return chunks;
+    }
+    return chunk(address.split(""), 17)
+  }
+
+
   const [isOpenCamera, setIsOpenCamera] = useState(false)
   const [addressArray, setAddressArray] = useState([])
   const [repeatIndex, setRepeatIndex] = useState('')
+  const [cameraScanSuccess, setCameraScanSuccess] = useState(false)
   const refAudio = useRef(null)
   useEffect(() => {
     const triggerAutoplay = () => {
@@ -26,8 +42,21 @@ export default () => {
     if (addressArray.length !== 0) {
       refAudio.current.audioEl.current.muted = false
       refAudio.current.audioEl.current.play()
+      setCameraScanSuccess(true)
+      setTimeout(() => {
+        setCameraScanSuccess(false)
+      }, 600);
     }
   }, [addressArray])
+  const AddressBlock = (address) => {
+    if(!address) return ""
+    const addressArray = splictAddress(address)
+    return addressArray.map((data, index) => {
+      return (
+        <div key={index} >{data.join("")}</div>
+      )
+    })
+  }
   return (
     <div className="container" style={{ paddingBottom: '50px' }}>
       <ReactAudioPlayer
@@ -35,7 +64,7 @@ export default () => {
         src={promptAudio}
         ref={refAudio}
       />
-      <div className="cameraWraper">
+      <div className={`cameraWraper ${cameraScanSuccess ? "greenBoder" : ""}`} >
         {!isOpenCamera ? (
           <div className="cameraNotShow" >
             <img src={camera} alt="camera" />
@@ -50,7 +79,6 @@ export default () => {
               onScan={(data) => {
                 if (data) {
                   if (addressArray.findIndex(item => item === data) > -1) {
-                    
                     let repeatIndex = addressArray.findIndex(item => item === data)
                     setRepeatIndex(repeatIndex)
                     setTimeout(() => {
@@ -58,7 +86,7 @@ export default () => {
                     }, 1000);
                   }
                   if (addressArray.length === 0 || addressArray.indexOf(data) < 0) {
-                    setAddressArray([data].concat(addressArray))
+                    setAddressArray(addressArray.concat(data))
                   }
                 }
               }}
@@ -69,6 +97,16 @@ export default () => {
             />
           </div>
         )}
+        {addressArray.length > 0 && 
+          <div className="lastScan">
+            <div className="lastScan__title">
+              Last scan：
+            </div>
+            <div className="lastScan__content">
+              {AddressBlock(addressArray[addressArray.length - 1])}
+            </div>
+          </div>
+        }
       </div>
       <div
         className="turnOffCameraButton"
