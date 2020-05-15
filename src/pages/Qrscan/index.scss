@@ -110,15 +110,26 @@
       }
     }
     @media(max-width: 768px) {
-      flex-direction: column;
       height: auto;
       padding: 6px;
       .buttonWraper {
-        width: 100%;
+        position: relative;
+        &:before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          height: 20px;
+          width: 1px;
+          background: rgba(213,213,213,1);
+        }
+        flex-direction: row-reverse;
+        width: 60%;
         justify-content: space-between;
-        margin-top: 10px;
         .featureButton {
           margin-left: 0;
+          border: none;
         }
       }
     }
@@ -132,6 +143,9 @@
     align-items: center;
     color: #808080;
     text-align: center;
+  }
+  @media(max-width: 768px) {
+    border-top: none;
   }
 }
 

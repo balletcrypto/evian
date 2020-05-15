@@ -97,7 +97,7 @@ export default () => {
             />
           </div>
         )}
-        {addressArray.length > 0 && 
+        {addressArray.length > 0 && isOpenCamera && 
           <div className="lastScan">
             <div className="lastScan__title">
               Last scan：
@@ -115,7 +115,7 @@ export default () => {
       >Turn off the camera</div>
       <div className="addressList">
         <div className="addressHeader">
-          Address ({addressArray.length})
+        <div>{`Addresses (${addressArray.length})`}</div>
           <div
             className="buttonWraper"
             style={{ visibility: addressArray.length ? 'visible' : 'hidden' }}
