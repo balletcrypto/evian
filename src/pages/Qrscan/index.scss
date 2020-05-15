@@ -128,6 +128,8 @@
         width: 60%;
         justify-content: space-between;
         .featureButton {
+          color: #292929;
+          font-size: 14px;
           margin-left: 0;
           border: none;
         }
@@ -231,6 +233,7 @@
 @media(max-width: 768px) {
   .cameraWraper {
     height: auto;
+    margin-top: 0;
   }
   .cameraShow {
     width: 100% !important;
