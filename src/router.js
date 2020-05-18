@@ -5,6 +5,7 @@ import App from './App';
 import IntermediateGenerate from './IntermediateGenerate'
 import Qrscan from './pages/Qrscan'
 import './index.scss'
+import Footer from './component/footer'
 import {
     HashRouter as Router,
     Switch,
@@ -59,6 +60,7 @@ export default () => {
           })}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
