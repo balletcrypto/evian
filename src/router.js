@@ -14,7 +14,6 @@ import {
   } from "react-router-dom";
 const resourcesArray = [
   "https://www.bitaddress.org",
-  "https://www.infinitumbitcoins.com/bit2factor/",
   "https://github.com/bitcoinjs/bip38",
   "https://github.com/casascius/Bitcoin-Address-Utility",
   "https://github.com/nomorecoin/python-bip38-testing/blob/master/bip38.py",
