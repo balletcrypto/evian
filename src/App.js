@@ -498,21 +498,27 @@ function App() {
     setEpk(epk)
     judgeEpk(epk)
   }
+
   return (
     <div className="evian">
       <div className="content container">
         <h2>BIP38 Verify & Decrypt <Link to="/bip38-intermediate-code" >Generate BIP38 Intermediate Code</Link></h2>
         <Warning
-          title="Security Warning"
-          content={["We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or give access to any untrusted person. Anyone who knows your passphrase can spend the cryptocurrency on your wallet."]}
+          title="SAFETY AND SECURITY NOTICE"
+          content={
+            [
+              "We strongly recommend that you run this open-source program on a computer that is permanently offline.Online computers may be at risk of hacking and/or having malware installed, which may allow others to steal access to the private key information that will be generated and shown by this program.",
+              "Anyone who knows your wallet passphrase and encrypted private key can spend all the cryptocurrency in your wallet."
+            ]
+          }
         />
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
-            Wallet Passphrase
+            Step 1 - Enter your wallet passphrase.
             <div className="passphrase__description" >
               <span>
                 {isShowRealPassphrase ?
-                  'Please scratch off and enter your wallet passphrase' :
+                  'Remove the tamper-evident scratch-off to get the wallet passphrase.' :
                   'Please enter your self-selected passphrase to generate address'}
               </span>
               <span
@@ -555,14 +561,16 @@ function App() {
             )}
           </div>
         </div>
+        <div >
+          Step 2 - Enter your wallet’s BIP38 confirmation code or encrypted private key.
+        </div>
         <div className="columns is-vcentered inputContent is-desktop">
           <div className="column is-5">
             <div className="commonTitle">
-              BIP38 Confirmation Code
+              Verify using BIP38 confirmation code.
             </div>
             <div className="commonDescription">
-            Confirmation codes are 75 characters long starting with "cfrm38" <br/> 
-            Use the <a href="https://app.balletcrypto.com" >Ballet Crypto App</a> to get Confirmation Code <br /> (tap "Verify" then "View Confirmation Code")
+              You can use the Ballet Crypto mobile app to get your wallet’s BIP38 confirmation code.
             </div>
             <textarea
               className="textarea"
@@ -580,9 +588,9 @@ function App() {
             <div className="middleStyle">or</div>
           </div>
           <div className="column is-5">
-            <div className="commonTitle">Encrypted Private Key</div>
+            <div className="commonTitle">Decrypt using BIP38 encrypted private key.</div>
             <div className="commonDescription privateKeyDescription">
-              Encrypted private key starts with "6P".
+              Peel off the top layer sticker and scan the encrypted private key QR code, which is set against a yellow sticker.
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>
                 {isShowreadQrcode ? (
                   <div className="readQrcodeModal">

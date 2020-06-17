@@ -16,7 +16,6 @@ export default (props) => {
   return (
     <div>
       <div className="warning">
-        <WarningImage />
         <div className="warningContent">
           <div className="warningTitle"> {props.title}</div>
           <div className="warningDescription">
@@ -26,7 +25,7 @@ export default (props) => {
               )
             })}
           </div>
-          <div className="network__wraper">
+          {/* <div className="network__wraper">
             <div>
               Network Connection Status:
               <div className="status" >
@@ -39,7 +38,7 @@ export default (props) => {
               >{isOnline ? 'Not Recommended' : 'Recommended'}</span>
             </div>
             {isOnline ? <div> (For best security, we suggest you to use a permanently offline computer to do this step.)</div> : ''}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
