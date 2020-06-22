@@ -12,8 +12,77 @@
     }
   }
 }
+.explain {
+  position: relative;
+  padding: 33px 40px;
+  background-color: #FFFBEF;
+  margin-bottom: 20px;
+  &__content {
+    margin-top: 0;
+  }
+  &__title {
+    font-weight:bold;
+    font-size:20px;
+  }
+  &__secondtitle {
+    position: relative;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 15px;
+    margin: 14px 0;
+    &:before {
+      content: '';
+      background: #E5C875;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+    }
+  }
+  .noteIcon {
+    position: absolute;
+    top: 0;
+    left: 22px;
+  }
+  &__content {
+    display: flex;
+  }
+}
+.divider {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .dotLine {
+    height: 100%;
+    width: 0px;
+    border-left: 2px dotted #ced4da;
+  }
+  span {
+    font-size: 17px;
+    text-align: center;
+    width: 34px;
+    height: 34px;
+    line-height: 29px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    border:1px solid rgba(0,0,0,1);
+    border-radius:50%;
+  }
+}
+
 .passphrase {
   // margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  .switchbutton {
+    align-self: flex-end;
+  }
   &__real {
     display: flex;
     justify-content: space-between;
@@ -42,6 +111,7 @@
 }
 .inputContent {
   // margin-top: 14px;
+  margin-top: 0;
   margin-bottom: 60px;
   .textarea {
     margin-bottom: 20px;
@@ -51,6 +121,13 @@
     color: #000000;
   }
 }
+
+.steptitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
 .middleStyle {
   width: 36px;
   height: 36px;
@@ -122,14 +199,13 @@
   margin-bottom: 10px;
 }
 .commonTitle {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .commonDescription {
-  margin-top: 5px;
-	font-size: 14px;
+	font-size: 16px;
   color: #1d1d1d;
-  margin-bottom: 6px;
+  margin: 6px 0;
 }
 
 .hide {
@@ -201,10 +277,13 @@
 .privateKeyDescription {
   display: flex;
   justify-content: space-between;
-  min-height: 63px;
 }
-
+.buttonwraper {
+  display: flex;
+  align-items: center;
+}
 .readQrcodeButton {
+  margin-left: 18px;
   position: relative;
   cursor: pointer;
 }
@@ -226,7 +305,6 @@
   border-radius: 4px;
   padding: 4px 10px;
   position: relative;
-  bottom: 5px;
   svg {
     width: 18px;
     margin-right: 8px;

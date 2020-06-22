@@ -6,6 +6,7 @@ import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
 import { Link } from "react-router-dom";
 import { validateConfirmation } from './utils/cryptojs-lib/src/confirmation'
 import Warning from './component/warning'
+import { ReactComponent as NoteIcon } from './image/tag.svg'
 import {
   getBitcoinAddress,
   getBitcoinCashAddress,
@@ -498,7 +499,14 @@ function App() {
     setEpk(epk)
     judgeEpk(epk)
   }
-
+  const divider = (color = '#FFFFFF') => {
+    return (
+      <div className="divider" >
+        <div className="dotLine"></div>
+        <span style={{backgroundColor: color}}>or</span>
+      </div>
+    )
+  }
   return (
     <div className="evian">
       <div className="content container">
@@ -512,26 +520,33 @@ function App() {
             ]
           }
         />
+        <div className="explain">
+          <NoteIcon className="noteIcon" />
+          <div className="explain__title" >This page allows you to verify or decrypt your wallet.</div>
+          <div className="explain__content columns">
+            <div className="explain__left column is-5">
+              <div className="explain__secondtitle" >Verification</div>
+              <div>
+                This process allows you to check your wallet’s authenticity by reviewing its public key and the deposit addresses of all its supported currencies. To verify your wallet, you will need its passphrase and its BIP38 confirmation code, which can be obtained through the Ballet Crypto mobile app.
+              </div>
+            </div>
+          <div className="column is-2">{divider('#FFFBEF')}</div>
+            <div className="explain__right column is-5" >
+              <div className="explain__secondtitle" >Decryption</div>
+              <div>
+                This process allows you to reveal your wallet’s decrypted private key using its passphrase and encrypted private key. Decrypting your wallet will reveal its public key and the deposit addresses and decrypted private keys of all its supported currencies. Having the decrypted private keys gives you full access to all funds stored on your wallet.
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
-            Step 1 - Enter your wallet passphrase.
+            <h3 className="steptitle" >Step 1 - Enter your wallet passphrase.</h3>
             <div className="passphrase__description" >
               <span>
                 {isShowRealPassphrase ?
                   'Remove the tamper-evident scratch-off to get the wallet passphrase.' :
-                  'Please enter your self-selected passphrase to generate address'}
-              </span>
-              <span
-                onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}
-                style={{
-                  color: '#4A83BF',
-                  cursor: 'pointer'
-                }}
-              >
-                {isShowRealPassphrase ?
-                  'Switch to standard input box' :
-                  'Switch to Ballet wallet customized input box'
-                }
+                  'Enter your user-created BIP38 passphrase'}
               </span>
             </div>
           </div>
@@ -560,11 +575,22 @@ function App() {
             />
             )}
           </div>
+          <span
+            className="switchbutton"
+            onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}
+            style={{
+              color: '#4A83BF',
+              cursor: 'pointer'
+            }}
+          >
+            {isShowRealPassphrase ?
+              'Switch to standard input box for entering generic BIP38 passphrases.' :
+              'Switch to specific input box for Ballet wallets.'
+            }
+          </span>
         </div>
-        <div >
-          Step 2 - Enter your wallet’s BIP38 confirmation code or encrypted private key.
-        </div>
-        <div className="columns is-vcentered inputContent is-desktop">
+        <h3 className="steptitle" >Step 2 - Enter your wallet’s BIP38 confirmation code or encrypted private key.</h3>
+        <div className="columns inputContent is-desktop">
           <div className="column is-5">
             <div className="commonTitle">
               Verify using BIP38 confirmation code.
@@ -585,12 +611,25 @@ function App() {
             >Verify</a>
           </div>
           <div className="column is-2 is-hidden-mobile">
-            <div className="middleStyle">or</div>
+            {divider()}
           </div>
           <div className="column is-5">
             <div className="commonTitle">Decrypt using BIP38 encrypted private key.</div>
             <div className="commonDescription privateKeyDescription">
               Peel off the top layer sticker and scan the encrypted private key QR code, which is set against a yellow sticker.
+            </div>
+            <textarea
+              className="textarea"
+              placeholder="Enter the Private Key"
+              value={epk}
+              onChange={e => handleEPKChange(e.target.value)}
+            ></textarea>
+            <div className="buttonwraper" >
+              <a
+                className={`button is-warning ${isDecodeLoading ? 'is-loading' : ''}`}
+                onClick={decodePrivateKey}
+                disabled={decryptButtonIsDISabled}
+              >Decrypt</a>
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>
                 {isShowreadQrcode ? (
                   <div className="readQrcodeModal">
@@ -611,19 +650,9 @@ function App() {
                 <span className="readQrcodeText" ><ScanQrcodeIcon />Scan</span>
               </span>
             </div>
-            <textarea
-              className="textarea"
-              placeholder="Enter the Private Key"
-              value={epk}
-              onChange={e => handleEPKChange(e.target.value)}
-            ></textarea>
-            <a
-              className={`button is-warning ${isDecodeLoading ? 'is-loading' : ''}`}
-              onClick={decodePrivateKey}
-              disabled={decryptButtonIsDISabled}
-            >Decrypt</a>
           </div>
         </div>
+        
         <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
           <div className="columns ouput">
             <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >

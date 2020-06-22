@@ -80,3 +80,18 @@ h2 {
   margin-top: 30px;
   margin-bottom: 19px;
 }
+
+.network {
+  &__wraper {
+    color: #E23A43;
+    text-align: center;
+    width: 100%;
+    padding: 20px 0;
+    background:rgba(255,250,247,1);
+  }
+  &__title {
+    margin-bottom: 10px;
+    font-size:24px;
+    font-weight:bold;
+  }
+}
