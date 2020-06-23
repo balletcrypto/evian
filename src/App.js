@@ -97,13 +97,13 @@ function App() {
     {
       currency: 'btc',
       title: 'Bitcoin (BTC)',
-      addressKey: 'Legacy Address (Compressed)',
+      addressKey: 'Legacy Address Compressed',
       getAddressMethod: getBitcoinAddress,
       addressInputValue: bitcoinLegacyAddress,
       setAddressInputMethod: setBitcoinLegacyAddress,
       privateKeyInputValue: bitcoinLegacyPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinLegacyPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'btc',
@@ -114,7 +114,7 @@ function App() {
       setAddressInputMethod: setBitcoinSegwitAddress,
       privateKeyInputValue: bitcoinSegWitPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinSegWitPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'eth',
@@ -136,7 +136,7 @@ function App() {
       setAddressInputMethod: setDashAddress,
       privateKeyInputValue: dashPrivateKey,
       setPrivateKeyInputMethod: setDashPrivateKey,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'doge',
@@ -147,7 +147,7 @@ function App() {
       setAddressInputMethod: setDogeAddress,
       privateKeyInputValue: dogePrivateKey,
       setPrivateKeyInputMethod: setDogePrivateKey,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'ETC',
@@ -180,7 +180,7 @@ function App() {
       setAddressInputMethod: setBitcoinCashAddress,
       privateKeyInputValue: bitcoinCashPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinCashPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'ltc',
@@ -191,7 +191,7 @@ function App() {
       setAddressInputMethod: setLitecoinAddress,
       privateKeyInputValue: litecoinPrivateKeyWIF,
       setPrivateKeyInputMethod: setLitecoinPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'btc',
@@ -202,7 +202,7 @@ function App() {
       setAddressInputMethod: setBitcoinSVAddress,
       privateKeyInputValue: bitcoinSVPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinSVPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'btc',
@@ -213,7 +213,7 @@ function App() {
       setAddressInputMethod: setBitcoinGoldAddress,
       privateKeyInputValue: bitcoinGoldPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinGoldPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'btc',
@@ -224,7 +224,7 @@ function App() {
       setAddressInputMethod: setBitcoinDiamondAddress,
       privateKeyInputValue: bitcoinDiamondPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinDiamondPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'bnb',
@@ -246,7 +246,7 @@ function App() {
       setAddressInputMethod: setQtumAddress,
       privateKeyInputValue: qtumPrivateKey,
       setPrivateKeyInputMethod: setQtumPrivateKey,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'rvn',
@@ -257,7 +257,7 @@ function App() {
       setAddressInputMethod: setRvnAddress,
       privateKeyInputValue: rvnPrivateKey,
       setPrivateKeyInputMethod: setRvnPrivateKey,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'zec',
@@ -268,7 +268,7 @@ function App() {
       setAddressInputMethod: setZecAddress,
       privateKeyInputValue: zecPrivateKey,
       setPrivateKeyInputMethod: setzecPrivateKey,
-      WIFKey: 'Private Key (WIF, Compressed)',
+      WIFKey: 'Private Key WIF Compressed',
     },
   ]
 
@@ -545,7 +545,7 @@ function App() {
                 This process allows you to check your wallet’s authenticity by reviewing its public key and the deposit addresses of all its supported currencies. To verify your wallet, you will need its passphrase and its BIP38 confirmation code, which can be obtained through the Ballet Crypto mobile app.
               </div>
             </div>
-          <div className="column is-2 is-hidden-mobile">{divider('#FFFBEF')}</div>
+          <div className="column is-2 is-hidden-touch">{divider('#FFFBEF')}</div>
             <div className="explain__right column is-5" >
               <div className="explain__secondtitle" >Decryption</div>
               <div>
@@ -625,7 +625,7 @@ function App() {
               disabled={verifyButtonIsDisabled}
             >Verify</a>
           </div>
-          <div className="column is-2 is-hidden-mobile">
+          <div className="column is-2 is-hidden-touch">
             {divider()}
           </div>
           <div className="column is-5">
@@ -693,18 +693,20 @@ function App() {
           <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
             <div className="columns ouput">
               <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >
-                {outputComponent("Wallet public key (Hex)", publicKeyHex)}
+                <div className="currencyTitle">Wallet</div>
+                {outputComponent("Public Key (compressed, 66 characters [0-9A-F]):", publicKeyHex)}
               </div>
               <div className="column is-2"></div>
               <div className={`column is-5 ${isShowprivateKey ? '': 'hide'}`}>
-                {outputComponent("Wallet private key (Hex)", privateKeyHex)}
+                <div className="currencyTitle">Wallet</div>
+                {outputComponent("Private Key Hexadecimal Format (64 characters [0-9A-F]):", privateKeyHex)}
               </div>
             </div>
             {outputAddressWIFList.map((item, index) =>
               <>
                 <div className="columns">
                   <div className="column is-5">
-                    <div className={`currencyTitle ${isShowAddress ? '': 'hide'}`}>{index + 1}.{item.title}</div>
+                    <div className={`currencyTitle ${isShowAddress ? '': 'hide'}`}>{index + 1}. {item.title}</div>
                     <div className="columns">
                       <div className={`column ${isShowAddress ? '': 'hide'}`}>
                         {outputComponent(item.addressKey, item.addressInputValue)}
@@ -712,7 +714,7 @@ function App() {
                     </div>
                   </div>
                   <div className="column is-5">
-                    <div className={`is-hidden-mobile currencyTitle ${isShowAddress ? '': 'hide'}`}>{item.title}</div>
+                    <div className={`is-hidden-mobile currencyTitle ${isShowprivateKey ? '': 'hide'}`}>{item.title}</div>
                     <div className="columns">
                       <div className={`column ${isShowprivateKey ? '': 'hide'}`}>
                         {outputComponent(item.WIFKey, item.privateKeyInputValue)}
