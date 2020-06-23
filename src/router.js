@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as Logo } from './image/logo.svg'
 import { ReactComponent as GitHubIcon } from './image/org_github.svg'
+import { ReactComponent as WarningIcon } from './image/org_warning.svg';
 import App from './App';
 import IntermediateGenerate from './IntermediateGenerate'
 import Qrscan from './pages/Qrscan'
+import useInterval from './utils/useInterval'
 import './index.scss'
 import Footer from './component/footer'
 import {
@@ -21,12 +23,34 @@ const resourcesArray = [
 ]
 export default () => {
   const isQrscanPage = window.location.pathname === '/qrscan'
+  const [isOnline, setIsOnline] = useState(false)
+  useInterval(() => {
+    if (window.navigator.onLine) {
+      setIsOnline(true)
+    } else {
+      setIsOnline(false)
+    }
+  }, 1000)
+
   return (
     <div>
       <div className="header">
         <a href="https://balletcrypto.com" target="_blank" ><Logo/></a>
         <a href="https://github.com/balletcrypto/evian" target="_blank"><GitHubIcon  className="github" /></a>
       </div>
+      {isOnline ? <>
+        <div className="network__wraper">
+          <div className="network__title">
+            <WarningIcon />
+            WARNING
+          </div>
+          <div className="network__description">
+            YOUR DEVICE IS CURRENTLY CONNECTED TO THE INTERNET. <br/>
+            It may not be safe to run this program on your current computer or device.             
+          </div>
+        </div>      
+      </> : ''}
+
       <Router>
         <Switch>
           <Route path="/bip38-intermediate-code">

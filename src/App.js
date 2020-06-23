@@ -3,9 +3,13 @@ import './App.scss';
 import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 import { ReactComponent as QrcodeIcon } from './image/bit38_decode_address.svg'
 import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
+import { ReactComponent as EmptyIcon } from './image/org_empty.svg'
+import { ReactComponent as SuccessIcon } from './image/org_correct.svg'
+import { ReactComponent as FailedIcon } from './image/org_error.svg'
 import { Link } from "react-router-dom";
 import { validateConfirmation } from './utils/cryptojs-lib/src/confirmation'
 import Warning from './component/warning'
+import { ReactComponent as NoteIcon } from './image/tag.svg'
 import {
   getBitcoinAddress,
   getBitcoinCashAddress,
@@ -27,6 +31,7 @@ import {
   getDashwif,
   getDogewif,
   getRvnWif,
+  getZecwif
 } from './utils/cryptojs-lib/src/wif.js'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRcode from 'qrcode.react'
@@ -80,6 +85,10 @@ function App() {
   const [isShowprivateKey, setIsShowprivateKey] = useState(false)
   const [isShowreadQrcode, setIsShowreadQrcode] = useState(false)
   const [isDecodeLoading, setIsDecodeLoading] = useState(false)
+  const [verifyButtonIsDisabled, setVerifyButtonIsdisabled] = useState(true)
+  const [decryptButtonIsDISabled, setdecryptButtonIsDISabled] = useState(true)
+  const [isVerifyConfirmationcodeFailed, setIsVerifyConfirmationcodeFailed] = useState(false)
+  const [isDecryptFailed, setIsDecryptFailed] = useState(false)
   const inputRefs = []
   for (let i = 0; i < 24; i ++) {
     inputRefs.push(useRef());
@@ -88,24 +97,24 @@ function App() {
     {
       currency: 'btc',
       title: 'Bitcoin (BTC)',
-      addressKey: 'SegWit Address',
-      getAddressMethod: getSegwitAddress,
-      addressInputValue: bitcoinSegwitAddress,
-      setAddressInputMethod: setBitcoinSegwitAddress,
-      privateKeyInputValue: bitcoinSegWitPrivateKeyWIF,
-      setPrivateKeyInputMethod: setBitcoinSegWitPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF)',
-    },
-    {
-      currency: 'btc',
-      title: 'Bitcoin (BTC)',
-      addressKey: 'Legacy Address',
+      addressKey: 'Legacy Address Compressed',
       getAddressMethod: getBitcoinAddress,
       addressInputValue: bitcoinLegacyAddress,
       setAddressInputMethod: setBitcoinLegacyAddress,
       privateKeyInputValue: bitcoinLegacyPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinLegacyPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF)',
+      WIFKey: 'Private Key WIF Compressed',
+    },
+    {
+      currency: 'btc',
+      title: 'Bitcoin (BTC)',
+      addressKey: 'SegWit Address Compressed',
+      getAddressMethod: getSegwitAddress,
+      addressInputValue: bitcoinSegwitAddress,
+      setAddressInputMethod: setBitcoinSegwitAddress,
+      privateKeyInputValue: bitcoinSegWitPrivateKeyWIF,
+      setPrivateKeyInputMethod: setBitcoinSegWitPrivateKeyWIF,
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'eth',
@@ -116,7 +125,7 @@ function App() {
       setAddressInputMethod: setethereumAddress,
       privateKeyInputValue: ethereumPrivateKey,
       setPrivateKeyInputMethod: setEthereumPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key (Hex)',
     },
     {
       currency: 'dash',
@@ -127,7 +136,7 @@ function App() {
       setAddressInputMethod: setDashAddress,
       privateKeyInputValue: dashPrivateKey,
       setPrivateKeyInputMethod: setDashPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'doge',
@@ -138,7 +147,7 @@ function App() {
       setAddressInputMethod: setDogeAddress,
       privateKeyInputValue: dogePrivateKey,
       setPrivateKeyInputMethod: setDogePrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'ETC',
@@ -149,7 +158,7 @@ function App() {
       setAddressInputMethod: setEtcAddress,
       privateKeyInputValue: etcPrivateKey,
       setPrivateKeyInputMethod: setEtcPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key (Hex)',
     },
     {
       currency: 'xrp',
@@ -160,7 +169,7 @@ function App() {
       setAddressInputMethod: setXrpAddress,
       privateKeyInputValue: xrpPrivateKey,
       setPrivateKeyInputMethod: setXrpPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key (Hex)',
     },
     {
       currency: 'btc',
@@ -171,7 +180,7 @@ function App() {
       setAddressInputMethod: setBitcoinCashAddress,
       privateKeyInputValue: bitcoinCashPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinCashPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'ltc',
@@ -182,7 +191,7 @@ function App() {
       setAddressInputMethod: setLitecoinAddress,
       privateKeyInputValue: litecoinPrivateKeyWIF,
       setPrivateKeyInputMethod: setLitecoinPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'btc',
@@ -193,7 +202,7 @@ function App() {
       setAddressInputMethod: setBitcoinSVAddress,
       privateKeyInputValue: bitcoinSVPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinSVPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'btc',
@@ -204,7 +213,7 @@ function App() {
       setAddressInputMethod: setBitcoinGoldAddress,
       privateKeyInputValue: bitcoinGoldPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinGoldPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'btc',
@@ -215,7 +224,7 @@ function App() {
       setAddressInputMethod: setBitcoinDiamondAddress,
       privateKeyInputValue: bitcoinDiamondPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinDiamondPrivateKeyWIF,
-      WIFKey: 'Private Key (WIF)',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'bnb',
@@ -226,7 +235,7 @@ function App() {
       setAddressInputMethod: setBnbAddress,
       privateKeyInputValue: bnbPrivateKey,
       setPrivateKeyInputMethod: setBnbPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key (Hex)',
     },
     {
       currency: 'qtum',
@@ -237,7 +246,7 @@ function App() {
       setAddressInputMethod: setQtumAddress,
       privateKeyInputValue: qtumPrivateKey,
       setPrivateKeyInputMethod: setQtumPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'rvn',
@@ -248,7 +257,7 @@ function App() {
       setAddressInputMethod: setRvnAddress,
       privateKeyInputValue: rvnPrivateKey,
       setPrivateKeyInputMethod: setRvnPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key WIF Compressed',
     },
     {
       currency: 'zec',
@@ -259,7 +268,7 @@ function App() {
       setAddressInputMethod: setZecAddress,
       privateKeyInputValue: zecPrivateKey,
       setPrivateKeyInputMethod: setzecPrivateKey,
-      WIFKey: 'Private Key',
+      WIFKey: 'Private Key WIF Compressed',
     },
   ]
 
@@ -276,6 +285,13 @@ function App() {
     return balletPassphrase
   }
   const verifyConfirmationCode = async () => {
+    setIsShowAddress(false)
+    setIsShowprivateKey(false)
+    setIsDecryptFailed(false)
+    setIsVerifyConfirmationcodeFailed(false)
+    if (verifyButtonIsDisabled) {
+      return
+    }
     setVerifyLoading(true)
     try {
       const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, getPassphrase())
@@ -285,15 +301,24 @@ function App() {
         setIsShowAddress(true)
         setVerifyLoading(false)
       } else {
-        alert("The wallet passphrase or BIP38 confirmation code you entered is incorrect. Please double-check and try again.")
+        console.log("confirmation code verify failed")
+        setIsVerifyConfirmationcodeFailed(true)
         setVerifyLoading(false)
       }
     } catch (error) {
-      alert("The wallet passphrase or BIP38 confirmation code you entered is incorrect. Please double-check and try again.")
+      console.log("confirmation code verify failed")
+      setIsVerifyConfirmationcodeFailed(true)
       setVerifyLoading(false)
     }
   }
   const decodePrivateKey = () => {
+    setIsShowAddress(false)
+    setIsShowprivateKey(false)
+    setIsDecryptFailed(false)
+    setIsVerifyConfirmationcodeFailed(false)
+    if (decryptButtonIsDISabled) {
+      return
+    }
     if (!getPassphrase() || !epk) {
       alert("Please input Passphrase or Private Key")
     }
@@ -339,6 +364,12 @@ function App() {
             case 'ltc':
               outputPrivateKey = getLitecoinWif(privateKeyHex)
               break;
+            case 'rvn':
+              outputPrivateKey = getRvnWif(privateKeyHex)
+              break;
+            case 'zec':
+              outputPrivateKey = getZecwif(privateKeyHex)
+              break;
             default:
               outputPrivateKey = privateKeyHex
               break;
@@ -347,7 +378,7 @@ function App() {
          })
       } catch (error) {
         console.log(error)
-        alert('The encrypted private key or wallet passphrase you entered is incorrect. Please double-check and try again.')
+        setIsDecryptFailed(true)
         setIsDecodeLoading(false)
       }
     }, 0);
@@ -464,34 +495,73 @@ function App() {
       />
     )
   }
+  const handleConfirmationCodeChange = (confirmationCode) => {
+    setConfirmationCode(confirmationCode)
+    if (confirmationCode.length === 75 && confirmationCode.startsWith("cfrm38")) {
+      setVerifyButtonIsdisabled(false)
+    } else {
+      setVerifyButtonIsdisabled(true)
+    }
+  }
+  const judgeEpk = (epk) => {
+    if (epk.startsWith("6P") && epk.length === 58) {
+      setdecryptButtonIsDISabled(false)
+    } else {
+      setdecryptButtonIsDISabled(true)
+    }
+  }
+  const handleEPKChange = (epk) => {
+    setEpk(epk)
+    judgeEpk(epk)
+  }
+  const divider = (color = '#FFFFFF') => {
+    return (
+      <div className="divider" >
+        <div className="dotLine"></div>
+        <span style={{backgroundColor: color}}>or</span>
+      </div>
+    )
+  }
   return (
     <div className="evian">
       <div className="content container">
         <h2>BIP38 Verify & Decrypt <Link to="/bip38-intermediate-code" >Generate BIP38 Intermediate Code</Link></h2>
         <Warning
-          title="Security Warning"
-          content={["We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or give access to any untrusted person. Anyone who knows your passphrase can spend the cryptocurrency on your wallet."]}
+          title="SAFETY AND SECURITY NOTICE"
+          content={
+            [
+              "We strongly recommend that you run this open-source program on a computer that is permanently offline.Online computers may be at risk of hacking and/or having malware installed, which may allow others to steal access to the private key information that will be generated and shown by this program.",
+              "Anyone who knows your wallet passphrase and encrypted private key can spend all the cryptocurrency in your wallet."
+            ]
+          }
         />
+        <div className="explain">
+          <NoteIcon className="noteIcon" />
+          <div className="explain__title" >This page allows you to verify or decrypt your wallet.</div>
+          <div className="explain__content columns is-desktop">
+            <div className="explain__left column is-5">
+              <div className="explain__secondtitle" >Verification</div>
+              <div>
+                This process allows you to check your wallet’s authenticity by reviewing its public key and the deposit addresses of all its supported currencies. To verify your wallet, you will need its passphrase and its BIP38 confirmation code, which can be obtained through the Ballet Crypto mobile app.
+              </div>
+            </div>
+          <div className="column is-2 is-hidden-touch">{divider('#FFFBEF')}</div>
+            <div className="explain__right column is-5" >
+              <div className="explain__secondtitle" >Decryption</div>
+              <div>
+                This process allows you to reveal your wallet’s decrypted private key using its passphrase and encrypted private key. Decrypting your wallet will reveal its public key and the deposit addresses and decrypted private keys of all its supported currencies. Having the decrypted private keys gives you full access to all funds stored on your wallet.
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
-            Wallet Passphrase
+            <h3 className="steptitle" >Step 1 - Enter your wallet passphrase.</h3>
             <div className="passphrase__description" >
               <span>
                 {isShowRealPassphrase ?
-                  'Please scratch off and enter your wallet passphrase' :
-                  'Please enter your self-selected passphrase to generate address'}
-              </span>
-              <span
-                onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}
-                style={{
-                  color: '#4A83BF',
-                  cursor: 'pointer'
-                }}
-              >
-                {isShowRealPassphrase ?
-                  'Switch to standard input box' :
-                  'Switch to Ballet wallet customized input box'
-                }
+                  'Remove the tamper-evident scratch-off to get the wallet passphrase.' :
+                  'Enter your user-created BIP38 passphrase'}
               </span>
             </div>
           </div>
@@ -520,35 +590,61 @@ function App() {
             />
             )}
           </div>
+          <span
+            className="switchbutton"
+            onClick={() => setIsShowRealPassphrase(!isShowRealPassphrase)}
+            style={{
+              color: '#4A83BF',
+              cursor: 'pointer'
+            }}
+          >
+            {isShowRealPassphrase ?
+              'Switch to standard input box for entering generic BIP38 passphrases.' :
+              'Switch to specific input box for Ballet wallets.'
+            }
+          </span>
         </div>
-        <div className="columns is-vcentered inputContent is-desktop">
+        <h3 className="steptitle" >Step 2 - Enter your wallet’s BIP38 confirmation code or encrypted private key.</h3>
+        <div className="columns inputContent is-desktop">
           <div className="column is-5">
             <div className="commonTitle">
-              BIP38 Confirmation Code
+              Verify using BIP38 confirmation code.
             </div>
             <div className="commonDescription">
-            Confirmation codes are 75 characters long starting with "cfrm38" <br/> 
-            Use the <a href="https://app.balletcrypto.com" >Ballet Crypto App</a> to get Confirmation Code <br /> (tap "Verify" then "View Confirmation Code")
+              You can use the Ballet Crypto mobile app to get your wallet’s BIP38 confirmation code.
             </div>
             <textarea
               className="textarea"
-              placeholder="Enter the confirmation code"
+              placeholder="Enter your wallet’s BIP38 confirmation code."
               value={confirmationCode}
-              onChange={e => setConfirmationCode(e.target.value)}
+              onChange={(e) => handleConfirmationCodeChange(e.target.value)}
             ></textarea>
             <a
               className={`button is-warning ${verifyLoading ? 'is-loading' : ''}`}
               onClick={verifyConfirmationCode}
-
+              disabled={verifyButtonIsDisabled}
             >Verify</a>
           </div>
-          <div className="column is-2 is-hidden-mobile">
-            <div className="middleStyle">or</div>
+          <div className="column is-2 is-hidden-touch">
+            {divider()}
           </div>
           <div className="column is-5">
-            <div className="commonTitle">Encrypted Private Key</div>
+            <div className="commonTitle">Decrypt using BIP38 encrypted private key.</div>
             <div className="commonDescription privateKeyDescription">
-              Encrypted private key starts with "6P".
+              Peel off the top layer sticker and scan the encrypted private key QR code, which is set against a yellow sticker.
+            </div>
+            <textarea
+              className="textarea"
+              placeholder="Enter or scan your wallet’s BIP38 encrypted private key."
+              value={epk}
+              onChange={e => handleEPKChange(e.target.value)}
+            ></textarea>
+            <div className="buttonwraper" >
+              <a
+                className={`button is-warning ${isDecodeLoading ? 'is-loading' : ''}`}
+                onClick={decodePrivateKey}
+                disabled={decryptButtonIsDISabled}
+              >Decrypt</a>
               <span className="readQrcodeButton" onClick={() => setIsShowreadQrcode(!isShowreadQrcode)}>
                 {isShowreadQrcode ? (
                   <div className="readQrcodeModal">
@@ -559,6 +655,7 @@ function App() {
                         if (data) {
                           setEpk(data)
                           setIsShowreadQrcode(false)
+                          judgeEpk(data)
                         }
                       }}
                       style={{ width: "100%" }}
@@ -568,42 +665,66 @@ function App() {
                 <span className="readQrcodeText" ><ScanQrcodeIcon />Scan</span>
               </span>
             </div>
-            <textarea
-              className="textarea"
-              placeholder="Enter the Private Key"
-              value={epk}
-              onChange={e => setEpk(e.target.value)}
-            ></textarea>
-            <a
-              className={`button is-warning ${isDecodeLoading ? 'is-loading' : ''}`}
-              onClick={decodePrivateKey}
-            >Decrypt</a>
           </div>
         </div>
-        <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
-          <div className="columns ouput">
-            <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >
-              {outputComponent("Public key in Hex", publicKeyHex)}
+        <div className="line"></div>
+        <div className="display__area">
+          {!isDecryptFailed &&
+          !isVerifyConfirmationcodeFailed &&
+          !isShowAddress &&
+          !isShowprivateKey && 
+            <div className="display__empty">
+              <EmptyIcon />
+              <div>The result of verification or decryption will be displayed here. </div>
             </div>
-            <div className="column is-2"></div>
-            <div className={`column is-5 ${isShowprivateKey ? '': 'hide'}`}>
-              {outputComponent("Private key in Hex", privateKeyHex)}
+          }
+          {(isShowAddress || isShowprivateKey) &&
+            <div className="display__success">
+              <SuccessIcon />
+              <div className="display__resulttext">Congratulations! Your wallet has been successfully verified. Its public key, currencies and deposit addresses are listed below.</div>
             </div>
+          }
+          {(isDecryptFailed || isVerifyConfirmationcodeFailed) && 
+            <div className="display__failed">
+              <FailedIcon />
+              <div className="display__resulttext">Invalid wallet passphrase or {isVerifyConfirmationcodeFailed ? 'BIP38 confirmation code' : 'encrypted private key'}.</div>
+            </div>
+          }
+          <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
+            <div className="columns ouput">
+              <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >
+                <div className="currencyTitle">Wallet</div>
+                {outputComponent("Public Key (compressed, 66 characters [0-9A-F]):", publicKeyHex)}
+              </div>
+              <div className="column is-2"></div>
+              <div className={`column is-5 ${isShowprivateKey ? '': 'hide'}`}>
+                <div className="currencyTitle">Wallet</div>
+                {outputComponent("Private Key Hexadecimal Format (64 characters [0-9A-F]):", privateKeyHex)}
+              </div>
+            </div>
+            {outputAddressWIFList.map((item, index) =>
+              <>
+                <div className="columns">
+                  <div className="column is-5">
+                    <div className={`currencyTitle ${isShowAddress ? '': 'hide'}`}>{index + 1}. {item.title}</div>
+                    <div className="columns">
+                      <div className={`column ${isShowAddress ? '': 'hide'}`}>
+                        {outputComponent(item.addressKey, item.addressInputValue)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="column is-5">
+                    <div className={`is-hidden-mobile currencyTitle ${isShowprivateKey ? '': 'hide'}`}>{item.title}</div>
+                    <div className="columns">
+                      <div className={`column ${isShowprivateKey ? '': 'hide'}`}>
+                        {outputComponent(item.WIFKey, item.privateKeyInputValue)}
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+              </>
+            )}
           </div>
-          {outputAddressWIFList.map((item, index) =>
-            <>
-              <div className={`currencyTitle ${isShowAddress ? '': 'hide'}`}>{item.title}</div>
-              <div className="columns">
-                <div className={`column is-5 ${isShowAddress ? '': 'hide'}`}>
-                  {outputComponent(item.addressKey, item.addressInputValue)}
-                </div>
-                <div className="column"></div>
-                <div className={`column is-5 ${isShowprivateKey ? '': 'hide'}`}>
-                  {outputComponent(item.WIFKey, item.privateKeyInputValue)}
-                </div>
-              </div>  
-            </>
-          )}
         </div>
       </div>
     </div>
