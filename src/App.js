@@ -3,6 +3,9 @@ import './App.scss';
 import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 import { ReactComponent as QrcodeIcon } from './image/bit38_decode_address.svg'
 import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
+import { ReactComponent as EmptyIcon } from './image/org_empty.svg'
+import { ReactComponent as SuccessIcon } from './image/org_correct.svg'
+import { ReactComponent as FailedIcon } from './image/org_error.svg'
 import { Link } from "react-router-dom";
 import { validateConfirmation } from './utils/cryptojs-lib/src/confirmation'
 import Warning from './component/warning'
@@ -84,6 +87,8 @@ function App() {
   const [isDecodeLoading, setIsDecodeLoading] = useState(false)
   const [verifyButtonIsDisabled, setVerifyButtonIsdisabled] = useState(true)
   const [decryptButtonIsDISabled, setdecryptButtonIsDISabled] = useState(true)
+  const [isVerifyConfirmationcodeFailed, setIsVerifyConfirmationcodeFailed] = useState(false)
+  const [isDecryptFailed, setIsDecryptFailed] = useState(false)
   const inputRefs = []
   for (let i = 0; i < 24; i ++) {
     inputRefs.push(useRef());
@@ -280,6 +285,10 @@ function App() {
     return balletPassphrase
   }
   const verifyConfirmationCode = async () => {
+    setIsShowAddress(false)
+    setIsShowprivateKey(false)
+    setIsDecryptFailed(false)
+    setIsVerifyConfirmationcodeFailed(false)
     if (verifyButtonIsDisabled) {
       return
     }
@@ -292,15 +301,21 @@ function App() {
         setIsShowAddress(true)
         setVerifyLoading(false)
       } else {
-        alert("The wallet passphrase or BIP38 confirmation code you entered is incorrect. Please double-check and try again.")
+        console.log("confirmation code verify failed")
+        setIsVerifyConfirmationcodeFailed(true)
         setVerifyLoading(false)
       }
     } catch (error) {
-      alert("The wallet passphrase or BIP38 confirmation code you entered is incorrect. Please double-check and try again.")
+      console.log("confirmation code verify failed")
+      setIsVerifyConfirmationcodeFailed(true)
       setVerifyLoading(false)
     }
   }
   const decodePrivateKey = () => {
+    setIsShowAddress(false)
+    setIsShowprivateKey(false)
+    setIsDecryptFailed(false)
+    setIsVerifyConfirmationcodeFailed(false)
     if (decryptButtonIsDISabled) {
       return
     }
@@ -363,7 +378,7 @@ function App() {
          })
       } catch (error) {
         console.log(error)
-        alert('The encrypted private key or wallet passphrase you entered is incorrect. Please double-check and try again.')
+        setIsDecryptFailed(true)
         setIsDecodeLoading(false)
       }
     }, 0);
@@ -523,14 +538,14 @@ function App() {
         <div className="explain">
           <NoteIcon className="noteIcon" />
           <div className="explain__title" >This page allows you to verify or decrypt your wallet.</div>
-          <div className="explain__content columns">
+          <div className="explain__content columns is-desktop">
             <div className="explain__left column is-5">
               <div className="explain__secondtitle" >Verification</div>
               <div>
                 This process allows you to check your wallet’s authenticity by reviewing its public key and the deposit addresses of all its supported currencies. To verify your wallet, you will need its passphrase and its BIP38 confirmation code, which can be obtained through the Ballet Crypto mobile app.
               </div>
             </div>
-          <div className="column is-2">{divider('#FFFBEF')}</div>
+          <div className="column is-2 is-hidden-mobile">{divider('#FFFBEF')}</div>
             <div className="explain__right column is-5" >
               <div className="explain__secondtitle" >Decryption</div>
               <div>
@@ -652,39 +667,62 @@ function App() {
             </div>
           </div>
         </div>
-        
-        <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
-          <div className="columns ouput">
-            <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >
-              {outputComponent("Wallet public key (Hex)", publicKeyHex)}
+        <div className="line"></div>
+        <div className="display__area">
+          {!isDecryptFailed &&
+          !isVerifyConfirmationcodeFailed &&
+          !isShowAddress &&
+          !isShowprivateKey && 
+            <div className="display__empty">
+              <EmptyIcon />
+              <div>The result of verification or decryption will be displayed here. </div>
             </div>
-            <div className="column is-2"></div>
-            <div className={`column is-5 ${isShowprivateKey ? '': 'hide'}`}>
-              {outputComponent("Wallet private key (Hex)", privateKeyHex)}
+          }
+          {(isShowAddress || isShowprivateKey) &&
+            <div className="display__success">
+              <SuccessIcon />
+              <div className="display__resulttext">Congratulations! Your wallet has been successfully verified. Its public key, currencies and deposit addresses are listed below.</div>
             </div>
+          }
+          {(isDecryptFailed || isVerifyConfirmationcodeFailed) && 
+            <div className="display__failed">
+              <FailedIcon />
+              <div className="display__resulttext">Invalid wallet passphrase or {isVerifyConfirmationcodeFailed ? 'BIP38 confirmation code' : 'encrypted private key'}.</div>
+            </div>
+          }
+          <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
+            <div className="columns ouput">
+              <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >
+                {outputComponent("Wallet public key (Hex)", publicKeyHex)}
+              </div>
+              <div className="column is-2"></div>
+              <div className={`column is-5 ${isShowprivateKey ? '': 'hide'}`}>
+                {outputComponent("Wallet private key (Hex)", privateKeyHex)}
+              </div>
+            </div>
+            {outputAddressWIFList.map((item, index) =>
+              <>
+                <div className="columns">
+                  <div className="column is-5">
+                    <div className={`currencyTitle ${isShowAddress ? '': 'hide'}`}>{index + 1}.{item.title}</div>
+                    <div className="columns">
+                      <div className={`column ${isShowAddress ? '': 'hide'}`}>
+                        {outputComponent(item.addressKey, item.addressInputValue)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="column is-5">
+                    <div className={`is-hidden-mobile currencyTitle ${isShowAddress ? '': 'hide'}`}>{item.title}</div>
+                    <div className="columns">
+                      <div className={`column ${isShowprivateKey ? '': 'hide'}`}>
+                        {outputComponent(item.WIFKey, item.privateKeyInputValue)}
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+              </>
+            )}
           </div>
-          {outputAddressWIFList.map((item, index) =>
-            <>
-              <div className="columns">
-                <div className="column is-5">
-                  <div className={`currencyTitle ${isShowAddress ? '': 'hide'}`}>{index + 1}.{item.title}</div>
-                  <div className="columns">
-                    <div className={`column ${isShowAddress ? '': 'hide'}`}>
-                      {outputComponent(item.addressKey, item.addressInputValue)}
-                    </div>
-                  </div>
-                </div>
-                <div className="column is-5">
-                  <div className={`is-hidden-mobile currencyTitle ${isShowAddress ? '': 'hide'}`}>{item.title}</div>
-                  <div className="columns">
-                    <div className={`column ${isShowprivateKey ? '': 'hide'}`}>
-                      {outputComponent(item.WIFKey, item.privateKeyInputValue)}
-                    </div>
-                  </div>
-                </div>
-              </div> 
-            </>
-          )}
         </div>
       </div>
     </div>

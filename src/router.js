@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ReactComponent as Logo } from './image/logo.svg'
 import { ReactComponent as GitHubIcon } from './image/org_github.svg'
+import { ReactComponent as WarningIcon } from './image/org_warning.svg';
 import App from './App';
 import IntermediateGenerate from './IntermediateGenerate'
 import Qrscan from './pages/Qrscan'
@@ -40,6 +41,7 @@ export default () => {
       {isOnline ? <>
         <div className="network__wraper">
           <div className="network__title">
+            <WarningIcon />
             WARNING
           </div>
           <div className="network__description">

@@ -330,3 +330,34 @@ a {
     width: 6% !important;
   }
 }
+.display {
+  &__area {
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
+  &__empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    div {
+      margin-top: 18px;
+      color:rgba(128,128,128,1);
+    }
+  }
+  &__resulttext {
+    max-width: 492px;
+  }
+  &__success, &__failed {
+    margin-bottom: 40px;
+    background: #F8F8F8;
+    max-width: 938px;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      margin-right: 14px;
+    }
+  }
+}
