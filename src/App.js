@@ -108,7 +108,7 @@ function App() {
     {
       currency: 'btc',
       title: 'Bitcoin (BTC)',
-      addressKey: 'SegWit Address (Compressed)',
+      addressKey: 'SegWit Address Compressed',
       getAddressMethod: getSegwitAddress,
       addressInputValue: bitcoinSegwitAddress,
       setAddressInputMethod: setBitcoinSegwitAddress,
@@ -615,7 +615,7 @@ function App() {
             </div>
             <textarea
               className="textarea"
-              placeholder="Enter the confirmation code"
+              placeholder="Enter your wallet’s BIP38 confirmation code."
               value={confirmationCode}
               onChange={(e) => handleConfirmationCodeChange(e.target.value)}
             ></textarea>
@@ -635,7 +635,7 @@ function App() {
             </div>
             <textarea
               className="textarea"
-              placeholder="Enter the Private Key"
+              placeholder="Enter or scan your wallet’s BIP38 encrypted private key."
               value={epk}
               onChange={e => handleEPKChange(e.target.value)}
             ></textarea>
