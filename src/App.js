@@ -628,6 +628,10 @@ function App() {
           <div className="column is-2 is-hidden-touch">
             {divider()}
           </div>
+          <div className="divider is-hidden-tablet">
+            <div className="dotLine-mobile"></div>
+            <span style={{ backgroundColor: '#FFFFFF' }}>or</span>
+          </div>
           <div className="column is-5">
             <div className="commonTitle">Decrypt using BIP38 encrypted private key.</div>
             <div className="commonDescription privateKeyDescription">

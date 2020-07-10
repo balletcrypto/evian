@@ -10,6 +10,11 @@
     a {
       font-size: 18px;
     }
+    @media(max-width: 767px) {
+      font-size: 32px;
+      align-items: center;
+      flex-direction: column;
+    }
   }
 }
 .explain {
@@ -56,6 +61,12 @@
     height: 100%;
     width: 0px;
     border-left: 1px dotted #ced4da;
+  }
+  .dotLine-mobile {
+    margin: 20px 0;
+    width: 100%;
+    height: 0;
+    border-top: 1px dotted #ced4da;
   }
   span {
     font-size: 17px;
@@ -241,7 +252,7 @@
     width: 12px;
     margin: 0 1px;
     border: none;
-    border-bottom: 1px solid #e3c46a;
+    border-bottom: 1px solid #ced4da;
     border-radius: 0;
     padding: 0;
   }
