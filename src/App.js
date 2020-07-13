@@ -89,6 +89,9 @@ function App() {
   const [decryptButtonIsDISabled, setdecryptButtonIsDISabled] = useState(true)
   const [isVerifyConfirmationcodeFailed, setIsVerifyConfirmationcodeFailed] = useState(false)
   const [isDecryptFailed, setIsDecryptFailed] = useState(false)
+
+  const [verifyConfirmationCodeSuccess, setverifyConfirmationCodeSuccess] = useState(false)
+  const [decriptSuccess, setdecriptSuccess] = useState(false)
   const inputRefs = []
   for (let i = 0; i < 24; i ++) {
     inputRefs.push(useRef());
@@ -285,6 +288,8 @@ function App() {
     return balletPassphrase
   }
   const verifyConfirmationCode = async () => {
+    setverifyConfirmationCodeSuccess(false)
+    setdecriptSuccess(false)
     setIsShowAddress(false)
     setIsShowprivateKey(false)
     setIsDecryptFailed(false)
@@ -300,6 +305,7 @@ function App() {
         setAddress(publicKeyHex)
         setIsShowAddress(true)
         setVerifyLoading(false)
+        setverifyConfirmationCodeSuccess(true)
       } else {
         console.log("confirmation code verify failed")
         setIsVerifyConfirmationcodeFailed(true)
@@ -312,6 +318,8 @@ function App() {
     }
   }
   const decodePrivateKey = () => {
+    setverifyConfirmationCodeSuccess(false)
+    setdecriptSuccess(false)
     setIsShowAddress(false)
     setIsShowprivateKey(false)
     setIsDecryptFailed(false)
@@ -332,6 +340,7 @@ function App() {
         setAddress(publicKeyHex)
         setIsShowAddress(true)
         setIsShowprivateKey(true)
+        setdecriptSuccess(true)
         outputAddressWIFList.forEach(item => {
           let outputPrivateKey = ''
           switch (item.currency) {
@@ -685,7 +694,8 @@ function App() {
           {(isShowAddress || isShowprivateKey) &&
             <div className="display__success">
               <SuccessIcon />
-              <div className="display__resulttext">Congratulations! Your wallet has been successfully verified. Its public key, currencies and deposit addresses are listed below.</div>
+              {verifyConfirmationCodeSuccess && <div className="display__resulttext">Congratulations! Your wallet has been successfully verified. Its public key, currencies and deposit addresses are listed below.</div>}
+              {decriptSuccess && <div className="display__resulttext">Congratulations! Your wallet has been successfully decrypted. Its public key, currencies, deposit addresses and private keys are listed below.</div>}
             </div>
           }
           {(isDecryptFailed || isVerifyConfirmationcodeFailed) && 
