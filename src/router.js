@@ -22,7 +22,7 @@ const resourcesArray = [
   "https://github.com/pointbiz/bitaddress.org/blob/master/src/ninja.key.js",
 ]
 export default () => {
-  const isQrscanPage = window.location.pathname === '/qrscan'
+  const isQrscanPage = window.location.hash.indexOf('/qrscan') > -1
   const [isOnline, setIsOnline] = useState(false)
   useInterval(() => {
     if (window.navigator.onLine) {
@@ -38,7 +38,8 @@ export default () => {
         <a href="https://balletcrypto.com" target="_blank" ><Logo/></a>
         <a href="https://github.com/balletcrypto/evian" target="_blank"><GitHubIcon  className="github" /></a>
       </div>
-      {isOnline ? <>
+      {isQrscanPage ? "" : (
+        isOnline ? <>
         <div className="network__wraper">
           <div className="network__title">
             <WarningIcon />
@@ -49,7 +50,9 @@ export default () => {
             It may not be safe to run this program on your current computer or device.             
           </div>
         </div>      
-      </> : ''}
+        </> : ''
+      )}
+
 
       <Router>
         <Switch>
