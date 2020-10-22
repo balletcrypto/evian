@@ -14,7 +14,7 @@ import {
   getBitcoinAddress,
   getBitcoinCashAddress,
   getEthAddress,
-  getLitecoinAddress,
+  getLitecoinAddress, 
   getXRPAddress,
   getSegwitAddress,
   getBTGAddress,
@@ -23,7 +23,9 @@ import {
   getDashAddress,
   getDogeAddress,
   getRvnAddress,
-  getZecAddress
+  getZecAddress,
+  getAtomAddress,
+  getFilAddress,
 } from './utils/cryptojs-lib/src/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import {
@@ -42,6 +44,7 @@ function App() {
   const [confirmationCode, setConfirmationCode] = useState('')
   const [epk, setEpk] = useState('')
   const [publicKeyHex, setPublicKeyHex] = useState('')
+  const [unCompressedPublicKeyHex, setUnCompressedPublicKeyHex] = useState('')
   const [privateKeyHex, setPrivateKeyHex] = useState('')
   const [isShowRealPassphrase, setIsShowRealPassphrase] = useState(true)
   const [passphraseInputCount, setPassphraseInputCount] = useState(Array.from(new Array(20).keys()).map(num => ''))
@@ -62,6 +65,8 @@ function App() {
   const [dogeAddress, setDogeAddress] = useState('')
   const [rvnAddress, setRvnAddress] = useState('')
   const [zecAddress, setZecAddress] = useState('')
+  const [atomAddress, setAtomAddress] = useState('')
+  const [filAddress, setFilAddress] = useState('')
   // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
   const [bitcoinLegacyPrivateKeyWIF, setBitcoinLegacyPrivateKeyWIF] = useState('')
@@ -79,6 +84,8 @@ function App() {
   const [dogePrivateKey, setDogePrivateKey] = useState('')
   const [rvnPrivateKey, setRvnPrivateKey] = useState('')
   const [zecPrivateKey, setzecPrivateKey] = useState('')
+  const [atomPrivateKey, setAtomPrivateKey] = useState('')
+  const [filPrivateKey, setFilPrivateKey] = useState('')
   //
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [isShowAddress, setIsShowAddress] = useState(false)
@@ -273,11 +280,37 @@ function App() {
       setPrivateKeyInputMethod: setzecPrivateKey,
       WIFKey: 'Private Key WIF Compressed',
     },
+    {
+      currency: 'atom',
+      title: 'Cosmos (ATOM)',
+      addressKey: 'Address',
+      getAddressMethod: getAtomAddress,
+      addressInputValue: atomAddress,
+      setAddressInputMethod: setAtomAddress,
+      privateKeyInputValue: atomPrivateKey,
+      setPrivateKeyInputMethod: setAtomPrivateKey,
+      WIFKey: 'Private Key (Hex)',
+    },
+    {
+      currency: 'fil',
+      title: 'Filecoin (FIL)',
+      addressKey: 'Address',
+      getAddressMethod: getFilAddress,
+      addressInputValue: filAddress,
+      setAddressInputMethod: setFilAddress,
+      privateKeyInputValue: filPrivateKey,
+      setPrivateKeyInputMethod: setFilPrivateKey,
+      WIFKey: 'Private Key (Hex)',
+    },
   ]
 
-  const setAddress = (publicKeyHex) => {
+  const setAddress = (publicKeyHex, unCompressedPublicKeyHex) => {
+    let usePublicKeyHex = publicKeyHex
     outputAddressWIFList.forEach(item =>  {
-      const address = item.getAddressMethod(publicKeyHex)
+      if (item.currency === 'fil') {
+        usePublicKeyHex = unCompressedPublicKeyHex
+      }
+      const address = item.getAddressMethod(usePublicKeyHex)
       item.setAddressInputMethod(address)
     })
   }
@@ -299,10 +332,10 @@ function App() {
     }
     setVerifyLoading(true)
     try {
-      const { valid, publicKeyHex } = await validateConfirmation(confirmationCode, getPassphrase())
+      const { valid, publicKeyHex, uncompressedPublicKeyHex } = await validateConfirmation(confirmationCode, getPassphrase())
       if (valid) {
         setPublicKeyHex(publicKeyHex)
-        setAddress(publicKeyHex)
+        setAddress(publicKeyHex, uncompressedPublicKeyHex)
         setIsShowAddress(true)
         setVerifyLoading(false)
         setverifyConfirmationCodeSuccess(true)
@@ -333,11 +366,12 @@ function App() {
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
-        const { publicKeyHex, privateKeyHex, wif } = decryptEpkVcode(epk, getPassphrase())
+        const { publicKeyHex, privateKeyHex, wif, unCompressedPublicKeyHex } = decryptEpkVcode(epk, getPassphrase())
+        setUnCompressedPublicKeyHex(unCompressedPublicKeyHex)
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
         setPrivateKeyHex(privateKeyHex)
-        setAddress(publicKeyHex)
+        setAddress(publicKeyHex, unCompressedPublicKeyHex)
         setIsShowAddress(true)
         setIsShowprivateKey(true)
         setdecriptSuccess(true)
