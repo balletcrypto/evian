@@ -1,0 +1,163 @@
+.claimSpark {
+  padding-top: 50px;
+  &-header {
+    margin-bottom: 30px;
+    h1 {
+      font-size: 32px;
+      color: #000000;
+      font-weight: bold;
+    }
+    .description {
+      font-size: 18px;
+    }
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
+  &-step1,
+  &-step2,
+  &-step3,
+  &-step4 {
+    border-top: solid 2px #707070;
+    padding: 30px 0;
+  }
+  &-step1 {
+    .xrpAddressWraper {
+      position: relative;
+      .readQrcodeButton {
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        right: 13px;
+      }
+      .qrButton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+          margin-right: 7px;
+        }
+        &::before {
+          position: absolute;
+          left: -15px;
+          content: "";
+          border-left: 1px solid #d5d5d5;
+          height: 28px;
+          width: 0;
+        }
+      }
+    }
+    .inputXRPInfo {
+      font-size: 18px;
+      width: 100%;
+      background: #f8f8f8;
+      padding: 25px 39px 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      &-first {
+        margin-bottom: 8px;
+        min-width: 150px;
+      }
+      .balance {
+        font-weight: bold;
+      }
+    }
+    .connect-wraning {
+      margin-top: 30px;
+      width: 100%;
+      background-color: #fffbf4;
+      border: solid 2px #e5c875;
+      text-align: left;
+      padding: 17px 0px 20px 32px;
+      .warnning-title {
+        font-size: 24px;
+
+      }
+    }
+  }
+  &-step2 {
+    .passphrase-title {
+      font-size: 20px;
+    }
+    textarea {
+      margin-top: 10px;
+      min-height: 80px !important;
+    }
+  }
+  &-step3 {
+    .input-title {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .input {
+      color: #000000;
+    }
+  }
+  &-step4 {
+    .submitSuccess {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 6px;
+      background-color: #fdfaf4;
+      opacity: .8;
+      padding-top: 15px;
+      padding-bottom: 23px;
+      svg {
+        margin-right: 12px;
+      }
+    }
+  }
+  .is-2 {
+    width: 16.66667% !important;
+    .button {
+      width: 100%
+    }
+  }
+  .is-5 {
+    width: 41.66667% !important;
+    .button {
+      width: 100%
+    }
+  }
+  .disableContent {
+    position: relative;
+    opacity: .4;
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+  }
+  .epkDescription {
+    display: flex;
+    justify-content: space-between;
+    .readQrcodeText {
+      align-self: flex-start;
+    }
+  }
+  .errorText {
+    position: relative;
+    color: #ef424c;
+    margin-bottom: 12px;
+    padding-left: 32px;
+    max-width: 805px;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 0;
+      background-image: url("./image/org_warning.svg");
+      background-size: 20px 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
