@@ -5,6 +5,7 @@ import { ReactComponent as WarningIcon } from './image/org_warning.svg';
 import App from './App';
 import IntermediateGenerate from './IntermediateGenerate'
 import Qrscan from './pages/Qrscan'
+import ClaimSpark from './ClaimSpark'
 import useInterval from './utils/useInterval'
 import './index.scss'
 import Footer from './component/footer'
@@ -23,6 +24,7 @@ const resourcesArray = [
 ]
 export default () => {
   const isQrscanPage = window.location.hash.indexOf('/qrscan') > -1
+  const isClaimSparkPage = window.location.hash.indexOf('/claim-spark') > -1
   const [isOnline, setIsOnline] = useState(false)
   useInterval(() => {
     if (window.navigator.onLine) {
@@ -38,7 +40,7 @@ export default () => {
         <a href="https://balletcrypto.com" target="_blank" ><Logo/></a>
         <a href="https://github.com/balletcrypto/evian" target="_blank"><GitHubIcon  className="github" /></a>
       </div>
-      {isQrscanPage ? "" : (
+      {isQrscanPage || isClaimSparkPage ? "" : (
         isOnline ? <>
         <div className="network__wraper">
           <div className="network__title">
@@ -62,6 +64,9 @@ export default () => {
           <Route path="/qrscan">
             <Qrscan />
           </Route>
+          <Route path="/claim-spark">
+            <ClaimSpark />
+          </Route>
           <Route path="/">
             <App />
           </Route>
@@ -69,7 +74,7 @@ export default () => {
       </Router>
       <div
         className="container linkerContent"
-        style={{ display: isQrscanPage ? "none" : "block" }}
+        style={{ display: isQrscanPage || isClaimSparkPage ? "none" : "block" }}
       >
         <div className="line"></div>
         <div className="linkWraper">
