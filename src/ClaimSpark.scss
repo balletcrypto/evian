@@ -65,8 +65,10 @@
         font-weight: bold;
       }
     }
+  }
+  &-step2 {
     .connect-wraning {
-      margin-top: 30px;
+      margin-bottom: 30px;
       width: 100%;
       background-color: #fffbf4;
       border: solid 2px #e5c875;
@@ -77,8 +79,6 @@
 
       }
     }
-  }
-  &-step2 {
     .passphrase-title {
       font-size: 20px;
     }

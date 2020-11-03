@@ -6,6 +6,7 @@ import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
 import { ReactComponent as SuccessIcon } from './image/org_correct.svg'
 // import { ReactComponent as FailedIcon } from './image/org_error.svg'
 import QrReader from 'react-qr-reader'
+import WAValidator from 'wallet-address-validator'
 
 import './ClaimSpark.scss'
 
@@ -129,6 +130,7 @@ export default () => {
           setIsShowDecryptXRPAddressNotMatch(true)
           return
         }
+        setIsDisableStep2(true)
         setIsDisableStep3(false)
       } catch (error) {
         setIsShowDecryptError(true)
@@ -144,9 +146,8 @@ export default () => {
     setIsShowNotXRPAddressError(false)
     setIsShowInputXRPBalanceNotEnough(false)
     setIsShowXRPClaimWarnning(false)
-
-    const xrpAddressMatch = inputXRPAddress.match(/^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/g)
-    if (xrpAddressMatch === null) {
+    const addressIsValid = WAValidator.validate(inputXRPAddress, "XRP")
+    if (!addressIsValid) {
       // not a xrp address
       setIsShowNotXRPAddressError(true)
       return 
@@ -172,38 +173,45 @@ export default () => {
       setInputXRPBalance(accountInfo.xrpBalance)
       setIsShowInputXRPInfo(true)
       inputXRPSequence = accountInfo.sequence
-      transactions.forEach(transaction => {
-        const messageKey = transaction.specification.messageKey;
-        const ethAddress = messageKey.replace(/^02[0]{24}/g, "0x");
-        if (ethAddress) {
-          const ethAddressMatch = ethAddress.match(/^0x[a-fA-F0-9]{40}$/g);
-          if (
-            ethAddressMatch !== null &&
-            ethAddressMatch.length === 1
-          ) {
-            console.log("match")
-            xrpAddressIsClamin = true
-            setIsShowXRPClaimWarnning(true)
+      const isMachMessageKey = transactions.find(transaction => {
+        const { messageKey } = transaction.specification;
+        if (messageKey) {
+          const ethAddress = messageKey.replace(/^02[0]{24}/g, "0x");
+          if (ethAddress) {
+            const ethAddressMatch = ethAddress.match(/^0x[a-fA-F0-9]{40}$/g);
+            if (
+              ethAddressMatch !== null &&
+              ethAddressMatch.length === 1
+            ) {
+              console.log(ethAddressMatch)
+              console.log("match")
+              xrpAddressIsClamin = true
+              setIsShowXRPClaimWarnning(true)
+              alert(`This XRP address has been associated with the following Spark token address(${ethAddressMatch[0]}). Please confirm if you want to do it again.`)
+              return true
+            }
           }
         }
+        return false
       })
     } else {
       setIsShowInputXRPInfo(true)
       setIsShowInputXRPBalanceNotEnough(true)
     }
 
-    setIsDisableStep2(false)
-    // if (Number(accountInfo.xrpBalance) > 20.1 && !xrpAddressIsClamin) {
-    //   setIsDisableStep2(false)
-    // }
-
+    if (Number(accountInfo.xrpBalance) > 20.1) {
+      setIsDisableStep2(false)
+    }
   }
   const signTransaction = () => {
+    if (!decryptPrivateKey || !decryptPublicKey) {
+      return
+    }
     const messageKey = `02000000000000000000000000${decryptethAddress.substring(2).toUpperCase()}`
-    var rawTx = {
+    const rawTx = {
       TransactionType: "AccountSet",
       Account : decryptXRPAddress,
-      Fee: "12",
+      Fee: "30",
       Sequence: inputXRPSequence,
       MessageKey: messageKey
     }
@@ -213,6 +221,12 @@ export default () => {
       publicKey: decryptPublicKey.toUpperCase()
     })
     setTransactionTx(signTx.signedTransaction)
+    setPassphraseInputCount(Array.from(new Array(20).keys()).map(num => ''))
+    setBalletPassphrase("")
+    setEpk("")
+    decryptPrivateKey = ""
+    decryptPublicKey = ""
+    setIsDisableStep3(true)
   }
   const submitSignedTransaction = async () => {
     setIsShowSubmitTxSuccess(false)
@@ -220,11 +234,14 @@ export default () => {
       server: "wss://s2.ripple.com/"
     })
     await xrpApi.connect();
-    const result = await xrpApi.submit(transactionTx)
-    console.log(result)
-    if (result.engine_result_code === 0) {
-      setIsShowSubmitTxSuccess(true)
-    } else {
+    try {
+      const result = await xrpApi.submit(transactionTx)
+      if (result.engine_result_code === 0) {
+        setIsShowSubmitTxSuccess(true)
+      } else {
+        alert("Invalid transaction, please double-check and try again.")
+      }
+    } catch (error) {
       alert("Invalid transaction, please double-check and try again.")
     }
   }
@@ -284,9 +301,6 @@ export default () => {
                       {isShowInputXRPBalanceNotEnough ? (
                         <div className="errorText" >The XRP balance is less than 21 XRP so cannot move forward to the next step. Please deposit more to ensure the balance is more than 21 XRP.</div>
                       ) : ""}
-                      {isShowXRPClaimWarnning ? (
-                        <div className="errorText" >This XRP address has been associated with the following Spark token address. Please confirm if you want to do it again.</div>
-                      ) : ""}
                     </div>
                   </div>
                 </div>
@@ -299,22 +313,24 @@ export default () => {
               >Check</a>
             </div>
           </div>
-          {isShowInputXRPInfo ? (
+        </div>
+        <div className="claimSpark-step2">
+        {isShowInputXRPInfo ? (
             <div className="connect-wraning">
               <div className="warnning-title" >WARNING</div>
               <div>YOUR DEVICE IS CURRENTLY CONNECTED TO THE INTERNET.</div>
-              <div>We highly recommend you to process step 2 and step 3 in <b>offline</b> environment.</div>
+              <div>
+                We highly recommend that you do steps 2 and 3 in an <b>offline</b> environment.
+              </div>
             </div>
           ) : ""}
-        </div>
-        <div className="claimSpark-step2">
           <h2>Step 2. Enter passphrase and encrypted private key</h2>
           <div className={`content ${isDisableStep2 ? "disableContent" : ""}`}>
             <div className="passphrase-title" >A. Enter the wallet passphrase.</div>
             <div>
               {isShowRealPassphrase ?
-                  'Remove the tamper-evident scratch-off to get the wallet passphrase.' :
-                  'Enter your user-created BIP38 passphrase'}
+                  'Remove the tamper-evident scratch-off material to reveal the passphrase.' :
+                  'Switch to standard input box for PRO Series wallet'}
             </div>
             <div className="passphrase">
               <div className="passphrase__input">
@@ -407,7 +423,7 @@ export default () => {
         <div className="claimSpark-step3">
           <h2>Step 3.  Verify XRP and Spark token addresses</h2>
           <div className={`content ${isDisableStep3 ? "disableContent" : ""}`}>
-            <div className="input-title" >XRP XRP Address</div>
+            <div className="input-title" >XRP Address</div>
             {isShowDecryptXRPAddressNotMatch ? (
               <div className="errorText" >
                 XRP address does NOT match. Please re-enter XRP address, or enter the corresponding wallet passphrase and encryption private key.
