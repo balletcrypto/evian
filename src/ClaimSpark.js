@@ -187,7 +187,7 @@ export default () => {
               console.log("match")
               xrpAddressIsClamin = true
               setIsShowXRPClaimWarnning(true)
-              alert(`This XRP address has been associated with the following Spark token address(${ethAddressMatch[0]}). Please confirm if you want to do it again.`)
+              alert(`This XRP address has been associated with the following Spark token address: ${ethAddressMatch[0]} Please confirm if you want to do it again.`)
               return true
             }
           }
@@ -242,6 +242,7 @@ export default () => {
         alert("Invalid transaction, please double-check and try again.")
       }
     } catch (error) {
+      console.log(error)
       alert("Invalid transaction, please double-check and try again.")
     }
   }
@@ -457,15 +458,17 @@ export default () => {
           ></textarea>
           <div style={{ marginTop: "14px" }}>Option A: Connect to the Internet and then click “Connect”</div>
           <div>Option B: Copy the above transaction to an online computer and then broadcast with another tool</div>
-          <div className="columns" style={{ marginTop: "20px" }}>
-            <div className="column is-10"></div>
-            <div className="column is-2">
-              <a
-                className="button is-warning"
-                onClick={() => {submitSignedTransaction()}}
-              >Connect</a>
+          {isShowSubmitTxSuccess ? "" : (
+            <div className="columns" style={{ marginTop: "20px" }}>
+              <div className="column is-10"></div>
+              <div className="column is-2">
+                <a
+                  className="button is-warning"
+                  onClick={() => {submitSignedTransaction()}}
+                >Connect</a>
+              </div>
             </div>
-          </div>
+          )}
           {isShowSubmitTxSuccess ? (
             <div className="submitSuccess" >
               <SuccessIcon />
