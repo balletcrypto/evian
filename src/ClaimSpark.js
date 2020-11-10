@@ -251,8 +251,8 @@ export default () => {
     <div className="claimSpark" >
       <div className="container">
         <div className="claimSpark-header" >
-          <h1>Spark Token (Flare Networks) Claim Toolkit</h1>
-          <div className="description" >Please note that this toolkit only works for Ballet cryptocurrency wallets</div>
+          <h1>Spark Token (Flare Networks) Claim Tool</h1>
+          <div className="description" >Please note that this tool only works for Ballet cryptocurrency wallets</div>
         </div>
         <div className="claimSpark-step1">
           <h2>Step 1. Input XRP address</h2>
@@ -300,7 +300,7 @@ export default () => {
                         </div>
                       </div>
                       {isShowInputXRPBalanceNotEnough ? (
-                        <div className="errorText" >The XRP balance is less than 21 XRP so cannot move forward to the next step. Please deposit more to ensure the balance is more than 21 XRP.</div>
+                        <div className="errorText" >The XRP address balance must be at least 21 XRP in order to proceed. Please deposit more to ensure the balance is at least 21 XRP.</div>
                       ) : ""}
                     </div>
                   </div>
