@@ -39,6 +39,7 @@ export default () => {
   const [isShowSubmitTxSuccess, setIsShowSubmitTxSuccess] = useState(false)
   const [isShowReadEPKQrcode, setIsShowReadEPKQrcode] = useState(false)
   const [isShowReadXRPAddressQrcode, setIsShowReadXRPAddressQrcode] = useState(false)
+  const [isLoadingCheckXRP, setIsLoadingCheckXRP] = useState(false);
   const InputItem = ({ inputIndex, value }) => {
     const onKeyDown = (e) => {
       if (e.keyCode === 8) {
@@ -152,6 +153,7 @@ export default () => {
       setIsShowNotXRPAddressError(true)
       return 
     }
+    setIsLoadingCheckXRP(true)
     let xrpAddressIsClamin = false
     const xrpApi = new RippleAPI({
       server: "wss://s2.ripple.com/"
@@ -172,6 +174,7 @@ export default () => {
       console.log("transactions", transactions)
       setInputXRPBalance(accountInfo.xrpBalance)
       setIsShowInputXRPInfo(true)
+      setIsLoadingCheckXRP(false)
       inputXRPSequence = accountInfo.sequence
       const isMachMessageKey = transactions.find(transaction => {
         const { messageKey } = transaction.specification;
@@ -309,7 +312,7 @@ export default () => {
             </div>
             <div className="column is-2">
               <a
-                className="button is-warning"
+                className={`button is-warning ${isLoadingCheckXRP ? "is-loading" : ""}`}
                 onClick={() => checkInputXRPAddress()}
               >Check</a>
             </div>
