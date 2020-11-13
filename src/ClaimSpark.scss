@@ -95,8 +95,9 @@
     .input {
       color: #000000;
     }
-  }
-  &-step4 {
+    .textarea {
+      margin-top: 20px;
+    }
     .submitSuccess {
       display: flex;
       justify-content: center;

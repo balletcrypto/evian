@@ -120,20 +120,23 @@ export default () => {
     setTimeout(() => {
       try {
         const passphrase = getPassphrase()
-        const { publicKeyHex, privateKeyHex, } = decryptEpkVcode(epk, passphrase)
-        decryptPrivateKey = privateKeyHex;
-        decryptPublicKey = publicKeyHex
+        const { publicKeyHex, privateKeyHex } = decryptEpkVcode(epk, passphrase)
         const ethAddress = getEthAddress(publicKeyHex)
         const xrpAddress = getXRPAddress(publicKeyHex)
         setDecryptethAddress(ethAddress)
-        setDecryptXRPAddress(xrpAddress)
+        // setDecryptXRPAddress(xrpAddress)
         if (xrpAddress !== inputXRPAddress) {
-          setIsShowDecryptXRPAddressNotMatch(true)
+          // setIsShowDecryptXRPAddressNotMatch(true)
+          alert("XRP address does NOT match. Please re-enter XRP address, or enter the corresponding wallet passphrase and encryption private key.")
+          setPassphraseInputCount(Array.from(new Array(20).keys()).map(num => ''))
+          setBalletPassphrase("")
+          setEpk("")
           return
         }
+        signTransaction(privateKeyHex, publicKeyHex, xrpAddress, ethAddress)
         setIsDisableStep2(true)
-        setIsDisableStep3(false)
       } catch (error) {
+        console.log(error)
         setIsShowDecryptError(true)
       }
     }, 0);
@@ -162,7 +165,7 @@ export default () => {
     await xrpApi.connect();
     try {
       accountInfo = await xrpApi.getAccountInfo(inputXRPAddress)
-      console.log("accountInfo", accountInfo)
+      // console.log("accountInfo", accountInfo)
     } catch (error) {
       console.log(error)
     }
@@ -171,7 +174,7 @@ export default () => {
         limit: 30,
         types: ["settings"]
       })
-      console.log("transactions", transactions)
+      // console.log("transactions", transactions)
       setInputXRPBalance(accountInfo.xrpBalance)
       setIsShowInputXRPInfo(true)
       setIsLoadingCheckXRP(false)
@@ -186,8 +189,6 @@ export default () => {
               ethAddressMatch !== null &&
               ethAddressMatch.length === 1
             ) {
-              console.log(ethAddressMatch)
-              console.log("match")
               xrpAddressIsClamin = true
               setIsShowXRPClaimWarnning(true)
               alert(`This XRP address has been associated with the following Spark token address: ${ethAddressMatch[0]} Please confirm if you want to do it again.`)
@@ -206,7 +207,7 @@ export default () => {
       setIsDisableStep2(false)
     }
   }
-  const signTransaction = () => {
+  const signTransaction = (decryptPrivateKey, decryptPublicKey, decryptXRPAddress, decryptethAddress) => {
     if (!decryptPrivateKey || !decryptPublicKey) {
       return
     }
@@ -218,6 +219,7 @@ export default () => {
       Sequence: inputXRPSequence,
       MessageKey: messageKey
     }
+    // console.log("rawTx", rawTx)
     const xrpApi = new RippleAPI()
     const signTx = xrpApi.sign(JSON.stringify(rawTx), {
       privateKey: decryptPrivateKey,
@@ -227,8 +229,6 @@ export default () => {
     setPassphraseInputCount(Array.from(new Array(20).keys()).map(num => ''))
     setBalletPassphrase("")
     setEpk("")
-    decryptPrivateKey = ""
-    decryptPublicKey = ""
     setIsDisableStep3(true)
   }
   const submitSignedTransaction = async () => {
@@ -414,73 +414,54 @@ export default () => {
               onChange={(e) => setEpk(e.target.value)}
             ></textarea>
             <div className="columns" style={{ marginTop: "20px" }}>
-              <div className="column is-10"></div>
-              <div className="column is-2">
+              <div className="column is-7"></div>
+              <div className="column is-5">
                 <a
                   className="button is-warning"
                   onClick={() => decryptClick()}
-                >Next</a>
+                >Generate signed TX and clear private key</a>
               </div>
             </div>
           </div>
         </div>
         <div className="claimSpark-step3">
-          <h2>Step 3.  Verify XRP and Spark token addresses</h2>
-          <div className={`content ${isDisableStep3 ? "disableContent" : ""}`}>
-            <div className="input-title" >XRP Address</div>
-            {isShowDecryptXRPAddressNotMatch ? (
-              <div className="errorText" >
-                XRP address does NOT match. Please re-enter XRP address, or enter the corresponding wallet passphrase and encryption private key.
-              </div>
-            ) : ""}
-            <input
-              className="input"
-              disabled
-              value={decryptXRPAddress}
-            />
+          <h2>Step 3. Connect XRP and Spark token addresses (Broadcast and mapping)</h2>
+          <div className="content">
             <div className="input-title" >Spark token Address (same format as ETH address)</div>
             <input
               className="input"
               disabled
               value={decryptethAddress}
             />
-            <div className="columns" style={{ marginTop: "20px" }} >
-              <div className="column is-7"></div>
-              <div className="column is-5" onClick={() => signTransaction()}>
-                <a className="button is-warning " >Generate signed TX and clear private key</a>
+            <div className="input-title" >Signed Transaciton</div>
+            <textarea
+              className="textarea"
+              value={transactionTx}
+              onChange={(e) => setTransactionTx(e.target.value)}
+            ></textarea>
+            <div style={{ marginTop: "14px" }}>Option A: Connect to the Internet and then click “Connect”</div>
+            <div>Option B: Copy the above transaction to an online computer and then broadcast with another tool</div>
+            {isShowSubmitTxSuccess ? "" : (
+              <div className="columns" style={{ marginTop: "20px" }}>
+                <div className="column is-10"></div>
+                <div className="column is-2">
+                  <a
+                    className="button is-warning"
+                    onClick={() => {submitSignedTransaction()}}
+                  >Connect</a>
+                </div>
               </div>
-            </div>
+            )}
+            {isShowSubmitTxSuccess ? (
+              <div className="submitSuccess" >
+                <SuccessIcon />
+                <div>
+                  The claiming process has been successfully completed.<br/>
+                  Spark tokens will be deposited to your Spark token address on or around Dec 12, 2020.
+                </div>
+              </div>
+            ) : ""}
           </div>
-        </div>
-        <div className="claimSpark-step4">
-          <h2>Step 4. Connect XRP and Spark token addresses (Broadcast and mapping)</h2>
-          <textarea
-            className="textarea"
-            value={transactionTx}
-            onChange={(e) => setTransactionTx(e.target.value)}
-          ></textarea>
-          <div style={{ marginTop: "14px" }}>Option A: Connect to the Internet and then click “Connect”</div>
-          <div>Option B: Copy the above transaction to an online computer and then broadcast with another tool</div>
-          {isShowSubmitTxSuccess ? "" : (
-            <div className="columns" style={{ marginTop: "20px" }}>
-              <div className="column is-10"></div>
-              <div className="column is-2">
-                <a
-                  className="button is-warning"
-                  onClick={() => {submitSignedTransaction()}}
-                >Connect</a>
-              </div>
-            </div>
-          )}
-          {isShowSubmitTxSuccess ? (
-            <div className="submitSuccess" >
-              <SuccessIcon />
-              <div>
-                The claiming process has been successfully completed.<br/>
-                Spark tokens will be deposited to your Spark token address on or around Dec 12, 2020.
-              </div>
-            </div>
-          ) : ""}
         </div>
       </div>
     </div>
