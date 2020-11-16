@@ -124,15 +124,16 @@ export default () => {
         const ethAddress = getEthAddress(publicKeyHex)
         const xrpAddress = getXRPAddress(publicKeyHex)
         setDecryptethAddress(ethAddress)
-        // setDecryptXRPAddress(xrpAddress)
         if (xrpAddress !== inputXRPAddress) {
           // setIsShowDecryptXRPAddressNotMatch(true)
           alert("XRP address does NOT match. Please re-enter XRP address, or enter the corresponding wallet passphrase and encryption private key.")
           setPassphraseInputCount(Array.from(new Array(20).keys()).map(num => ''))
           setBalletPassphrase("")
           setEpk("")
+          setDecryptethAddress("")
           return
         }
+        setDecryptXRPAddress(xrpAddress)
         signTransaction(privateKeyHex, publicKeyHex, xrpAddress, ethAddress)
         setIsDisableStep2(true)
       } catch (error) {
@@ -239,6 +240,7 @@ export default () => {
     await xrpApi.connect();
     try {
       const result = await xrpApi.submit(transactionTx)
+      console.log("result", result)
       if (result.engine_result_code === 0) {
         setIsShowSubmitTxSuccess(true)
       } else {
@@ -319,15 +321,6 @@ export default () => {
           </div>
         </div>
         <div className="claimSpark-step2">
-        {isShowInputXRPInfo ? (
-            <div className="connect-wraning">
-              <div className="warnning-title" >WARNING</div>
-              <div>YOUR DEVICE IS CURRENTLY CONNECTED TO THE INTERNET.</div>
-              <div>
-                We highly recommend that you do steps 2 and 3 in an <b>offline</b> environment.
-              </div>
-            </div>
-          ) : ""}
           <h2>Step 2. Enter passphrase and encrypted private key</h2>
           <div className={`content ${isDisableStep2 ? "disableContent" : ""}`}>
             <div className="passphrase-title" >A. Enter the wallet passphrase.</div>
@@ -419,7 +412,7 @@ export default () => {
                 <a
                   className="button is-warning"
                   onClick={() => decryptClick()}
-                >Generate signed TX and clear private key</a>
+                >Generate Signed TX</a>
               </div>
             </div>
           </div>
@@ -439,16 +432,14 @@ export default () => {
               value={transactionTx}
               onChange={(e) => setTransactionTx(e.target.value)}
             ></textarea>
-            <div style={{ marginTop: "14px" }}>Option A: Connect to the Internet and then click “Connect”</div>
-            <div>Option B: Copy the above transaction to an online computer and then broadcast with another tool</div>
             {isShowSubmitTxSuccess ? "" : (
               <div className="columns" style={{ marginTop: "20px" }}>
-                <div className="column is-10"></div>
-                <div className="column is-2">
+                <div className="column is-9"></div>
+                <div className="column is-3">
                   <a
                     className="button is-warning"
                     onClick={() => {submitSignedTransaction()}}
-                  >Connect</a>
+                  >Broadcast and Connect</a>
                 </div>
               </div>
             )}
@@ -456,8 +447,14 @@ export default () => {
               <div className="submitSuccess" >
                 <SuccessIcon />
                 <div>
-                  The claiming process has been successfully completed.<br/>
-                  Spark tokens will be deposited to your Spark token address on or around Dec 12, 2020.
+                Address mapping completed. To double check, please <a
+                  href={`https://bithomp.com/explorer/${decryptXRPAddress}`}
+                  target="_blank"
+                >click here, </a><br/>
+                To visit Spark Token official website, please <a
+                  href="https://flare.xyz/"
+                  target="_blank"
+                >click here.</a>
                 </div>
               </div>
             ) : ""}
