@@ -420,13 +420,13 @@ export default () => {
         <div className="claimSpark-step3">
           <h2>Step 3. Connect XRP and Spark token addresses (Broadcast and mapping)</h2>
           <div className="content">
-            <div className="input-title" >Spark token Address (same format as ETH address)</div>
+            <div className="input-title" >Spark token address (same format as ETH address)</div>
             <input
               className="input"
               disabled
               value={decryptethAddress}
             />
-            <div className="input-title" >Signed Transaciton</div>
+            <div className="input-title" >Signed transaciton</div>
             <textarea
               className="textarea"
               value={transactionTx}
