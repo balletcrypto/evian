@@ -426,7 +426,7 @@ export default () => {
               disabled
               value={decryptethAddress}
             />
-            <div className="input-title" >Signed transaciton</div>
+            <div className="input-title" >Signed transaction</div>
             <textarea
               className="textarea"
               value={transactionTx}
