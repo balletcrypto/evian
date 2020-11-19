@@ -216,7 +216,7 @@ export default () => {
     const rawTx = {
       TransactionType: "AccountSet",
       Account : decryptXRPAddress,
-      Fee: "30",
+      Fee: "100",
       Sequence: inputXRPSequence,
       MessageKey: messageKey
     }
