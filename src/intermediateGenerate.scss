@@ -25,6 +25,13 @@
     overflow: hidden;
     .passphraseWraper {
       position: relative;
+      .lengthWraper {
+        font-size: 12px;
+        position: absolute;
+        bottom: 10px;
+        right: 0;
+        transform: translate(-10px, 100%);
+      }
       svg {
         position: absolute;
         top: 50%;

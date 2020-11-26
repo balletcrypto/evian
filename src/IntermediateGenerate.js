@@ -82,13 +82,14 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
               {isShowPassphrase
                 ? <ShowIcon onClick={() => setisShowPassphrase(!isShowPassphrase)} />
                 : <HideIcon onClick={() => setisShowPassphrase(!isShowPassphrase)} /> }
+              <div className="lengthWraper" >Length: {customPassphrase.length}</div>
             </div>
           </div>
           <div className="columns is-vcentered is-desktop">
             <div className="column is-3">
               Confirm Passphrase
             </div>
-            <div className="column is-9" > 
+            <div className="column is-9 passphraseWraper" >
               <input
                 className={`input ${twoPassphraseIsSame ? "" : "is-danger"}`}
                 placeholder="Re-enter the passphrase"
@@ -96,6 +97,7 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
                 value={confirmPassphrase}
                 onChange={(e) => confirmPassphraseOnchange(e)}
               ></input>
+              <div className="lengthWraper" >Length: {confirmPassphrase.length}</div>
             </div>
           </div>
           <div className="columns is-desktop">
