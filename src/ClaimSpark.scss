@@ -1,3 +1,4 @@
+
 .claimSpark {
   padding-top: 50px;
   &-header {
@@ -31,12 +32,24 @@
         position: absolute;
         top: 50%;
         transform: translate(0, -50%);
-        right: 13px;
+        right: 0;
+        &::after {
+          content: "";
+          position: absolute;
+          left: -15px;
+          top: 50%;
+          transform: translate(0, -50%);
+          background: #FFF;
+          width: calc(100% + 13px);
+          height: 28px;
+          z-index: -1;
+        }
       }
       .qrButton {
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-right: 13px;
         svg {
           margin-right: 7px;
         }
@@ -118,6 +131,12 @@
     .button {
       width: 100%
     }
+    @media(max-width: 767px) {
+      width: auto;
+      .button {
+        width: auto;
+      }
+    }
   }
   .is-3 {
     .button {
@@ -128,6 +147,12 @@
     width: 41.66667% !important;
     .button {
       width: 100%
+    }
+    @media(max-width: 767px) {
+      width: auto;
+      .button {
+        width: auto;
+      }
     }
   }
   .disableContent {
@@ -166,5 +191,9 @@
       width: 20px;
       height: 20px;
     }
+  }
+  @media(max-width: 767px) {
+    padding-left: 30px;
+    padding-right: 30px;
   }
 }
