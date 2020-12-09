@@ -136,6 +136,7 @@ export default () => {
         setDecryptXRPAddress(xrpAddress)
         signTransaction(privateKeyHex, publicKeyHex, xrpAddress, ethAddress)
         setIsDisableStep2(true)
+
       } catch (error) {
         console.log(error)
         setIsShowDecryptError(true)
@@ -206,6 +207,9 @@ export default () => {
 
     if (Number(accountInfo.xrpBalance) > 20.1) {
       setIsDisableStep2(false)
+      setTimeout(() => {
+        inputRefs[0].current.focus()
+      }, 1);
     }
   }
   const signTransaction = (decryptPrivateKey, decryptPublicKey, decryptXRPAddress, decryptethAddress) => {
@@ -321,8 +325,11 @@ export default () => {
           </div>
         </div>
         <div className="claimSpark-step2">
+          {isDisableStep2 ? (
+            <div>Please check the XRP address first.</div>
+          ) : ""}
           <h2>Step 2. Enter passphrase and encrypted private key</h2>
-          <div className={`content ${isDisableStep2 ? "disableContent" : ""}`}>
+          <div className={`${isDisableStep2 ? "disableContent" : ""}`}>
             <div className="passphrase-title" >A. Enter the wallet passphrase.</div>
             <div>
               {isShowRealPassphrase ?
@@ -377,7 +384,11 @@ export default () => {
                 <br/>
                 (printed on a yellow background).
               </div>
-              <span className="readQrcodeButton" onClick={() => setIsShowReadEPKQrcode(!isShowReadEPKQrcode)}>
+              <span
+                className="readQrcodeButton"
+                onClick={() => setIsShowReadEPKQrcode(!isShowReadEPKQrcode)}
+                style={{ alignSelf: "center" }}
+              >
                 {isShowReadEPKQrcode ? (
                   <div className="readQrcodeModal">
                     <QrReader
@@ -419,7 +430,7 @@ export default () => {
         </div>
         <div className="claimSpark-step3">
           <h2>Step 3. Connect XRP and Spark token addresses (Broadcast and mapping)</h2>
-          <div className="content">
+          <div className="">
             <div className="input-title" >Spark token address (same format as ETH address)</div>
             <input
               className="input"

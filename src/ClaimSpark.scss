@@ -44,6 +44,9 @@
           height: 28px;
           z-index: -1;
         }
+        @media(max-width: 767px) {
+          align-self: center;
+        }
       }
       .qrButton {
         display: flex;
@@ -132,9 +135,9 @@
       width: 100%
     }
     @media(max-width: 767px) {
-      width: auto;
+      width: auto !important;
       .button {
-        width: auto;
+        width: 100%;
       }
     }
   }
@@ -149,9 +152,9 @@
       width: 100%
     }
     @media(max-width: 767px) {
-      width: auto;
+      width: auto !important;
       .button {
-        width: auto;
+        width: 100%;
       }
     }
   }
