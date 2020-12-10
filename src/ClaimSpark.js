@@ -358,6 +358,7 @@ export default () => {
                 <input
                   className="input"
                   placeholder="Enter the wallet passphrase"
+                  type="password"
                   value={balletPassphrase}
                   onChange={(e) => setBalletPassphrase(e.target.value)}
                 />
