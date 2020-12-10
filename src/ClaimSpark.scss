@@ -80,6 +80,9 @@
       .balance {
         font-weight: bold;
       }
+      @media(max-width: 767px) {
+        flex-direction: column;
+      }
     }
   }
   &-step2 {

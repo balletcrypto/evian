@@ -203,6 +203,7 @@ export default () => {
     } else {
       setIsShowInputXRPInfo(true)
       setIsShowInputXRPBalanceNotEnough(true)
+      setIsLoadingCheckXRP(false)
     }
 
     if (Number(accountInfo.xrpBalance) > 20.1) {
