@@ -3,9 +3,11 @@ import QrReader from 'react-qr-reader'
 import camera from '../../image/camera@2x.png'
 import { ReactComponent as CopyIcon } from '../../image/bit38_decode_copy.svg'
 import { ReactComponent as ClearIcon } from '../../image/clear_all.svg'
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ReactAudioPlayer from 'react-audio-player';
 import promptAudio from '../../scan.wav'
+import Clipboard from 'react-clipboard.js';
+
 import './index.scss'
 export default () => {
   const splictAddress = (address) => {
@@ -120,12 +122,19 @@ export default () => {
             className="buttonWraper"
             style={{ visibility: addressArray.length ? 'visible' : 'hidden' }}
           >
-            <CopyToClipboard
-              text={addressArray.join('\n')}
+            <Clipboard
+              data-clipboard-text={addressArray.join(' \r ')}
+              className="copyWraper"
+              onSuccess={() => alert("copy success")}
+            >
+              <div className="featureButton" ><CopyIcon /> Copy all</div>
+            </Clipboard>
+            {/* <CopyToClipboard
+              text={addressArray.join(' \r ')}
               onCopy={() => alert("copy success")}
             >
             <div className="featureButton" ><CopyIcon /> Copy all</div>
-            </CopyToClipboard>
+            </CopyToClipboard> */}
             <div className="featureButton" onClick={() => setAddressArray([])}><ClearIcon /> Clear all</div>
           </div>
         </div>

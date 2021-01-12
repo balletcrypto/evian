@@ -92,6 +92,15 @@
     align-items: center;
     .buttonWraper {
       display: flex;
+      .copyWraper {
+        font-size: 16px;
+        background: transparent;
+        border: none;
+        &:focus {
+          border: none;
+          outline: none;
+        }
+      }
       .featureButton {
         cursor: pointer;
         color: #000;
