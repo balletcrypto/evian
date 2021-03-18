@@ -373,3 +373,13 @@ a {
     }
   }
 }
+.proInput {
+  position: relative;
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translate(0, -50%);
+    cursor: pointer;
+  }
+}

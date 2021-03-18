@@ -4,6 +4,8 @@ import { getEthAddress, getXRPAddress } from './utils/cryptojs-lib/src/CryptoAdd
 import { RippleAPI } from 'ripple-lib'
 import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
 import { ReactComponent as SuccessIcon } from './image/org_correct.svg'
+import { ReactComponent as ShowIcon } from './image/show.svg'
+import { ReactComponent as HideIcon } from './image/hide.svg'
 // import { ReactComponent as FailedIcon } from './image/org_error.svg'
 import QrReader from 'react-qr-reader'
 import WAValidator from 'wallet-address-validator'
@@ -40,6 +42,8 @@ export default () => {
   const [isShowReadEPKQrcode, setIsShowReadEPKQrcode] = useState(false)
   const [isShowReadXRPAddressQrcode, setIsShowReadXRPAddressQrcode] = useState(false)
   const [isLoadingCheckXRP, setIsLoadingCheckXRP] = useState(false);
+  const [isShowPassphrase, setisShowPassphrase] = useState(false)
+  
   const InputItem = ({ inputIndex, value }) => {
     const onKeyDown = (e) => {
       if (e.keyCode === 8) {
@@ -355,13 +359,18 @@ export default () => {
                   })}
                 </div>
                 ) : (
-                <input
-                  className="input"
-                  placeholder="Enter the wallet passphrase"
-                  type="password"
-                  value={balletPassphrase}
-                  onChange={(e) => setBalletPassphrase(e.target.value)}
-                />
+                  <div className="proInput">
+                    <input
+                      className="input"
+                      placeholder="Enter the wallet passphrase"
+                      type={isShowPassphrase ? 'text' : 'password'}
+                      value={balletPassphrase}
+                      onChange={(e) => setBalletPassphrase(e.target.value)}
+                    />
+                    {isShowPassphrase
+                      ? <ShowIcon onClick={() => setisShowPassphrase(!isShowPassphrase)} />
+                      : <HideIcon onClick={() => setisShowPassphrase(!isShowPassphrase)} /> }
+                  </div>
                 )}
               </div>
               <span

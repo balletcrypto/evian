@@ -38,6 +38,8 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'
+import { ReactComponent as ShowIcon } from './image/show.svg'
+import { ReactComponent as HideIcon } from './image/hide.svg'
 
 function App() {
   const [balletPassphrase, setBalletPassphrase] = useState('')
@@ -99,6 +101,8 @@ function App() {
 
   const [verifyConfirmationCodeSuccess, setverifyConfirmationCodeSuccess] = useState(false)
   const [decriptSuccess, setdecriptSuccess] = useState(false)
+  const [isShowPassphrase, setisShowPassphrase] = useState(false)
+
   const inputRefs = []
   for (let i = 0; i < 24; i ++) {
     inputRefs.push(useRef());
@@ -625,12 +629,18 @@ function App() {
               })}
             </div>
             ) : (
-            <input
-              className="input"
-              placeholder="Enter the wallet passphrase"
-              value={balletPassphrase}
-              onChange={(e) => setBalletPassphrase(e.target.value)}
-            />
+              <div className="proInput">
+                <input
+                  className="input"
+                  placeholder="Enter the wallet passphrase"
+                  type={isShowPassphrase ? 'text' : 'password'}
+                  value={balletPassphrase}
+                  onChange={(e) => setBalletPassphrase(e.target.value)}
+                />
+                {isShowPassphrase
+                  ? <ShowIcon onClick={() => setisShowPassphrase(!isShowPassphrase)} />
+                  : <HideIcon onClick={() => setisShowPassphrase(!isShowPassphrase)} /> }
+              </div>
             )}
           </div>
           <span
