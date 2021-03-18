@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Warning from './component/warning'
 import './intermediateGenerate.scss'
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-clipboard.js';
 import { genIntermediate } from './utils/cryptojs-lib/src/Intermediate'
 import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
 import { ReactComponent as ShowIcon } from './image/show.svg'
@@ -130,8 +130,9 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
                   onFocus={() => intermediateCodeRefs.current.select()}
                 ></textarea>
                 <CopyToClipboard
-                  text={intermediateCode}
-                  onCopy={() => alert("Copied to clipboard")}
+                  component="span"
+                  data-clipboard-text={intermediateCode}
+                  onSuccess={() => alert("Copied to clipboard")}
                 >
                   <div
                     className="CopyButton"

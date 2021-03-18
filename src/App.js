@@ -35,7 +35,7 @@ import {
   getRvnWif,
   getZecwif
 } from './utils/cryptojs-lib/src/wif.js'
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-clipboard.js';
 import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'
 import { ReactComponent as ShowIcon } from './image/show.svg'
@@ -460,10 +460,11 @@ function App() {
               onFocus={() => inputRef.current.select()}
             />
             <CopyToClipboard
-              text={key}
-              onCopy={() => alert("Copied to clipboard")}
+              component="span"
+              data-clipboard-text={key}
+              onSuccess={() => alert("Copied to clipboard")}
             >
-              <span><CopyIcon /></span>
+              <CopyIcon />
             </CopyToClipboard>
             <span
               onMouseEnter={(e) => MouseOver(key)}
