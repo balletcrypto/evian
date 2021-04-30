@@ -8,9 +8,10 @@ This is [balletcrypto.org](https://balletcrypto.org) source code.
 1. A clone of the `evian` repo.
 
 ### Installation
-1. `yarn` to install the repository's npm dependencies (or `npm install`, if not using Yarn).
+1. `git clone git@github.com:balletcrypto/evian.git`
 2. `git submodule init`
 3. `git submodule update`
+4. `yarn` to install the repository's npm dependencies (or `npm install`, if not using Yarn).
 
 ### Running locally
 
