@@ -9,6 +9,8 @@ This is [balletcrypto.org](https://balletcrypto.org) source code.
 
 ### Installation
 1. `yarn` to install the repository's npm dependencies (or `npm install`, if not using Yarn).
+2. `git submodule init`
+3. `git submodule update`
 
 ### Running locally
 
