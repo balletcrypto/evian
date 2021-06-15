@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import { getEthAddress, getXRPAddress } from './utils/cryptojs-lib/src/CryptoAddress'
 import { RippleAPI } from 'ripple-lib'
@@ -43,7 +43,9 @@ export default () => {
   const [isShowReadXRPAddressQrcode, setIsShowReadXRPAddressQrcode] = useState(false)
   const [isLoadingCheckXRP, setIsLoadingCheckXRP] = useState(false);
   const [isShowPassphrase, setisShowPassphrase] = useState(false)
-  
+  useEffect(() => {
+    alert("The deadline to claim Spark (FLR) tokens expired on June 11, 2021. Since the deadline has past, this tool no longer functions. The open-source code will remain accessible on this page.")
+  }, [])
   const InputItem = ({ inputIndex, value }) => {
     const onKeyDown = (e) => {
       if (e.keyCode === 8) {
@@ -268,7 +270,7 @@ export default () => {
           <h1>Spark Token (Flare Networks) Claim Tool</h1>
           <div className="description" >Please note that this tool only works for Ballet cryptocurrency wallets</div>
         </div>
-        <div className="claimSpark-step1">
+        <div className="claimSpark-step1 disableContent">
           <h2>Step 1. Input XRP address</h2>
           {isShowNotXRPAddressError ? (
             <div className="errorText" >
@@ -329,7 +331,7 @@ export default () => {
             </div>
           </div>
         </div>
-        <div className="claimSpark-step2">
+        <div className="claimSpark-step2 disableContent">
           {isDisableStep2 ? (
             <div>Please check the XRP address first.</div>
           ) : ""}
@@ -439,7 +441,7 @@ export default () => {
             </div>
           </div>
         </div>
-        <div className="claimSpark-step3">
+        <div className="claimSpark-step3 disableContent">
           <h2>Step 3. Connect XRP and Spark token addresses (Broadcast and mapping)</h2>
           <div className="">
             <div className="input-title" >Spark token address (same format as ETH address)</div>
