@@ -8,6 +8,9 @@ import { ReactComponent as ShowIcon } from './image/show.svg'
 import { ReactComponent as HideIcon } from './image/hide.svg'
 import { ReactComponent as Fause } from './image/fause.svg'
 import { ReactComponent as NoteIcon } from './image/tag.svg'
+import { ReactComponent as WarningIcon } from './image/org_warning.svg';
+import QRcode from 'qrcode.react'
+
 export default () => {
   const intermediateCodeRefs = useRef()
   const [customPassphrase, setCustomPassphrase] = useState('')
@@ -17,6 +20,7 @@ export default () => {
   const [isShowPassphrase, setisShowPassphrase] = useState(false)
   const [twoPassphraseIsSame, settwoPassphraseIsSame] = useState(true)
   const [generateButtonIsDisable, setGenerateButtonIsDisable] = useState(true)
+  const [isHovered, setIsHovered] = useState(false);
   const generateIntermediateCode = async () => {
     if (!customPassphrase) {
       alert("please input passphrase")
@@ -121,6 +125,21 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
             </div>
             <div className="column is-9">
               <div className="intermediateCode" >
+                {isHovered ? (
+                  <div className="qrcodeWraper" >
+                     <div className="qrcodeTop">
+                       <div className="warning-text">
+                         <WarningIcon /> WARNING
+                       </div>
+                       Scanner may keep history
+                     </div>
+                     <QRcode
+                       value={intermediateCode}
+                       size="90"
+                       level="H"
+                      />
+                  </div>
+                ) : ""}
                 <textarea
                   disabled={intermediateCode ? false : true}
                   rows="3"
@@ -128,6 +147,8 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
                   value={intermediateCode}
                   ref={intermediateCodeRefs}
                   onFocus={() => intermediateCodeRefs.current.select()}
+                  onMouseEnter={() => intermediateCode && setIsHovered(true)}
+                  onMouseLeave={() => intermediateCode && setIsHovered(false)}
                 ></textarea>
                 <CopyToClipboard
                   component="span"
