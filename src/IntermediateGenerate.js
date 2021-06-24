@@ -8,7 +8,8 @@ import { ReactComponent as ShowIcon } from './image/show.svg'
 import { ReactComponent as HideIcon } from './image/hide.svg'
 import { ReactComponent as Fause } from './image/fause.svg'
 import { ReactComponent as NoteIcon } from './image/tag.svg'
-import { ReactComponent as WarningIcon } from './image/org_warning.svg';
+import { ReactComponent as Qrcode } from './image/qrcode.svg'
+
 import QRcode from 'qrcode.react'
 
 export default () => {
@@ -125,21 +126,6 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
             </div>
             <div className="column is-9">
               <div className="intermediateCode" >
-                {isHovered ? (
-                  <div className="qrcodeWraper" >
-                     <div className="qrcodeTop">
-                       <div className="warning-text">
-                         <WarningIcon /> WARNING
-                       </div>
-                       Scanner may keep history
-                     </div>
-                     <QRcode
-                       value={intermediateCode}
-                       size="90"
-                       level="H"
-                      />
-                  </div>
-                ) : ""}
                 <textarea
                   disabled={intermediateCode ? false : true}
                   rows="3"
@@ -147,19 +133,39 @@ wallet can never be changed, nor reset, nor recovered by anyone. Also, please no
                   value={intermediateCode}
                   ref={intermediateCodeRefs}
                   onFocus={() => intermediateCodeRefs.current.select()}
-                  onMouseEnter={() => intermediateCode && setIsHovered(true)}
-                  onMouseLeave={() => intermediateCode && setIsHovered(false)}
                 ></textarea>
-                <CopyToClipboard
-                  component="span"
-                  data-clipboard-text={intermediateCode}
-                  onSuccess={() => alert("Copied to clipboard")}
+                <div
+                  className="textareaRight"
+                  style={{ display: intermediateCode ? 'flex' : 'none' }}
                 >
                   <div
-                    className="CopyButton"
-                    style={{ display: intermediateCode ? 'flex' : 'none' }}
-                  ><CopyIcon />Copy</div>
-                </CopyToClipboard>
+                    className="qrcodeButton"
+                    onMouseEnter={() => intermediateCode && setIsHovered(true)}
+                    onMouseLeave={() => intermediateCode && setIsHovered(false)}
+                  >
+                    <Qrcode/>
+                    QR Code
+                      {isHovered ? (
+                        <div className="qrcodeWraper" >
+                          <QRcode
+                            value={intermediateCode}
+                            size="90"
+                            level="H"
+                            />
+                        </div>
+                      ) : ""}
+                  </div>
+                  <CopyToClipboard
+                    component="span"
+                    data-clipboard-text={intermediateCode}
+                    onSuccess={() => alert("Copied to clipboard")}
+                  >
+                    <div
+                      className="CopyButton"
+                      
+                    ><CopyIcon />Copy</div>
+                  </CopyToClipboard>
+                </div>
               </div>
             </div>
           </div>
