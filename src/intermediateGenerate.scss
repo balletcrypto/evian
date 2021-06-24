@@ -62,41 +62,58 @@
 .intermediateCode {
   position: relative;
   display: flex;
-  align-items: center;
+  // align-items: center;
   border: 1px solid #dbdbdb;
   border-radius: 6px;
   // box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+  .textarea {
+    padding-right: 10px;
+    // width: 500px;
+  }
+  .textareaRight {
+    border-left: 1px solid #dbdbdb;
+    width: 260px;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    .qrcodeButton {
+      width: 130px;
+      padding-left: 15px;
+      padding-right: 15px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 9px;
+      }
+    }
+    @media(max-width: 767px) {
+      display: none;
+      border: none;
+      width: 100%;
+      justify-content: flex-end;
+      .qrcodeButton {
+        display: none;
+        
+      }
+    }
+  }
   .qrcodeWraper {
     position: absolute;
     top: -20px;
     transform: translate(0, -100%);
     text-align: center;
     right: -1px;
-    width: 160px;
-    height: 160px;
+    width: 120px;
+    height: 120px;
     background: #e4c875;
     z-index: 2;
     color: #FFFFFF;
-    .qrcodeTop {
-      line-height: 14px;
-      width: 100%;
-      padding: 8px 0;
-      background: #d19a33;
-      font-size: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      .warning-text {
-        font-weight: bold;
-        svg {
-          width: 10px;
-          height: 10px;
-          fill: #FFFFFF;
-          margin-right: 3px;
-        }
-      }
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &:after {
       content: "";
       position: absolute;
@@ -111,9 +128,8 @@
     }
     canvas {
       border: 2px solid #FFFFFF;
-      margin-top: 10px;
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
     }
   }
   textarea {
@@ -135,6 +151,8 @@
     color: #000000;
     padding: 4px 12px;
     font-size: 14px;
+    min-width: 112px;
+    text-align: center;
     svg {
       width: 18px;
       margin-right: 8px;
@@ -148,6 +166,9 @@
       height: 34px;
       background: #dbdbdb;
       transform: translate(0, -50%);
+    }
+    @media(max-width: 767px) {
+      border-top: none !important;
     }
   }
   @media(max-width: 767px) {
