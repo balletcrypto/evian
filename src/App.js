@@ -26,6 +26,8 @@ import {
   getZecAddress,
   getAtomAddress,
   getFilAddress,
+  getTrxAddress,
+  getCfxAddress
 } from './utils/cryptojs-lib/src/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import {
@@ -69,6 +71,9 @@ function App() {
   const [zecAddress, setZecAddress] = useState('')
   const [atomAddress, setAtomAddress] = useState('')
   const [filAddress, setFilAddress] = useState('')
+  const [cfxAddress, setCfxAddress] = useState('');
+  const [trxAddress, setTrxAddress] = useState('');
+
   // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
   const [bitcoinLegacyPrivateKeyWIF, setBitcoinLegacyPrivateKeyWIF] = useState('')
@@ -88,6 +93,9 @@ function App() {
   const [zecPrivateKey, setzecPrivateKey] = useState('')
   const [atomPrivateKey, setAtomPrivateKey] = useState('')
   const [filPrivateKey, setFilPrivateKey] = useState('')
+  const [cfxPrivateKey, setCfxPrivateKey] = useState('')
+  const [trxPrivateKey, setTrxPrivateKey] = useState('');
+
   //
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [isShowAddress, setIsShowAddress] = useState(false)
@@ -304,6 +312,28 @@ function App() {
       setAddressInputMethod: setFilAddress,
       privateKeyInputValue: filPrivateKey,
       setPrivateKeyInputMethod: setFilPrivateKey,
+      WIFKey: 'Private Key (Hex)',
+    },
+    {
+      currency: 'cfx',
+      title: 'Conflux Network',
+      addressKey: 'Address',
+      getAddressMethod: getCfxAddress,
+      addressInputValue: cfxAddress,
+      setAddressInputMethod: setCfxAddress,
+      privateKeyInputValue: cfxPrivateKey,
+      setPrivateKeyInputMethod: setCfxPrivateKey,
+      WIFKey: 'Private Key (Hex)',
+    },
+    {
+      currency: 'trx',
+      title: 'TRON',
+      addressKey: 'Address',
+      getAddressMethod: getTrxAddress,
+      addressInputValue: trxAddress,
+      setAddressInputMethod: setTrxAddress,
+      privateKeyInputValue: trxPrivateKey,
+      setPrivateKeyInputMethod: setTrxPrivateKey,
       WIFKey: 'Private Key (Hex)',
     },
   ]
