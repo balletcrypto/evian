@@ -27,7 +27,8 @@ import {
   getAtomAddress,
   getFilAddress,
   getTrxAddress,
-  getCfxAddress
+  getCfxAddress,
+  getQtcAddress,
 } from './utils/cryptojs-lib/src/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import {
@@ -73,6 +74,7 @@ function App() {
   const [filAddress, setFilAddress] = useState('')
   const [cfxAddress, setCfxAddress] = useState('');
   const [trxAddress, setTrxAddress] = useState('');
+  const [qtcAddress, setQtcAddress] = useState('');
 
   // Private Key
   const [bitcoinSegWitPrivateKeyWIF, setBitcoinSegWitPrivateKeyWIF] = useState('')
@@ -95,6 +97,7 @@ function App() {
   const [filPrivateKey, setFilPrivateKey] = useState('')
   const [cfxPrivateKey, setCfxPrivateKey] = useState('')
   const [trxPrivateKey, setTrxPrivateKey] = useState('');
+  const [qtcPrivateKey, setQtcPrivateKey] = useState('');
 
   //
   const [verifyLoading, setVerifyLoading] = useState(false)
@@ -336,15 +339,28 @@ function App() {
       setPrivateKeyInputMethod: setTrxPrivateKey,
       WIFKey: 'Private Key (Hex)',
     },
+    {
+      currency: 'qtc',
+      title: 'Qitcoin',
+      addressKey: 'Address',
+      getAddressMethod: getQtcAddress,
+      addressInputValue: qtcAddress,
+      setAddressInputMethod: setQtcAddress,
+      privateKeyInputValue: qtcPrivateKey,
+      setPrivateKeyInputMethod: setQtcPrivateKey,
+      WIFKey: 'Private Key (Hex)',
+    },
   ]
 
   const setAddress = (publicKeyHex, unCompressedPublicKeyHex) => {
     let usePublicKeyHex = publicKeyHex
-    outputAddressWIFList.forEach(item =>  {
+    outputAddressWIFList.forEach(item => {
+      let address = ''
       if (item.currency === 'fil') {
-        usePublicKeyHex = unCompressedPublicKeyHex
+        address = item.getAddressMethod(unCompressedPublicKeyHex)
+      } else {
+        address = item.getAddressMethod(usePublicKeyHex)
       }
-      const address = item.getAddressMethod(usePublicKeyHex)
       item.setAddressInputMethod(address)
     })
   }
