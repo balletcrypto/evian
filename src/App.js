@@ -253,7 +253,7 @@ function App() {
     },
     {
       currency: 'cfx',
-      title: 'Conflux Network',
+      title: 'Conflux Network (CFX)',
       addressKey: 'Address',
       getAddressMethod: getCfxAddress,
       addressInputValue: cfxAddress,
@@ -297,7 +297,7 @@ function App() {
     },
     {
       currency: 'qtc',
-      title: 'Qitcoin',
+      title: 'Qitcoin (QTC)',
       addressKey: 'Address',
       getAddressMethod: getQtcAddress,
       addressInputValue: qtcAddress,
@@ -308,7 +308,7 @@ function App() {
     },
     {
       currency: 'qtum',
-      title: 'QTUM(Qtum)',
+      title: 'QTUM (Qtum)',
       addressKey: 'Address',
       getAddressMethod: getQtumAddress,
       addressInputValue: qtumAddress,
