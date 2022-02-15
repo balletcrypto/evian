@@ -50,7 +50,7 @@
     "react-app-polyfill": "^1.0.4",
     "react-audio-player": "^0.13.0",
     "react-clipboard.js": "^2.0.16",
-    "react-dev-utils": "^9.1.0",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.10.2",
     "react-qr-reader": "^2.2.1",
     "react-router-dom": "^5.1.2",
