@@ -29,6 +29,7 @@ import {
   getTrxAddress,
   getCfxAddress,
   getQtcAddress,
+  getDigiByteAddress,
 } from './utils/cryptojs-lib/src/CryptoAddress'
 import { decryptEpkVcode } from './utils/cryptojs-lib/src/bip38.js'
 import {
@@ -67,6 +68,7 @@ function App() {
   const [qtumAddress, setQtumAddress] = useState('')
   const [etcAddress, setEtcAddress] = useState('')
   const [dashAddress, setDashAddress] = useState('')
+  const [digiByteAddress, setDigiByteAddress] = useState('')
   const [dogeAddress, setDogeAddress] = useState('')
   const [rvnAddress, setRvnAddress] = useState('')
   const [zecAddress, setZecAddress] = useState('')
@@ -90,6 +92,7 @@ function App() {
   const [qtumPrivateKey, setQtumPrivateKey] = useState('')
   const [etcPrivateKey, setEtcPrivateKey] = useState('')
   const [dashPrivateKey, setDashPrivateKey] = useState('')
+  const [digiBytePrivateKey, setDigiBytePrivateKey] = useState('')
   const [dogePrivateKey, setDogePrivateKey] = useState('')
   const [rvnPrivateKey, setRvnPrivateKey] = useState('')
   const [zecPrivateKey, setzecPrivateKey] = useState('')
@@ -274,6 +277,17 @@ function App() {
       WIFKey: 'Private Key WIF Compressed',
     },
     {
+      currency: 'dgb',
+      title: 'DigiByte (DGB)',
+      addressKey: 'Address',
+      getAddressMethod: getDigiByteAddress,
+      addressInputValue: digiByteAddress,
+      setAddressInputMethod: setDigiByteAddress,
+      privateKeyInputValue: digiBytePrivateKey,
+      setPrivateKeyInputMethod: setDigiBytePrivateKey,
+      WIFKey: 'Private Key WIF Compressed',
+    },
+    {
       currency: 'ETC',
       title: 'Ethereum Classic (ETC)',
       addressKey: 'Address',
@@ -431,6 +445,7 @@ function App() {
             case 'btc':
             case 'qtum':
             case 'rvn':
+            case 'dgb':
               outputPrivateKey = wif
               break;
             case 'eth':
