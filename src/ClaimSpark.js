@@ -132,7 +132,7 @@ export default () => {
         setDecryptethAddress(ethAddress)
         if (xrpAddress !== inputXRPAddress) {
           // setIsShowDecryptXRPAddressNotMatch(true)
-          alert("XRP address does NOT match. Please re-enter XRP address, or enter the corresponding wallet passphrase and encryption private key.")
+          alert("XRP address does NOT match. Please re-enter XRP address, or enter the corresponding cold storage passphrase and encryption private key.")
           setPassphraseInputCount(Array.from(new Array(20).keys()).map(num => ''))
           setBalletPassphrase("")
           setEpk("")
@@ -268,7 +268,7 @@ export default () => {
       <div className="container">
         <div className="claimSpark-header" >
           <h1>Spark Token (Flare Networks) Claim Tool</h1>
-          <div className="description" >Please note that this tool only works for Ballet cryptocurrency wallets</div>
+          <div className="description" >Please note that this tool only works for Ballet cryptocurrency cold storage</div>
         </div>
         <div className="claimSpark-step1 disableContent">
           <h2>Step 1. Input XRP address</h2>
@@ -337,11 +337,11 @@ export default () => {
           ) : ""}
           <h2>Step 2. Enter passphrase and encrypted private key</h2>
           <div className={`${isDisableStep2 ? "disableContent" : ""}`}>
-            <div className="passphrase-title" >A. Enter the wallet passphrase.</div>
+            <div className="passphrase-title" >A. Enter the cold storage passphrase.</div>
             <div>
               {isShowRealPassphrase ?
                   'Remove the tamper-evident scratch-off material to reveal the passphrase.' :
-                  'Switch to standard input box for PRO Series wallet'}
+                  'Switch to standard input box for PRO Series cold storage'}
             </div>
             <div className="passphrase">
               <div className="passphrase__input">
@@ -364,7 +364,7 @@ export default () => {
                   <div className="proInput">
                     <input
                       className="input"
-                      placeholder="Enter the wallet passphrase"
+                      placeholder="Enter the cold storage passphrase"
                       type={isShowPassphrase ? 'text' : 'password'}
                       value={balletPassphrase}
                       onChange={(e) => setBalletPassphrase(e.target.value)}
@@ -385,7 +385,7 @@ export default () => {
               >
                 {isShowRealPassphrase ?
                   'Switch to standard input box for entering generic BIP38 passphrases.' :
-                  'Switch to specific input box for Ballet wallets.'
+                  'Switch to specific input box for Ballet cold storage.'
                 }
               </span>
             </div>
@@ -422,7 +422,7 @@ export default () => {
             </div>
             {isShowDecryptError ? (
               <div className="errorText" >
-                The wallet passphrase or encrypted private key you entered is incorrect. Please double-check and try again.
+                The cold storage passphrase or encrypted private key you entered is incorrect. Please double-check and try again.
               </div>
             ) : ""}
             <textarea

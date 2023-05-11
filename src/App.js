@@ -640,36 +640,36 @@ function App() {
           content={
             [
               "We strongly recommend that you run this open-source program on a computer that is permanently offline.Online computers may be at risk of hacking and/or having malware installed, which may allow others to steal access to the private key information that will be generated and shown by this program.",
-              "Anyone who knows your wallet passphrase and encrypted private key can spend all the cryptocurrency in your wallet."
+              "Anyone who knows your cold storage passphrase and encrypted private key can spend all the cryptocurrency in your cold storage."
             ]
           }
         />
         <div className="explain">
           <NoteIcon className="noteIcon" />
-          <div className="explain__title" >This page allows you to verify or decrypt your wallet.</div>
+          <div className="explain__title" >This page allows you to verify or decrypt your cold storage.</div>
           <div className="explain__content columns is-desktop">
             <div className="explain__left column is-5">
               <div className="explain__secondtitle" >Verification</div>
               <div>
-                This process allows you to check your wallet’s authenticity by reviewing its public key and the deposit addresses of all its supported currencies. To verify your wallet, you will need its passphrase and its BIP38 confirmation code, which can be obtained through the Ballet Crypto mobile app.
+                This process allows you to check your cold storage’s authenticity by reviewing its public key and the deposit addresses of all its supported currencies. To verify your cold storage, you will need its passphrase and its BIP38 confirmation code, which can be obtained through the Ballet Crypto mobile app.
               </div>
             </div>
           <div className="column is-2 is-hidden-touch">{divider('#FFFBEF')}</div>
             <div className="explain__right column is-5" >
               <div className="explain__secondtitle" >Decryption</div>
               <div>
-                This process allows you to reveal your wallet’s decrypted private key using its passphrase and encrypted private key. Decrypting your wallet will reveal its public key and the deposit addresses and decrypted private keys of all its supported currencies. Having the decrypted private keys gives you full access to all funds stored on your wallet.
+                This process allows you to reveal your cold storage’s decrypted private key using its passphrase and encrypted private key. Decrypting your cold storage will reveal its public key and the deposit addresses and decrypted private keys of all its supported currencies. Having the decrypted private keys gives you full access to all funds stored on your cold storage.
               </div>
             </div>
           </div>
         </div>
         <div className="passphrase">
           <div className="passphrase__title commonTitle ">
-            <h3 className="steptitle" >Step 1 - Enter your wallet passphrase.</h3>
+            <h3 className="steptitle" >Step 1 - Enter your cold storage passphrase.</h3>
             <div className="passphrase__description" >
               <span>
                 {isShowRealPassphrase ?
-                  'Remove the tamper-evident scratch-off to get the wallet passphrase.' :
+                  'Remove the tamper-evident scratch-off to get the cold storage passphrase.' :
                   'Enter your user-created BIP38 passphrase'}
               </span>
             </div>
@@ -694,7 +694,7 @@ function App() {
               <div className="proInput">
                 <input
                   className="input"
-                  placeholder="Enter the wallet passphrase"
+                  placeholder="Enter the cold storage passphrase"
                   type={isShowPassphrase ? 'text' : 'password'}
                   value={balletPassphrase}
                   onChange={(e) => setBalletPassphrase(e.target.value)}
@@ -715,22 +715,22 @@ function App() {
           >
             {isShowRealPassphrase ?
               'Switch to standard input box for entering generic BIP38 passphrases.' :
-              'Switch to specific input box for Ballet wallets.'
+              'Switch to specific input box for Ballet cold storage.'
             }
           </span>
         </div>
-        <h3 className="steptitle" >Step 2 - Enter your wallet’s BIP38 confirmation code or encrypted private key.</h3>
+        <h3 className="steptitle" >Step 2 - Enter your cold storage’s BIP38 confirmation code or encrypted private key.</h3>
         <div className="columns inputContent is-desktop">
           <div className="column is-5">
             <div className="commonTitle">
               Verify using BIP38 confirmation code.
             </div>
             <div className="commonDescription">
-              You can use the Ballet Crypto mobile app to get your wallet’s BIP38 confirmation code.
+              You can use the Ballet Crypto mobile app to get your cold storage’s BIP38 confirmation code.
             </div>
             <textarea
               className="textarea"
-              placeholder="Enter your wallet’s BIP38 confirmation code."
+              placeholder="Enter your cold storage’s BIP38 confirmation code."
               value={confirmationCode}
               onChange={(e) => handleConfirmationCodeChange(e.target.value)}
             ></textarea>
@@ -754,7 +754,7 @@ function App() {
             </div>
             <textarea
               className="textarea"
-              placeholder="Enter or scan your wallet’s BIP38 encrypted private key."
+              placeholder="Enter or scan your cold storage’s BIP38 encrypted private key."
               value={epk}
               onChange={e => handleEPKChange(e.target.value)}
             ></textarea>
@@ -800,25 +800,25 @@ function App() {
           {(isShowAddress || isShowprivateKey) &&
             <div className="display__success">
               <SuccessIcon />
-              {verifyConfirmationCodeSuccess && <div className="display__resulttext">Congratulations! Your wallet has been successfully verified. Its public key, currencies and deposit addresses are listed below.</div>}
-              {decriptSuccess && <div className="display__resulttext">Congratulations! Your wallet has been successfully decrypted. Its public key, currencies, deposit addresses and private keys are listed below.</div>}
+              {verifyConfirmationCodeSuccess && <div className="display__resulttext">Congratulations! Your cold storage has been successfully verified. Its public key, currencies and deposit addresses are listed below.</div>}
+              {decriptSuccess && <div className="display__resulttext">Congratulations! Your cold storage has been successfully decrypted. Its public key, currencies, deposit addresses and private keys are listed below.</div>}
             </div>
           }
           {(isDecryptFailed || isVerifyConfirmationcodeFailed) && 
             <div className="display__failed">
               <FailedIcon />
-              <div className="display__resulttext">Invalid wallet passphrase or {isVerifyConfirmationcodeFailed ? 'BIP38 confirmation code' : 'encrypted private key'}.</div>
+              <div className="display__resulttext">Invalid cold storage passphrase or {isVerifyConfirmationcodeFailed ? 'BIP38 confirmation code' : 'encrypted private key'}.</div>
             </div>
           }
           <div className={`outWraper ${isShowAddress || isShowprivateKey ? '': 'hide'}`}>
             <div className="columns ouput">
               <div className={`column is-5 ${isShowAddress ? '': 'hide'}`} >
-                <div className="currencyTitle">Wallet</div>
+                <div className="currencyTitle">Cold Storage</div>
                 {outputComponent("Public Key (compressed, 66 characters [0-9A-F]):", publicKeyHex)}
               </div>
               <div className="column is-2"></div>
               <div className={`column is-5 ${isShowprivateKey ? '': 'hide'}`}>
-                <div className="currencyTitle">Wallet</div>
+                <div className="currencyTitle">Cold Storage</div>
                 {outputComponent("Private Key Hexadecimal Format (64 characters [0-9A-F]):", privateKeyHex)}
               </div>
             </div>

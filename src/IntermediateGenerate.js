@@ -58,10 +58,10 @@ export default () => {
     <div className="container intermediate__content" >
       <h2>Generate BIP38 Intermediate Code</h2>
       <Warning
-        title="Warning about wallet security and passphrase"
+        title="Warning about cold storage security and passphrase"
         content={[
-          "We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or give access to any untrusted person. Anyone who knows your passphrase can spend the cryptocurrency on your wallet.",
-          "Do not lose your passphrase.It is your personal responsibility to memorize or properly back up your passphrase. Human memory is imperfect, so we strongly recommend that you keep a physical backup of your passphrase, in a separate location from the physical wallet itself. If you lose your passphrase, you will lose access to all funds stored on the wallet. Our company cannot help you reset the passphrase or recover the funds."
+          "We strongly recommend that you run this open-source program on an offline computer. Never reveal your private key or passphrase to an internet-connected device or give access to any untrusted person. Anyone who knows your passphrase can spend the cryptocurrency on your cold storage.",
+          "Do not lose your passphrase.It is your personal responsibility to memorize or properly back up your passphrase. Human memory is imperfect, so we strongly recommend that you keep a physical backup of your passphrase, in a separate location from the physical cold storage itself. If you lose your passphrase, you will lose access to all funds stored on the cold storage. Our company cannot help you reset the passphrase or recover the funds."
       ]}
       />
 
@@ -69,7 +69,7 @@ export default () => {
       <div className="tip">
       The passphrase is used to protect the private key so we highly recommend to make it reasonably complex, but make sure it’s
 something you can always remember. You will need to either memorize it, or back it up safely. The BIP38 passphrase for a
-wallet can never be changed, nor reset, nor recovered by anyone. Also, please note that the passphrase is case-sensitive.
+cold storage can never be changed, nor reset, nor recovered by anyone. Also, please note that the passphrase is case-sensitive.
       </div>
         <div className="intermediate__form">
           <div className="columns is-vcentered is-desktop">
