@@ -14,7 +14,7 @@ import {
   getBitcoinAddress,
   getBitcoinCashAddress,
   getEthAddress,
-  getLitecoinAddress, 
+  getLitecoinAddress,
   getXRPAddress,
   getSegwitAddress,
   getBTGAddress,
@@ -65,6 +65,8 @@ function App() {
   const [bitcoinGoldAddress, setBitcoinGoldAddress] = useState('')
   const [bitcoinDiamondAddress, setBitcoinDiamondAddress] = useState('')
   const [bnbAddress, setBnbAddress] = useState('')
+  const [bscAddress, setBscAddress] = useState('')
+  const [maticAddress, setMaticAddress] = useState('')
   const [qtumAddress, setQtumAddress] = useState('')
   const [etcAddress, setEtcAddress] = useState('')
   const [dashAddress, setDashAddress] = useState('')
@@ -89,6 +91,8 @@ function App() {
   const [bitcoinGoldPrivateKeyWIF, setBitcoinGoldPrivateKeyWIF] = useState('')
   const [bitcoinDiamondPrivateKeyWIF, setBitcoinDiamondPrivateKeyWIF] = useState('')
   const [bnbPrivateKey, setBnbPrivateKey] = useState('')
+  const [bscPrivateKey, setBscPrivateKey] = useState('')
+  const [maticPrivateKey, setMaticPrivateKey] = useState('')
   const [qtumPrivateKey, setQtumPrivateKey] = useState('')
   const [etcPrivateKey, setEtcPrivateKey] = useState('')
   const [dashPrivateKey, setDashPrivateKey] = useState('')
@@ -164,6 +168,17 @@ function App() {
       setAddressInputMethod: setBnbAddress,
       privateKeyInputValue: bnbPrivateKey,
       setPrivateKeyInputMethod: setBnbPrivateKey,
+      WIFKey: 'Private Key (Hex)',
+    },
+    {
+      currency: 'bnb',
+      title: 'Binance Smart Chain (BNB)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: bscAddress,
+      setAddressInputMethod: setBscAddress,
+      privateKeyInputValue: bscPrivateKey,
+      setPrivateKeyInputMethod: setBscPrivateKey,
       WIFKey: 'Private Key (Hex)',
     },
     {
@@ -288,7 +303,7 @@ function App() {
       WIFKey: 'Private Key WIF Compressed',
     },
     {
-      currency: 'ETC',
+      currency: 'etc',
       title: 'Ethereum Classic (ETC)',
       addressKey: 'Address',
       getAddressMethod: getEthAddress,
@@ -307,6 +322,17 @@ function App() {
       setAddressInputMethod: setFilAddress,
       privateKeyInputValue: filPrivateKey,
       setPrivateKeyInputMethod: setFilPrivateKey,
+      WIFKey: 'Private Key (Hex)',
+    },
+    {
+      currency: 'matic',
+      title: 'Polygon (MATIC)',
+      addressKey: 'Address',
+      getAddressMethod: getEthAddress,
+      addressInputValue: maticAddress,
+      setAddressInputMethod: setMaticAddress,
+      privateKeyInputValue: maticPrivateKey,
+      setPrivateKeyInputMethod: setMaticPrivateKey,
       WIFKey: 'Private Key (Hex)',
     },
     {
@@ -450,16 +476,8 @@ function App() {
               break;
             case 'eth':
             case 'xrp':
-            case 'USDT_ERC20':
-            case 'LEO':
-            case 'LINK':
-            case 'MKR':
-            case 'USDC':
-            case 'HT':
-            case 'TUSD':
-            case 'DAI':
-            case 'ETC':
-            case 'BAT':
+            case 'etc':
+            case 'matic':
             case 'bnb':
               outputPrivateKey = privateKeyHex
               break;
@@ -576,7 +594,7 @@ function App() {
         }, 0);
       }
     }
-  
+
     const onChange = (e) => {
       setPassphraseInputCount(passphraseInputCount.map((item, index) => {
         if (e.target.dataset.id == index) {
@@ -589,7 +607,7 @@ function App() {
           inputRefs[inputIndex + 1].current.focus()
           inputRefs[inputIndex + 1].current.select()
         }
-  
+
       }, 0);
     }
     return (
@@ -791,7 +809,7 @@ function App() {
           {!isDecryptFailed &&
           !isVerifyConfirmationcodeFailed &&
           !isShowAddress &&
-          !isShowprivateKey && 
+          !isShowprivateKey &&
             <div className="display__empty">
               <EmptyIcon />
               <div>The result of verification or decryption will be displayed here. </div>
@@ -804,7 +822,7 @@ function App() {
               {decriptSuccess && <div className="display__resulttext">Congratulations! Your cold storage has been successfully decrypted. Its public key, currencies, deposit addresses and private keys are listed below.</div>}
             </div>
           }
-          {(isDecryptFailed || isVerifyConfirmationcodeFailed) && 
+          {(isDecryptFailed || isVerifyConfirmationcodeFailed) &&
             <div className="display__failed">
               <FailedIcon />
               <div className="display__resulttext">Invalid cold storage passphrase or {isVerifyConfirmationcodeFailed ? 'BIP38 confirmation code' : 'encrypted private key'}.</div>
@@ -841,7 +859,7 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>
               </>
             )}
           </div>
