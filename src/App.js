@@ -13,6 +13,7 @@ import { ReactComponent as NoteIcon } from './image/tag.svg'
 import {
   getBitcoinAddress,
   getBitcoinCashAddress,
+  getECashAddress,
   getEthAddress,
   getLitecoinAddress,
   getXRPAddress,
@@ -60,6 +61,7 @@ function App() {
   const [ethereumAddress, setethereumAddress] = useState('')
   const [xrpAddress, setXrpAddress] = useState('')
   const [bitcoinCashAddress, setBitcoinCashAddress] = useState('')
+  const [eCashAddress, setECashAddress] = useState('')
   const [litecoinAddress, setLitecoinAddress] = useState('')
   const [bitcoinSVAddress, setBitcoinSVAddress] = useState('')
   const [bitcoinGoldAddress, setBitcoinGoldAddress] = useState('')
@@ -86,6 +88,7 @@ function App() {
   const [ethereumPrivateKey, setEthereumPrivateKey] = useState('')
   const [xrpPrivateKey, setXrpPrivateKey] = useState('')
   const [bitcoinCashPrivateKeyWIF, setBitcoinCashPrivateKeyWIF] = useState('')
+  const [eCashPrivateKeyWIF, setECashPrivateKeyWIF] = useState('')
   const [litecoinPrivateKeyWIF, setLitecoinPrivateKeyWIF] = useState('')
   const [bitcoinSVPrivateKeyWIF, setBitcoinSVPrivateKeyWIF] = useState('')
   const [bitcoinGoldPrivateKeyWIF, setBitcoinGoldPrivateKeyWIF] = useState('')
@@ -245,6 +248,17 @@ function App() {
       setAddressInputMethod: setBitcoinCashAddress,
       privateKeyInputValue: bitcoinCashPrivateKeyWIF,
       setPrivateKeyInputMethod: setBitcoinCashPrivateKeyWIF,
+      WIFKey: 'Private Key WIF Compressed',
+    },
+    {
+      currency: 'btc',
+      title: 'eCash (XEC)',
+      addressKey: 'Address',
+      getAddressMethod: getECashAddress,
+      addressInputValue: eCashAddress,
+      setAddressInputMethod: setECashAddress,
+      privateKeyInputValue: eCashPrivateKeyWIF,
+      setPrivateKeyInputMethod: setECashPrivateKeyWIF,
       WIFKey: 'Private Key WIF Compressed',
     },
     {
