@@ -486,6 +486,7 @@ function App() {
             case 'qtum':
             case 'rvn':
             case 'dgb':
+			case 'qtc':
               outputPrivateKey = wif
               break;
             case 'eth':
