@@ -25,7 +25,8 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
+const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
 const eslint = require('eslint');
 
 const postcssNormalize = require('postcss-normalize');
@@ -546,7 +547,8 @@ module.exports = function(webpackEnv) {
             : undefined
         )
       ),
-      new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
+      new HtmlInlineScriptPlugin(),
+      new HTMLInlineCSSWebpackPlugin(),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
