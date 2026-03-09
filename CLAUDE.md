@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Security
+
+Security is very important for this project, as it's related to the private key of Ballet Wallets.
+
 ## Commands
 
 ```bash
