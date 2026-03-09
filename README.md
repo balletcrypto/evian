@@ -12,6 +12,7 @@ This is [balletcrypto.org](https://balletcrypto.org) source code.
 2. `git submodule init`
 3. `git submodule update`
 4. `yarn` to install the repository's npm dependencies.
+5. `cd src/utils/cryptojs-lib && yarn` to install the crypto library's dependencies.
 
 ### Running locally
 
