@@ -2,6 +2,9 @@
   "name": "evian",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22 <23"
+  },
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",
@@ -38,7 +41,6 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.0",
     "mini-css-extract-plugin": "0.8.0",
-    "node-sass": "^4.12.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -58,6 +60,7 @@
     "resolve": "1.12.0",
     "resolve-url-loader": "3.1.0",
     "ripple-lib": "^1.8.2",
+    "sass": "1.32.13",
     "sass-loader": "7.2.0",
     "semver": "6.3.0",
     "style-loader": "1.0.0",
@@ -71,8 +74,8 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "start": "node --openssl-legacy-provider scripts/start.js",
+    "build": "node --openssl-legacy-provider scripts/build.js",
     "test": "node scripts/test.js"
   },
   "workspaces": {
