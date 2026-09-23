@@ -23,7 +23,7 @@ jobs:
           node-version: 22.x
           cache: yarn
       - name: Install packages
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Yarn build
         run: |
           yarn build
