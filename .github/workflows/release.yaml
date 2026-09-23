@@ -4,6 +4,9 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build
@@ -11,45 +14,26 @@ jobs:
     env:
       CI: false
     steps:
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 22.x
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           submodules: true
-      - name: Cache Node modules
-        id: cache-node-modules
-        uses: actions/cache@v2
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          path: node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
+          node-version: 22.x
+          cache: yarn
       - name: Install packages
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install
       - name: Yarn build
         run: |
           yarn build
           zip --junk-paths artifact build/index.html
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./artifact.zip
-          asset_name: evian-${{ github.ref }}.zip
-          asset_content_type: application/zip
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          mv artifact.zip "evian-${TAG}.zip"
+          gh release create "$TAG" "evian-${TAG}.zip" \
+            --title "Release ${TAG}" \
+            --notes "Changes in this Release"
