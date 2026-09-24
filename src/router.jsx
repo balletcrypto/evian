@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ReactComponent as Logo } from './image/logo.svg'
-import { ReactComponent as GitHubIcon } from './image/org_github.svg'
-import { ReactComponent as WarningIcon } from './image/org_warning.svg';
+import Logo from './image/logo.svg?react'
+import GitHubIcon from './image/org_github.svg?react'
+import WarningIcon from './image/org_warning.svg?react'
 import App from './App';
 import IntermediateGenerate from './IntermediateGenerate'
 import Qrscan from './pages/Qrscan'

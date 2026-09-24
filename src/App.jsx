@@ -1,15 +1,15 @@
 import React, { useState, useRef } from 'react';
 import './App.scss';
-import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
-import { ReactComponent as QrcodeIcon } from './image/bit38_decode_address.svg'
-import { ReactComponent as ScanQrcodeIcon } from './image/bit38_decode_scan.svg'
-import { ReactComponent as EmptyIcon } from './image/org_empty.svg'
-import { ReactComponent as SuccessIcon } from './image/org_correct.svg'
-import { ReactComponent as FailedIcon } from './image/org_error.svg'
+import CopyIcon from './image/bit38_decode_copy.svg?react'
+import QrcodeIcon from './image/bit38_decode_address.svg?react'
+import ScanQrcodeIcon from './image/bit38_decode_scan.svg?react'
+import EmptyIcon from './image/org_empty.svg?react'
+import SuccessIcon from './image/org_correct.svg?react'
+import FailedIcon from './image/org_error.svg?react'
 import { Link } from "react-router-dom";
 import { validateConfirmation } from './utils/cryptojs-lib/src/confirmation'
 import Warning from './component/warning'
-import { ReactComponent as NoteIcon } from './image/tag.svg'
+import NoteIcon from './image/tag.svg?react'
 import {
   getBitcoinAddress,
   getBitcoinCashAddress,
@@ -43,8 +43,8 @@ import {
 import CopyToClipboard from 'react-clipboard.js';
 import QRcode from 'qrcode.react'
 import QrReader from 'react-qr-reader'
-import { ReactComponent as ShowIcon } from './image/show.svg'
-import { ReactComponent as HideIcon } from './image/hide.svg'
+import ShowIcon from './image/show.svg?react'
+import HideIcon from './image/hide.svg?react'
 
 function App() {
   const [balletPassphrase, setBalletPassphrase] = useState('')
@@ -470,7 +470,7 @@ function App() {
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
-        const { publicKeyHex, privateKeyHex, wif, unCompressedPublicKeyHex } = decryptEpkVcode(epk, getPassphrase())
+        const { publicKeyHex, privateKeyHex, wif, unCompressedPublicKeyHex, compressed } = decryptEpkVcode(epk, getPassphrase())
         setUnCompressedPublicKeyHex(unCompressedPublicKeyHex)
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
@@ -497,19 +497,19 @@ function App() {
               outputPrivateKey = privateKeyHex
               break;
             case 'dash':
-              outputPrivateKey = getDashwif(privateKeyHex)
+              outputPrivateKey = getDashwif(privateKeyHex, compressed)
               break;
             case 'doge':
-              outputPrivateKey = getDogewif(privateKeyHex)
+              outputPrivateKey = getDogewif(privateKeyHex, compressed)
               break;
             case 'ltc':
-              outputPrivateKey = getLitecoinWif(privateKeyHex)
+              outputPrivateKey = getLitecoinWif(privateKeyHex, compressed)
               break;
             case 'rvn':
-              outputPrivateKey = getRvnWif(privateKeyHex)
+              outputPrivateKey = getRvnWif(privateKeyHex, compressed)
               break;
             case 'zec':
-              outputPrivateKey = getZecwif(privateKeyHex)
+              outputPrivateKey = getZecwif(privateKeyHex, compressed)
               break;
             default:
               outputPrivateKey = privateKeyHex

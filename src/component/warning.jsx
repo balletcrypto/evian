@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './warning.scss'
-import { ReactComponent as WarningImage } from '../image/bit38_decode_pay_attention.svg'
+import WarningImage from '../image/bit38_decode_pay_attention.svg?react'
 import  useInterval from '../utils/useInterval'
 import onlineWifiIcon from '../image/online_notrecommend@2x.png'
 import offlineWifiIcon from '../image/offline_recommended@2x.png'

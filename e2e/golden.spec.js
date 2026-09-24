@@ -1,0 +1,159 @@
+// Golden check: the built index.html must produce exactly the recorded outputs.
+// Record from a known-good build with: yarn test:e2e --update-snapshots
+const fs = require('fs')
+const path = require('path')
+const { test, expect } = require('@playwright/test')
+const acorn = require('acorn')
+const bs58check = require('bs58check')
+const scrypt = require('scryptsy')
+const { ec: EC } = require('elliptic')
+const VECTORS = require('./vectors')
+
+const BUILD_HTML = path.resolve(__dirname, '../build/index.html')
+const INDEX = 'file://' + BUILD_HTML
+
+async function openPage(page, route) {
+  const consoleErrors = []
+  const requests = []
+  page.on('console', m => { if (m.type() === 'error') consoleErrors.push(m.text()) })
+  page.on('pageerror', e => consoleErrors.push(String(e)))
+  page.on('request', r => {
+    const u = r.url()
+    if (!/^(file|data|blob):/.test(u)) requests.push(u)
+  })
+  page.on('dialog', d => d.dismiss())
+  await page.goto(INDEX + route)
+  return { consoleErrors, requests }
+}
+
+async function enterPassphrase(page, v) {
+  if (v.ballet) {
+    const chars = v.passphrase.replace(/-/g, '').split('')
+    for (let i = 0; i < chars.length; i++) {
+      await page.locator('.passphrase__real .inputItem').nth(i).fill(chars[i])
+    }
+  } else {
+    await page.locator('.switchbutton').click()
+    await page.getByPlaceholder('Enter the cold storage passphrase').fill(v.passphrase)
+  }
+}
+
+// Recompute an intermediate code's passpoint in Node, independently of the bundle:
+// passpoint = scrypt(passphrase, ownerEntropy, 16384, 8, 8, 32) * G, as genIntermediate does.
+function intermediateMatchesPassphrase(code, passphrase) {
+  const raw = bs58check.decode(code)
+  // 0x51 = no lot/sequence, which is how the passpoint below is computed (cryptojs-lib#33).
+  if (raw[7] !== 0x51) return false
+  const ownerEntropy = raw.slice(8, 16)
+  const passpoint = Buffer.from(raw.slice(16, 49)).toString('hex')
+  const prefactor = scrypt(passphrase.normalize('NFC'), ownerEntropy, 16384, 8, 8, 32)
+  const expected = new EC('secp256k1').g.mul(prefactor.toString('hex')).encode('hex', true)
+  return passpoint === expected
+}
+
+// A WIF decodes to version + 32-byte key (+ 0x01 if compressed); addresses are shorter.
+function wifCompressionFlags(values) {
+  const flags = []
+  for (const v of values) {
+    let raw
+    try { raw = bs58check.decode(v) } catch (e) { continue }
+    if (raw.length === 33) flags.push(false)
+    else if (raw.length === 34 && raw[33] === 0x01) flags.push(true)
+  }
+  return flags
+}
+
+function snap(obj) {
+  return JSON.stringify(obj, null, 2) + '\n'
+}
+
+for (const v of VECTORS) {
+  test(`vector ${v.name}`, async ({ page }) => {
+    const guard = await openPage(page, '#/')
+    await enterPassphrase(page, v)
+    if (v.kind === 'epk') {
+      await page.getByPlaceholder(/BIP38 encrypted private key/).fill(v.code)
+      await page.locator('a.button', { hasText: /^Decrypt$/ }).click()
+    } else {
+      await page.getByPlaceholder(/BIP38 confirmation code/).fill(v.code)
+      await page.locator('a.button', { hasText: /^Verify$/ }).click()
+    }
+    await page.locator('.display__success, .display__failed').first().waitFor({ timeout: 150000 })
+
+    const result = await page.evaluate(() => ({
+      status: document.querySelector('.display__success') ? 'success' : 'failed',
+      message: (document.querySelector('.display__resulttext') || {}).textContent || '',
+      outputs: [...document.querySelectorAll('.outputComponent')]
+        .filter(el => el.offsetParent !== null)
+        .map(el => [el.querySelector('.outputTitle').textContent, el.querySelector('input').value]),
+    }))
+
+    expect(result.status).toBe(v.status)
+    const values = result.outputs.map(o => o[1])
+    for (const expected of v.mustContain) expect(values).toContain(expected)
+    if (v.status === 'success') expect(values.filter(Boolean).length).toBeGreaterThan(10)
+    if ('wifCompressed' in v) {
+      // Every WIF shown must match the key's compression, or it won't import to the shown address.
+      const flags = wifCompressionFlags(values)
+      expect(flags.length).toBeGreaterThan(5)
+      expect(flags.filter(f => f !== v.wifCompressed)).toEqual([])
+    }
+    expect(guard.requests).toEqual([])
+    expect(snap({ ...result, consoleErrors: guard.consoleErrors })).toMatchSnapshot(`${v.name}.json`)
+  })
+}
+
+test('intermediate code page generates a well-formed code offline', async ({ page }) => {
+  const guard = await openPage(page, '#/bip38-intermediate-code')
+  await page.getByPlaceholder('Please enter the passphrase').fill('golden-test-passphrase')
+  await page.getByPlaceholder('Re-enter the passphrase').fill('golden-test-passphrase')
+  await page.locator('a.button', { hasText: 'Generate Intermediate Code' }).click()
+  const textarea = page.locator('.intermediateCode textarea')
+  await expect(textarea).toHaveValue(/^passphrase[1-9A-HJ-NP-Za-km-z]{62}$/, { timeout: 150000 })
+  const code = await textarea.inputValue()
+  expect(intermediateMatchesPassphrase(code, 'golden-test-passphrase')).toBe(true)
+  expect(intermediateMatchesPassphrase(code, 'wrong-passphrase')).toBe(false)
+  expect(guard.requests).toEqual([])
+  expect(snap({ consoleErrors: guard.consoleErrors })).toMatchSnapshot('intermediate.json')
+})
+
+for (const [name, route, selector] of [
+  ['route-claim-spark', '#/claim-spark', '.claimSpark'],
+  ['route-qrscan', '#/qrscan', '#root *'],
+]) {
+  test(`${name} renders`, async ({ page }) => {
+    const guard = await openPage(page, route)
+    await page.locator(selector).first().waitFor()
+    await page.waitForTimeout(1000)
+    expect(snap({ consoleErrors: guard.consoleErrors, requests: guard.requests })).toMatchSnapshot(`${name}.json`)
+  })
+}
+
+test('build/index.html external URLs are unchanged', () => {
+  const html = fs.readFileSync(BUILD_HTML, 'utf8')
+  const urls = [...new Set(html.match(/https?:\/\/[^\s"'`)<>\\]+/g) || [])].sort()
+  expect(snap(urls)).toMatchSnapshot('external-urls.json')
+})
+
+test('build/index.html is self-contained', () => {
+  const html = fs.readFileSync(BUILD_HTML, 'utf8')
+  expect(html).not.toContain('static/media')
+  expect(html).not.toMatch(/<script[^>]+src=/)
+  expect(html).not.toMatch(/<link[^>]+href="(?!data:)/)
+  expect(html).not.toMatch(/url\((?!["']?data:)["']?[^)"']+\.(svg|png|woff2|wav)/)
+  expect(fs.readdirSync(path.dirname(BUILD_HTML)).filter(f => /\.map$/.test(f))).toEqual([])
+})
+
+test('build/index.html app script parses as ES2017 (module-script browsers)', () => {
+  // Floor: browsers that run <script type="module"> — Chrome 61, Safari 11, Firefox 60.
+  const html = fs.readFileSync(BUILD_HTML, 'utf8')
+  const scripts = [...html.matchAll(/<script type="module"[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1])
+  expect(scripts.length).toBe(1)
+  expect(() => acorn.parse(scripts[0], { ecmaVersion: 2017, sourceType: 'module' })).not.toThrow()
+})
+
+test('build/index.html bundles exactly one Buffer implementation', () => {
+  // Every copy of the buffer package sets Buffer.poolSize = 8192 once.
+  const html = fs.readFileSync(BUILD_HTML, 'utf8')
+  expect((html.match(/poolSize\s*=\s*8192/g) || []).length).toBe(1)
+})

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import QrReader from 'react-qr-reader'
 import camera from '../../image/camera@2x.png'
-import { ReactComponent as CopyIcon } from '../../image/bit38_decode_copy.svg'
-import { ReactComponent as ClearIcon } from '../../image/clear_all.svg'
+import CopyIcon from '../../image/bit38_decode_copy.svg?react'
+import ClearIcon from '../../image/clear_all.svg?react'
 // import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ReactAudioPlayer from 'react-audio-player';
 import promptAudio from '../../scan.wav'

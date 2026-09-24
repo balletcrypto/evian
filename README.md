@@ -3,7 +3,7 @@ This is [balletcrypto.org](https://balletcrypto.org) source code.
 ## Getting started
 ### Prerequisites
 1. Git
-1. Node: install version 12.
+1. Node: install version 22.
 1. Yarn (`npm install yarn -g`).
 1. A clone of the `evian` repo.
 
@@ -22,7 +22,13 @@ This is [balletcrypto.org](https://balletcrypto.org) source code.
 ### building locally
 1. `yarn build` to build the file
 
+### Testing
+1. `yarn test` runs the unit tests (app and crypto library).
+1. `yarn test:e2e` checks `build/index.html` in a headless browser against recorded outputs (run `yarn build` first; `npx playwright install chromium` once).
+
 After you build it you can open `build/index.html` to use it.
+
+`build/index.html` runs in browsers that support `<script type="module">`: Chrome 61+, Safari 11+, Firefox 60+, Edge 79+.
 
 You can also download `index.html` in [balletcrypto.github.io](https://github.com/balletcrypto/balletcrypto.github.io)
 

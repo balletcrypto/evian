@@ -3,12 +3,12 @@ import Warning from './component/warning'
 import './intermediateGenerate.scss'
 import CopyToClipboard from 'react-clipboard.js';
 import { genIntermediate } from './utils/cryptojs-lib/src/Intermediate'
-import { ReactComponent as CopyIcon } from './image/bit38_decode_copy.svg'
-import { ReactComponent as ShowIcon } from './image/show.svg'
-import { ReactComponent as HideIcon } from './image/hide.svg'
-import { ReactComponent as Fause } from './image/fause.svg'
-import { ReactComponent as NoteIcon } from './image/tag.svg'
-import { ReactComponent as Qrcode } from './image/qrcode.svg'
+import CopyIcon from './image/bit38_decode_copy.svg?react'
+import ShowIcon from './image/show.svg?react'
+import HideIcon from './image/hide.svg?react'
+import Fause from './image/fause.svg?react'
+import NoteIcon from './image/tag.svg?react'
+import Qrcode from './image/qrcode.svg?react'
 
 import QRcode from 'qrcode.react'
 
