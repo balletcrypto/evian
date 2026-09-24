@@ -98,3 +98,12 @@ test('build/index.html external URLs are unchanged', () => {
   const urls = [...new Set(html.match(/https?:\/\/[^\s"'`)<>\\]+/g) || [])].sort()
   expect(snap(urls)).toMatchSnapshot('external-urls.json')
 })
+
+test('build/index.html is self-contained', () => {
+  const html = fs.readFileSync(BUILD_HTML, 'utf8')
+  expect(html).not.toContain('static/media')
+  expect(html).not.toMatch(/<script[^>]+src=/)
+  expect(html).not.toMatch(/<link[^>]+href="(?!data:)/)
+  expect(html).not.toMatch(/url\((?!["']?data:)["']?[^)"']+\.(svg|png|woff2|wav)/)
+  expect(fs.readdirSync(path.dirname(BUILD_HTML)).filter(f => /\.map$/.test(f))).toEqual([])
+})
