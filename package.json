@@ -40,7 +40,8 @@
     "sha.js": "^2.4.12",
     "cipher-base": "^1.0.5",
     "secp256k1": "^4.0.4",
-    "base-x": "^3.0.11"
+    "base-x": "^3.0.11",
+    "tiny-secp256k1": "^1.1.7"
   },
   "workspaces": {
     "packages": [
