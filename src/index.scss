@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+// Bundled (Latin subset, OFL-licensed, see fonts/OFL.txt) so the offline build makes no network requests
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/noto-sans-latin-400.woff2') format('woff2');
+}
 $warning: #e5c875;
 $column-gap: .625rem;
 @import "../node_modules/bulma/sass/utilities/_all.sass";

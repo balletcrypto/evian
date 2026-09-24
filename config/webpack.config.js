@@ -373,6 +373,14 @@ module.exports = function(webpackEnv) {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
             },
+            // Always inline fonts so build/index.html stays self-contained for offline use.
+            {
+              test: /\.woff2$/,
+              loader: require.resolve('url-loader'),
+              options: {
+                limit: true,
+              },
+            },
             // Process application JS with Babel.
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
