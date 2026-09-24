@@ -51,6 +51,18 @@ function intermediateMatchesPassphrase(code, passphrase) {
   return passpoint === expected
 }
 
+// A WIF decodes to version + 32-byte key (+ 0x01 if compressed); addresses are shorter.
+function wifCompressionFlags(values) {
+  const flags = []
+  for (const v of values) {
+    let raw
+    try { raw = bs58check.decode(v) } catch (e) { continue }
+    if (raw.length === 33) flags.push(false)
+    else if (raw.length === 34 && raw[33] === 0x01) flags.push(true)
+  }
+  return flags
+}
+
 function snap(obj) {
   return JSON.stringify(obj, null, 2) + '\n'
 }
@@ -80,6 +92,12 @@ for (const v of VECTORS) {
     const values = result.outputs.map(o => o[1])
     for (const expected of v.mustContain) expect(values).toContain(expected)
     if (v.status === 'success') expect(values.filter(Boolean).length).toBeGreaterThan(10)
+    if ('wifCompressed' in v) {
+      // Every WIF shown must match the key's compression, or it won't import to the shown address.
+      const flags = wifCompressionFlags(values)
+      expect(flags.length).toBeGreaterThan(5)
+      expect(flags.filter(f => f !== v.wifCompressed)).toEqual([])
+    }
     expect(guard.requests).toEqual([])
     expect(snap({ ...result, consoleErrors: guard.consoleErrors })).toMatchSnapshot(`${v.name}.json`)
   })

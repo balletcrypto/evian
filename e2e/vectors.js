@@ -7,6 +7,7 @@ module.exports = [
     passphrase: '123',
     code: '6PfQLxYDvj5sP9c17HFmdqnhCVysnD3EtsjVNWxKeK4rCYMuNMMgoMMsvp',
     status: 'success',
+    wifCompressed: false,
     mustContain: ['731284cd60421fcbcc688c19a6f8287d4452b33d0de34b650cc3b3d1afbfc9f8'],
   },
   {
@@ -16,6 +17,7 @@ module.exports = [
     passphrase: '3515-H0EP-J513-IUL6-0K5Y',
     code: '6PoLpHU8jZaMsv9dZNNFxfBJfJJnkNMCZapeSESH3bZgQdH5SMt4SRJEiX',
     status: 'success',
+    wifCompressed: true,
     mustContain: [
       '036a093266f21121b01ced5b6cdfbcf7ffdc0816ed18258a879ae09bde836d8602',
       '2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df',

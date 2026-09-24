@@ -470,7 +470,7 @@ function App() {
     setIsDecodeLoading(true)
     setTimeout(() => {
       try {
-        const { publicKeyHex, privateKeyHex, wif, unCompressedPublicKeyHex } = decryptEpkVcode(epk, getPassphrase())
+        const { publicKeyHex, privateKeyHex, wif, unCompressedPublicKeyHex, compressed } = decryptEpkVcode(epk, getPassphrase())
         setUnCompressedPublicKeyHex(unCompressedPublicKeyHex)
         setIsDecodeLoading(false)
         setPublicKeyHex(publicKeyHex)
@@ -497,19 +497,19 @@ function App() {
               outputPrivateKey = privateKeyHex
               break;
             case 'dash':
-              outputPrivateKey = getDashwif(privateKeyHex)
+              outputPrivateKey = getDashwif(privateKeyHex, compressed)
               break;
             case 'doge':
-              outputPrivateKey = getDogewif(privateKeyHex)
+              outputPrivateKey = getDogewif(privateKeyHex, compressed)
               break;
             case 'ltc':
-              outputPrivateKey = getLitecoinWif(privateKeyHex)
+              outputPrivateKey = getLitecoinWif(privateKeyHex, compressed)
               break;
             case 'rvn':
-              outputPrivateKey = getRvnWif(privateKeyHex)
+              outputPrivateKey = getRvnWif(privateKeyHex, compressed)
               break;
             case 'zec':
-              outputPrivateKey = getZecwif(privateKeyHex)
+              outputPrivateKey = getZecwif(privateKeyHex, compressed)
               break;
             default:
               outputPrivateKey = privateKeyHex
