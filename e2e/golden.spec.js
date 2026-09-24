@@ -42,6 +42,8 @@ async function enterPassphrase(page, v) {
 // passpoint = scrypt(passphrase, ownerEntropy, 16384, 8, 8, 32) * G, as genIntermediate does.
 function intermediateMatchesPassphrase(code, passphrase) {
   const raw = bs58check.decode(code)
+  // 0x51 = no lot/sequence, which is how the passpoint below is computed (cryptojs-lib#33).
+  if (raw[7] !== 0x51) return false
   const ownerEntropy = raw.slice(8, 16)
   const passpoint = Buffer.from(raw.slice(16, 49)).toString('hex')
   const prefactor = scrypt(passphrase.normalize('NFC'), ownerEntropy, 16384, 8, 8, 32)
