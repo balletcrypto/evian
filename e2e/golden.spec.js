@@ -3,6 +3,10 @@
 const fs = require('fs')
 const path = require('path')
 const { test, expect } = require('@playwright/test')
+const acorn = require('acorn')
+const bs58check = require('bs58check')
+const scrypt = require('scryptsy')
+const { ec: EC } = require('elliptic')
 const VECTORS = require('./vectors')
 
 const BUILD_HTML = path.resolve(__dirname, '../build/index.html')
@@ -32,6 +36,17 @@ async function enterPassphrase(page, v) {
     await page.locator('.switchbutton').click()
     await page.getByPlaceholder('Enter the cold storage passphrase').fill(v.passphrase)
   }
+}
+
+// Recompute an intermediate code's passpoint in Node, independently of the bundle:
+// passpoint = scrypt(passphrase, ownerEntropy, 16384, 8, 8, 32) * G, as genIntermediate does.
+function intermediateMatchesPassphrase(code, passphrase) {
+  const raw = bs58check.decode(code)
+  const ownerEntropy = raw.slice(8, 16)
+  const passpoint = Buffer.from(raw.slice(16, 49)).toString('hex')
+  const prefactor = scrypt(passphrase.normalize('NFC'), ownerEntropy, 16384, 8, 8, 32)
+  const expected = new EC('secp256k1').g.mul(prefactor.toString('hex')).encode('hex', true)
+  return passpoint === expected
 }
 
 function snap(obj) {
@@ -73,10 +88,11 @@ test('intermediate code page generates a well-formed code offline', async ({ pag
   await page.getByPlaceholder('Please enter the passphrase').fill('golden-test-passphrase')
   await page.getByPlaceholder('Re-enter the passphrase').fill('golden-test-passphrase')
   await page.locator('a.button', { hasText: 'Generate Intermediate Code' }).click()
-  await expect(page.locator('.intermediateCode textarea')).toHaveValue(
-    /^passphrase[1-9A-HJ-NP-Za-km-z]{62}$/,
-    { timeout: 150000 },
-  )
+  const textarea = page.locator('.intermediateCode textarea')
+  await expect(textarea).toHaveValue(/^passphrase[1-9A-HJ-NP-Za-km-z]{62}$/, { timeout: 150000 })
+  const code = await textarea.inputValue()
+  expect(intermediateMatchesPassphrase(code, 'golden-test-passphrase')).toBe(true)
+  expect(intermediateMatchesPassphrase(code, 'wrong-passphrase')).toBe(false)
   expect(guard.requests).toEqual([])
   expect(snap({ consoleErrors: guard.consoleErrors })).toMatchSnapshot('intermediate.json')
 })
@@ -106,4 +122,18 @@ test('build/index.html is self-contained', () => {
   expect(html).not.toMatch(/<link[^>]+href="(?!data:)/)
   expect(html).not.toMatch(/url\((?!["']?data:)["']?[^)"']+\.(svg|png|woff2|wav)/)
   expect(fs.readdirSync(path.dirname(BUILD_HTML)).filter(f => /\.map$/.test(f))).toEqual([])
+})
+
+test('build/index.html app script parses as ES2017 (module-script browsers)', () => {
+  // Floor: browsers that run <script type="module"> — Chrome 61, Safari 11, Firefox 60.
+  const html = fs.readFileSync(BUILD_HTML, 'utf8')
+  const scripts = [...html.matchAll(/<script type="module"[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1])
+  expect(scripts.length).toBe(1)
+  expect(() => acorn.parse(scripts[0], { ecmaVersion: 2017, sourceType: 'module' })).not.toThrow()
+})
+
+test('build/index.html bundles exactly one Buffer implementation', () => {
+  // Every copy of the buffer package sets Buffer.poolSize = 8192 once.
+  const html = fs.readFileSync(BUILD_HTML, 'utf8')
+  expect((html.match(/poolSize\s*=\s*8192/g) || []).length).toBe(1)
 })

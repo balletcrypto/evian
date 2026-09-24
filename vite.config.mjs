@@ -1,12 +1,28 @@
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import { viteSingleFile } from 'vite-plugin-singlefile'
 
+// The polyfill plugin's buffer shim ships ESM and CJS builds; its exports map hands
+// require('buffer') the CJS one. Pin every buffer import to the ESM build so the
+// bundle has a single Buffer class.
+const bufferShim = fileURLToPath(
+  new URL('./node_modules/vite-plugin-node-polyfills/shims/buffer/dist/index.js', import.meta.url),
+)
+const singleBuffer = {
+  name: 'single-buffer',
+  enforce: 'pre',
+  resolveId(id) {
+    if (/^(node:)?buffer\/?$|^vite-plugin-node-polyfills\/shims\/buffer\/?$/.test(id)) return bufferShim
+  },
+}
+
 export default defineConfig({
   base: './',
   plugins: [
+    singleBuffer,
     // React 16.13 has no react/jsx-runtime.
     react({ jsxRuntime: 'classic' }),
     svgr({
@@ -14,8 +30,6 @@ export default defineConfig({
       oxcOptions: { jsx: { runtime: 'classic' } },
     }),
     // The Node built-ins webpack 4 used to polyfill for the crypto libraries.
-    // With the Buffer global on, every `buffer` import resolves to the plugin's
-    // bundled buffer@6.0.3 shim, so the app has a single Buffer implementation.
     nodePolyfills({
       include: ['buffer', 'crypto', 'stream', 'events', 'util', 'assert', 'process', 'string_decoder', 'vm', 'timers'],
       globals: { Buffer: true, global: true, process: true },
@@ -25,13 +39,19 @@ export default defineConfig({
   ],
   // scryptsy's async API calls the global setImmediate, which webpack 4 used to inject.
   optimizeDeps: {
-    rolldownOptions: { transform: { inject: { setImmediate: ['timers', 'setImmediate'] } } },
+    rolldownOptions: {
+      plugins: [singleBuffer],
+      transform: { inject: { setImmediate: ['timers', 'setImmediate'] } },
+    },
   },
   server: {
     port: 3000,
   },
   build: {
     outDir: 'build',
+    // Oldest browsers that run <script type="module">; cold-storage users may be on
+    // old offline machines. The golden check parses the bundle as ES2017.
+    target: ['es2017', 'chrome61', 'safari11', 'firefox60', 'edge79'],
     sourcemap: false,
     assetsInlineLimit: 100000000,
     rolldownOptions: { transform: { inject: { setImmediate: ['timers', 'setImmediate'] } } },

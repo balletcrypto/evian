@@ -28,6 +28,8 @@ This is [balletcrypto.org](https://balletcrypto.org) source code.
 
 After you build it you can open `build/index.html` to use it.
 
+`build/index.html` runs in browsers that support `<script type="module">`: Chrome 61+, Safari 11+, Firefox 60+, Edge 79+.
+
 You can also download `index.html` in [balletcrypto.github.io](https://github.com/balletcrypto/balletcrypto.github.io)
 
 ---
