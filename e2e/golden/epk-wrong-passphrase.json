@@ -1,0 +1,6 @@
+{
+  "status": "failed",
+  "message": "Invalid cold storage passphrase or encrypted private key.",
+  "outputs": [],
+  "consoleErrors": []
+}

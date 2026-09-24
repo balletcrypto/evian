@@ -76,7 +76,8 @@
   "scripts": {
     "start": "node --openssl-legacy-provider scripts/start.js",
     "build": "node --openssl-legacy-provider scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "test:e2e": "playwright test"
   },
   "resolutions": {
     "elliptic": "^6.6.1",
@@ -158,5 +159,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
   }
 }

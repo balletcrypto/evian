@@ -1,0 +1,215 @@
+{
+  "status": "success",
+  "message": "Congratulations! Your cold storage has been successfully decrypted. Its public key, currencies, deposit addresses and private keys are listed below.",
+  "outputs": [
+    [
+      "Public Key (compressed, 66 characters [0-9A-F]):",
+      "036a093266f21121b01ced5b6cdfbcf7ffdc0816ed18258a879ae09bde836d8602"
+    ],
+    [
+      "Private Key Hexadecimal Format (64 characters [0-9A-F]):",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Legacy Address Compressed",
+      "14Q5eNrbgVfDPcrtQLPN2P2iL29dWbiDtZ"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "SegWit Address Compressed",
+      "bc1qy4zayjjp67mw07kcf5ltmak07xne96r6sfll39"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "0x3Bd716720A5aEE40Cc08E7F2Abc156d7c30dE334"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "bnb1y4zayjjp67mw07kcf5ltmak07xne96r6yh7c5x"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "0x3Bd716720A5aEE40Cc08E7F2Abc156d7c30dE334"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "rhQne4ibgVCDPcitQLP4pPp5Lp9dWb5DtZ"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "D8YBBdoEyuZVvd3V8vNva9CKD9svqbUEo2"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "QPjRKuoE7UidmxL1qquA56jNjP6Gh5JZ1ioveDcbJDHaXgcuhoxk"
+    ],
+    [
+      "Address",
+      "LNd2ubARm9uGeRZ3aUNfJQ6UYEWugem5Zf"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "T4AmcpHRGFD7KGZqoD1EQES9DCi1icBdwg2GiPrJ8prPbeGh2R6s"
+    ],
+    [
+      "Address",
+      "cosmos1y4zayjjp67mw07kcf5ltmak07xne96r6xnp54g"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "14Q5eNrbgVfDPcrtQLPN2P2iL29dWbiDtZ"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "bitcoincash:qqj5t5j2g8tmdel6mpxna00kelc60yhg0gpnvxc7mz"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "ecash:qqj5t5j2g8tmdel6mpxna00kelc60yhg0gc7cdrya4"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "14Q5eNrbgVfDPcrtQLPN2P2iL29dWbiDtZ"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "GMF14WBYfMGWU6ABLH3UT9NcFBwUaRTwTx"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "cfx:aar7sfxwbkrs6ugpbdx9fm8bm5n6gdtdgu6xr0tv5t"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "Xe5vUdWVeCsoYZTUGDhasuiWAMjKZiY33T"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "XCQRdLNcAYrxbkwMHL4Eh75nBNLH6KmzW3TvP7YwtDxKUumNEYqK"
+    ],
+    [
+      "Address",
+      "D8YBBdoEyuZVvd3V8vNva9CKD9svqbUEo2"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "0x3Bd716720A5aEE40Cc08E7F2Abc156d7c30dE334"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "f1pqehq6rxhlujajv7hqkjl6wewx7gimlyh2opfcq"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "0x3Bd716720A5aEE40Cc08E7F2Abc156d7c30dE334"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "32wHwB2c5Ufmhv4NFjLxYopXMXpEL4rwdd"
+    ],
+    [
+      "Private Key (Hex)",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "QQ14kg9JrxY2pkwupfhr9epLqH6LnbixzG"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "RCgGitjtHKTnTdE5sWNV7uMv6HcEDzzYf6"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ],
+    [
+      "Address",
+      "TFRcXvwZuu6Cgrsb5p3YkqLB6gtrsHMGw8"
+    ],
+    [
+      "Private Key (Hex)",
+      "2154f9c69479511e0adb48eff9cd3a35b7c7611797015c9c8f8f0b5d2195a0df"
+    ],
+    [
+      "Address",
+      "t1MGgeiGjepSozFunLmCVAC8dagLiJZ6r39"
+    ],
+    [
+      "Private Key WIF Compressed",
+      "KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK"
+    ]
+  ],
+  "consoleErrors": []
+}
